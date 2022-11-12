@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using BookStoreMVC.Models;
+using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 

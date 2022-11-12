@@ -1,7 +1,11 @@
+using BookStoreMVC.Services;
+using BookStoreMVC.Services.Implementation;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IBookRepository, BookServices>();
 
 var app = builder.Build();
 

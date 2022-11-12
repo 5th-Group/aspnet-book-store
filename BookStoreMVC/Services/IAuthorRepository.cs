@@ -10,6 +10,8 @@ public interface IAuthorRepository
 
     Author Add();
 
+    Task<Author> AddAsync();
+
     Author Delete(string authorId);
 
     Author Update(string authorId);

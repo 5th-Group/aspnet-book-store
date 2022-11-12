@@ -19,6 +19,11 @@ public class AuthorServices : IAuthorRepository
         throw new NotImplementedException();
     }
 
+    public Task<Author> AddAsync()
+    {
+        throw new NotImplementedException();
+    }
+
     public Author Delete(string authorId)
     {
         throw new NotImplementedException();

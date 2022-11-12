@@ -1,4 +1,5 @@
 using BookStoreMVC.Models;
+using BookStoreMVC.ViewModels;
 
 namespace BookStoreMVC.Services;
 
@@ -8,15 +9,16 @@ public interface IBookRepository
 
     Book GetById();
 
-    Book Add(string bookId);
+    Book Add(BookViewModel bookViewModel);
     
-    Task<Book> AddAsync(string bookId);
+    Task<Book> AddAsync(BookViewModel bookViewModel);
 
-    Book Update(string bookId);
+    Book Update(BookViewModel bookViewModel);
 
-    Task<Book> UpdateAsync(string bookId);
+    Task<Book> UpdateAsync(BookViewModel bookViewModel);
 
     Book Delete(string bookId);
 
     Task<Book> DeleteAsync(string bookId);
+    
 }

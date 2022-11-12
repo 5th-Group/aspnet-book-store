@@ -1,8 +1,9 @@
 using BookStoreMVC.Models;
+using BookStoreMVC.ViewModels;
 
 namespace BookStoreMVC.Services.Implementation;
 
-public class BookService : IBookRepository
+public class BookServices : IBookRepository
 {
     public IEnumerable<Book> GetAll()
     {
@@ -14,27 +15,22 @@ public class BookService : IBookRepository
         throw new NotImplementedException();
     }
 
-    public Book Add(string bookId)
+    public Book Add(BookViewModel bookViewModel)
     {
         throw new NotImplementedException();
     }
 
-    Task<Book> IBookRepository.AddAsync(string bookId)
+    public Task<Book> AddAsync(BookViewModel bookViewModel)
     {
         throw new NotImplementedException();
     }
 
-    public Book AddAsync(string bookId)
+    public Book Update(BookViewModel bookViewModel)
     {
         throw new NotImplementedException();
     }
 
-    public Book Update(string bookId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Book> UpdateAsync(string bookId)
+    public Task<Book> UpdateAsync(BookViewModel bookViewModel)
     {
         throw new NotImplementedException();
     }
