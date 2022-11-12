@@ -3,6 +3,8 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BookStoreMVC.Models;
 
+
+// Model of Book Type Collection
 public class BookType
 {
     [BsonId]

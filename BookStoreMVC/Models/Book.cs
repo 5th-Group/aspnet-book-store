@@ -1,8 +1,10 @@
+using BookStoreMVC.ViewModels;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BookStoreMVC.Models;
 
+// Model of Book Collection
 public class Book
 {
     [BsonId]

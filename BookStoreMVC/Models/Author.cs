@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BookStoreMVC.Models;
 
+// Model of Author Collection
 public class Author
 {
     [BsonId]
