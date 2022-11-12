@@ -13,10 +13,10 @@ namespace BookStoreMVC.Controllers
         }
         public IActionResult Index()
         {
-            var books = _repository.GetAll();
+            //var books = _repository.GetAll();
             
 
-            return View(books);
+            return View();
         }
     }
 }

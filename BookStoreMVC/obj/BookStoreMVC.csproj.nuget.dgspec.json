@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/BookStoreMVC.csproj": {}
+    "C:\\Users\\nbi67\\Source\\Repos\\aspnet-book-store\\BookStoreMVC\\BookStoreMVC.csproj": {}
   },
   "projects": {
-    "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/BookStoreMVC.csproj": {
+    "C:\\Users\\nbi67\\Source\\Repos\\aspnet-book-store\\BookStoreMVC\\BookStoreMVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/BookStoreMVC.csproj",
+        "projectUniqueName": "C:\\Users\\nbi67\\Source\\Repos\\aspnet-book-store\\BookStoreMVC\\BookStoreMVC.csproj",
         "projectName": "BookStoreMVC",
-        "projectPath": "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/BookStoreMVC.csproj",
-        "packagesPath": "/home/wirexia/.nuget/packages/",
-        "outputPath": "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/obj/",
+        "projectPath": "C:\\Users\\nbi67\\Source\\Repos\\aspnet-book-store\\BookStoreMVC\\BookStoreMVC.csproj",
+        "packagesPath": "C:\\Users\\nbi67\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nbi67\\Source\\Repos\\aspnet-book-store\\BookStoreMVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/wirexia/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\nbi67\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -45,6 +47,10 @@
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.18.0, )"
+            },
+            "Tailwind.Extensions.AspNetCore": {
+              "target": "Package",
+              "version": "[1.0.0-beta2, )"
             }
           },
           "imports": [
@@ -53,7 +59,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -65,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/6.0.108/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
