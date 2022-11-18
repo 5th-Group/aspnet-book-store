@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Admin/AddAuthor.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRkQXV0aG9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
