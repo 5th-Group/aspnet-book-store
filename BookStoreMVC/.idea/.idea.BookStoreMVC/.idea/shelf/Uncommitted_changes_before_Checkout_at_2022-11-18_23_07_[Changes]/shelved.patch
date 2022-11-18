@@ -1,0 +1,36 @@
+Index: obj/rider.project.restore.info
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>16687495087933360
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/rider.project.restore.info b/obj/rider.project.restore.info
+--- a/obj/rider.project.restore.info	(revision 179eedeb336eeb25c34592b5e343b02eff6887e4)
++++ b/obj/rider.project.restore.info	(date 1668787582623)
+@@ -1,1 +1,1 @@
+-16687495087933360
+\ No newline at end of file
++16687875825643609
+\ No newline at end of file
+Index: obj/Debug/net6.0/BookStoreMVC.GeneratedMSBuildEditorConfig.editorconfig
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>is_global = true\nbuild_property.TargetFramework = net6.0\nbuild_property.TargetPlatformMinVersion = \nbuild_property.UsingMicrosoftNETSdkWeb = true\nbuild_property.ProjectTypeGuids = \nbuild_property.InvariantGlobalization = \nbuild_property.PlatformNeutralAssembly = \nbuild_property._SupportedPlatformList = Linux,macOS,Windows\nbuild_property.RootNamespace = BookStoreMVC\nbuild_property.RootNamespace = BookStoreMVC\nbuild_property.ProjectDir = /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/\nbuild_property.RazorLangVersion = 6.0\nbuild_property.SupportLocalizedComponentNames = \nbuild_property.GenerateRazorMetadataSourceChecksumAttributes = \nbuild_property.MSBuildProjectDirectory = /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC\nbuild_property._RazorSourceGeneratorDebug = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Admin/Index.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Book/Detail.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9vay9EZXRhaWwuY3NodG1s\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Book/Index.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvQm9vay9JbmRleC5jc2h0bWw=\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Home/Index.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Home/Privacy.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Shared/Error.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Shared/_ValidationScriptsPartial.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/_ViewImports.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/_ViewStart.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=\nbuild_metadata.AdditionalFiles.CssScope = \n\n[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Shared/_Layout.cshtml]\nbuild_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s\nbuild_metadata.AdditionalFiles.CssScope = b-5bygovp1nh\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/obj/Debug/net6.0/BookStoreMVC.GeneratedMSBuildEditorConfig.editorconfig b/obj/Debug/net6.0/BookStoreMVC.GeneratedMSBuildEditorConfig.editorconfig
+--- a/obj/Debug/net6.0/BookStoreMVC.GeneratedMSBuildEditorConfig.editorconfig	(revision 179eedeb336eeb25c34592b5e343b02eff6887e4)
++++ b/obj/Debug/net6.0/BookStoreMVC.GeneratedMSBuildEditorConfig.editorconfig	(date 1668787567686)
+@@ -15,6 +15,10 @@
+ build_property.MSBuildProjectDirectory = /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC
+ build_property._RazorSourceGeneratorDebug = 
+ 
++[/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Admin/AddAuthor.cshtml]
++build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQWRkQXV0aG9yLmNzaHRtbA==
++build_metadata.AdditionalFiles.CssScope = 
++
+ [/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/Views/Admin/Index.cshtml]
+ build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
+ build_metadata.AdditionalFiles.CssScope = 
