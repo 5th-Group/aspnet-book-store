@@ -8,11 +8,11 @@ public interface IAuthorRepository
 
     Author GetById(string authorId);
 
-    Author Add();
+    // Author Add();
 
-    Task<Author> AddAsync();
+    Task AddAsync(Author author);
 
-    Author Delete(string authorId);
+    Task DeleteAsync(string authorId);
 
-    Author Update(string authorId);
+    Task UpdateAsync(string authorId);
 }
