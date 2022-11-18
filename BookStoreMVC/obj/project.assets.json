@@ -2,6 +2,25 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "AspNetCore.Identity.MongoDbCore/3.1.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Identity.Core": "3.1.12",
+          "Microsoft.Extensions.Identity.Stores": "3.1.12",
+          "MongoDB.Driver": "2.13.2",
+          "MongoDbGenericRepository": "1.4.8"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/AspNetCore.Identity.MongoDbCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AspNetCore.Identity.MongoDbCore.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "DnsClient/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -15,6 +34,126 @@
         "runtime": {
           "lib/net5.0/DnsClient.dll": {
             "related": ".xml"
+          }
+        }
+      },
+      "Google.Api.Gax/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Api.Gax.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Api.Gax.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Api.Gax.Rest/4.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax": "4.0.0",
+          "Google.Apis.Auth": "[1.57.0, 2.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Api.Gax.Rest.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Api.Gax.Rest.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Apis/1.57.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis.Core": "1.57.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Apis.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Apis.Auth/1.57.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis": "1.57.0",
+          "Google.Apis.Core": "1.57.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Apis.Auth.PlatformServices.dll": {},
+          "lib/netstandard2.0/Google.Apis.Auth.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Auth.PlatformServices.dll": {},
+          "lib/netstandard2.0/Google.Apis.Auth.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Apis.Core/1.57.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Apis.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Apis.Storage.v1/1.57.0.2742": {
+        "type": "package",
+        "dependencies": {
+          "Google.Apis": "1.57.0",
+          "Google.Apis.Auth": "1.57.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Google.Apis.Storage.v1.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Google.Apis.Storage.v1.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Google.Cloud.Storage.V1/4.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Google.Api.Gax.Rest": "[4.0.0, 5.0.0)",
+          "Google.Apis.Storage.v1": "[1.57.0.2742, 2.0.0)"
+        },
+        "compile": {
+          "lib/netstandard2.1/Google.Cloud.Storage.V1.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Google.Cloud.Storage.V1.dll": {
+            "related": ".pdb;.xml"
           }
         }
       },
@@ -68,6 +207,35 @@
       "MessagePackAnalyzer/2.1.152": {
         "type": "package"
       },
+      "Microsoft.AspNetCore.Cryptography.Internal/3.1.12": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.Internal.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.Internal.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.KeyDerivation/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.Internal": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Razor.Language/6.0.0": {
         "type": "package",
         "compile": {
@@ -77,7 +245,7 @@
           "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {}
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
@@ -958,6 +1126,70 @@
           }
         }
       },
+      "Microsoft.Extensions.Caching.Abstractions/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Configuration.Binder/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -994,7 +1226,62 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
+      "Microsoft.Extensions.Identity.Core/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "3.1.12",
+          "Microsoft.Extensions.Logging": "3.1.12",
+          "Microsoft.Extensions.Options": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Stores/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Identity.Core": "3.1.12",
+          "Microsoft.Extensions.Logging": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Stores.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Stores.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Binder": "3.1.12",
+          "Microsoft.Extensions.DependencyInjection": "3.1.12",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Options": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Logging.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/3.1.12": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
@@ -1003,6 +1290,36 @@
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Options/3.1.12": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Primitives": "3.1.12"
+        },
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Options.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Options.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.Primitives/3.1.12": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll": {
             "related": ".xml"
           }
         }
@@ -1360,6 +1677,22 @@
           "runtimes/win/native/mongocrypt.dll": {
             "assetType": "native",
             "rid": "win"
+          }
+        }
+      },
+      "MongoDbGenericRepository/1.4.8": {
+        "type": "package",
+        "dependencies": {
+          "MongoDB.Driver": "2.13.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/MongoDbGenericRepository.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/MongoDbGenericRepository.dll": {
+            "related": ".xml"
           }
         }
       },
@@ -3226,6 +3559,21 @@
     }
   },
   "libraries": {
+    "AspNetCore.Identity.MongoDbCore/3.1.2": {
+      "sha512": "ichSW3Vs51f+Ol7Ska1jIOlKc+i2Am3UeNvGhhIb59MXOKyhZGpyulUnFdN62IpP779EkLrLf3ZMwSZ2bVgY+g==",
+      "type": "package",
+      "path": "aspnetcore.identity.mongodbcore/3.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "aspnetcore.identity.mongodbcore.3.1.2.nupkg.sha512",
+        "aspnetcore.identity.mongodbcore.nuspec",
+        "lib/netcoreapp3.1/AspNetCore.Identity.MongoDbCore.dll",
+        "lib/netcoreapp3.1/AspNetCore.Identity.MongoDbCore.xml",
+        "lib/netstandard2.1/AspNetCore.Identity.MongoDbCore.dll",
+        "lib/netstandard2.1/AspNetCore.Identity.MongoDbCore.xml"
+      ]
+    },
     "DnsClient/1.6.1": {
       "sha512": "4H/f2uYJOZ+YObZjpY9ABrKZI+JNw3uizp6oMzTXwDw6F+2qIPhpRl/1t68O/6e98+vqNiYGu+lswmwdYUy3gg==",
       "type": "package",
@@ -3248,6 +3596,165 @@
         "lib/netstandard2.0/DnsClient.xml",
         "lib/netstandard2.1/DnsClient.dll",
         "lib/netstandard2.1/DnsClient.xml"
+      ]
+    },
+    "Google.Api.Gax/4.0.0": {
+      "sha512": "2Q4RruOjUawrtjTazANpp+MNB1M2E8nj2A1kweU1zF0OoNDKUnAIlMbDXs3d+kgcuj/zUVa89/nYot5UZICBWA==",
+      "type": "package",
+      "path": "google.api.gax/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.api.gax.4.0.0.nupkg.sha512",
+        "google.api.gax.nuspec",
+        "lib/net462/Google.Api.Gax.dll",
+        "lib/net462/Google.Api.Gax.pdb",
+        "lib/net462/Google.Api.Gax.xml",
+        "lib/netstandard2.1/Google.Api.Gax.dll",
+        "lib/netstandard2.1/Google.Api.Gax.pdb",
+        "lib/netstandard2.1/Google.Api.Gax.xml"
+      ]
+    },
+    "Google.Api.Gax.Rest/4.0.0": {
+      "sha512": "YFoxv4UNP7Hn8Eask0FqwMbCAfBs5hUlzronJgFGVXcStohtKc0Mi+2YqgGN82nynx75jVWEF7siSLBwkmZsHA==",
+      "type": "package",
+      "path": "google.api.gax.rest/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.api.gax.rest.4.0.0.nupkg.sha512",
+        "google.api.gax.rest.nuspec",
+        "lib/net462/Google.Api.Gax.Rest.dll",
+        "lib/net462/Google.Api.Gax.Rest.pdb",
+        "lib/net462/Google.Api.Gax.Rest.xml",
+        "lib/netstandard2.1/Google.Api.Gax.Rest.dll",
+        "lib/netstandard2.1/Google.Api.Gax.Rest.pdb",
+        "lib/netstandard2.1/Google.Api.Gax.Rest.xml"
+      ]
+    },
+    "Google.Apis/1.57.0": {
+      "sha512": "30V7T2G98HQjfI6y0AzBOXJUu7j7Trl1ZzH0e6DKmUaXNCvdMPwxApjBKESeTOkWjMdFRmkpAGyDEoxim+Xq1A==",
+      "type": "package",
+      "path": "google.apis/1.57.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.apis.1.57.0.nupkg.sha512",
+        "google.apis.nuspec",
+        "lib/net45/Google.Apis.PlatformServices.dll",
+        "lib/net45/Google.Apis.dll",
+        "lib/net45/Google.Apis.pdb",
+        "lib/net45/Google.Apis.xml",
+        "lib/netstandard1.3/Google.Apis.dll",
+        "lib/netstandard1.3/Google.Apis.pdb",
+        "lib/netstandard1.3/Google.Apis.xml",
+        "lib/netstandard2.0/Google.Apis.dll",
+        "lib/netstandard2.0/Google.Apis.pdb",
+        "lib/netstandard2.0/Google.Apis.xml"
+      ]
+    },
+    "Google.Apis.Auth/1.57.0": {
+      "sha512": "xNY9rprn3iih1H5dymbxxHeZggn4bMYKtYdwO3Yr+Cj06f6xrxnL0LqEi1bmG46LBY2FlVMy9NKIF99tZ6ZBZg==",
+      "type": "package",
+      "path": "google.apis.auth/1.57.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.apis.auth.1.57.0.nupkg.sha512",
+        "google.apis.auth.nuspec",
+        "lib/net45/Google.Apis.Auth.PlatformServices.dll",
+        "lib/net45/Google.Apis.Auth.dll",
+        "lib/net45/Google.Apis.Auth.pdb",
+        "lib/net45/Google.Apis.Auth.xml",
+        "lib/net461/Google.Apis.Auth.PlatformServices.dll",
+        "lib/net461/Google.Apis.Auth.dll",
+        "lib/net461/Google.Apis.Auth.pdb",
+        "lib/net461/Google.Apis.Auth.xml",
+        "lib/netstandard1.3/Google.Apis.Auth.PlatformServices.dll",
+        "lib/netstandard1.3/Google.Apis.Auth.dll",
+        "lib/netstandard1.3/Google.Apis.Auth.pdb",
+        "lib/netstandard1.3/Google.Apis.Auth.xml",
+        "lib/netstandard2.0/Google.Apis.Auth.PlatformServices.dll",
+        "lib/netstandard2.0/Google.Apis.Auth.dll",
+        "lib/netstandard2.0/Google.Apis.Auth.pdb",
+        "lib/netstandard2.0/Google.Apis.Auth.xml"
+      ]
+    },
+    "Google.Apis.Core/1.57.0": {
+      "sha512": "5wuY88PewhfaWsk37EEHcwU6CFqxpaWMm20ogWLXmaCw8NbTlV/Lna0gjtr2jpTLgb3mtVa7RC1AG/mgi530SQ==",
+      "type": "package",
+      "path": "google.apis.core/1.57.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.apis.core.1.57.0.nupkg.sha512",
+        "google.apis.core.nuspec",
+        "lib/net45/Google.Apis.Core.dll",
+        "lib/net45/Google.Apis.Core.pdb",
+        "lib/net45/Google.Apis.Core.xml",
+        "lib/netstandard1.3/Google.Apis.Core.dll",
+        "lib/netstandard1.3/Google.Apis.Core.pdb",
+        "lib/netstandard1.3/Google.Apis.Core.xml",
+        "lib/netstandard2.0/Google.Apis.Core.dll",
+        "lib/netstandard2.0/Google.Apis.Core.pdb",
+        "lib/netstandard2.0/Google.Apis.Core.xml"
+      ]
+    },
+    "Google.Apis.Storage.v1/1.57.0.2742": {
+      "sha512": "pQigIarHnG+ahQprulXXOCCWYSyVawMfaRjwkSKCmdgsvBsxvm/L2HckSsYNM4XEGeljBahO2u8u64KyWCopEQ==",
+      "type": "package",
+      "path": "google.apis.storage.v1/1.57.0.2742",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.apis.storage.v1.1.57.0.2742.nupkg.sha512",
+        "google.apis.storage.v1.nuspec",
+        "lib/net40/Google.Apis.Storage.v1.dll",
+        "lib/net40/Google.Apis.Storage.v1.pdb",
+        "lib/net40/Google.Apis.Storage.v1.xml",
+        "lib/net45/Google.Apis.Storage.v1.dll",
+        "lib/net45/Google.Apis.Storage.v1.pdb",
+        "lib/net45/Google.Apis.Storage.v1.xml",
+        "lib/netstandard1.0/Google.Apis.Storage.v1.dll",
+        "lib/netstandard1.0/Google.Apis.Storage.v1.pdb",
+        "lib/netstandard1.0/Google.Apis.Storage.v1.xml",
+        "lib/netstandard1.3/Google.Apis.Storage.v1.dll",
+        "lib/netstandard1.3/Google.Apis.Storage.v1.pdb",
+        "lib/netstandard1.3/Google.Apis.Storage.v1.xml",
+        "lib/netstandard2.0/Google.Apis.Storage.v1.dll",
+        "lib/netstandard2.0/Google.Apis.Storage.v1.pdb",
+        "lib/netstandard2.0/Google.Apis.Storage.v1.xml"
+      ]
+    },
+    "Google.Cloud.Storage.V1/4.1.0": {
+      "sha512": "ngGafYPmNuHDrnGbUB99Lv4489F1buaMLoZl7ZzhynA4M5/t1KP9ar5hmN62aX8kyea7Kg9ucSbKSQFsAS+tlg==",
+      "type": "package",
+      "path": "google.cloud.storage.v1/4.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "NuGetIcon.png",
+        "google.cloud.storage.v1.4.1.0.nupkg.sha512",
+        "google.cloud.storage.v1.nuspec",
+        "lib/net462/Google.Cloud.Storage.V1.dll",
+        "lib/net462/Google.Cloud.Storage.V1.pdb",
+        "lib/net462/Google.Cloud.Storage.V1.xml",
+        "lib/netstandard2.1/Google.Cloud.Storage.V1.dll",
+        "lib/netstandard2.1/Google.Cloud.Storage.V1.pdb",
+        "lib/netstandard2.1/Google.Cloud.Storage.V1.xml"
       ]
     },
     "Humanizer.Core/2.2.0": {
@@ -3308,6 +3815,42 @@
         "tools/uninstall.ps1"
       ]
     },
+    "Microsoft.AspNetCore.Cryptography.Internal/3.1.12": {
+      "sha512": "9V7Acx9lFw2KA23FOqH4TH5wQzZN/px/ovmRWBb8I3rf9arZ/cKniwRmRNrwgmShtQXhu1t124rrl1du2ueODA==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.cryptography.internal/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.Internal.dll",
+        "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.Internal.xml",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.Internal.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.Internal.xml",
+        "microsoft.aspnetcore.cryptography.internal.3.1.12.nupkg.sha512",
+        "microsoft.aspnetcore.cryptography.internal.nuspec"
+      ]
+    },
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation/3.1.12": {
+      "sha512": "LNaiyMe0J8kkXglqtmE3wK1xu3ofvKh1WTVmJs0yl/uFfo9Vbr6lSyZ0k+5sTUxuIS1WU6dHe4nO0ikRlXq6CQ==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.cryptography.keyderivation/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll",
+        "lib/netcoreapp2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.xml",
+        "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll",
+        "lib/netcoreapp3.1/Microsoft.AspNetCore.Cryptography.KeyDerivation.xml",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll",
+        "lib/netstandard2.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.xml",
+        "microsoft.aspnetcore.cryptography.keyderivation.3.1.12.nupkg.sha512",
+        "microsoft.aspnetcore.cryptography.keyderivation.nuspec"
+      ]
+    },
     "Microsoft.AspNetCore.Razor.Language/6.0.0": {
       "sha512": "yCtBr1GSGzJrrp1NJUb4ltwFYMKHw/tJLnIDvg9g/FnkGIEzmE19tbCQqXARIJv5kdtBgsoVIdGLL+zmjxvM/A==",
       "type": "package",
@@ -3322,10 +3865,10 @@
         "microsoft.aspnetcore.razor.language.nuspec"
       ]
     },
-    "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
-      "sha512": "W8DPQjkMScOMTtJbPwmPyj9c3zYSFGawDW3jwlBOOsnY+EzZFLgNQ/UMkK35JmkNOVPdCyPr2Tw7Vv9N+KA3ZQ==",
+    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+      "sha512": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
       "type": "package",
-      "path": "microsoft.bcl.asyncinterfaces/5.0.0",
+      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3338,10 +3881,9 @@
         "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.xml",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll",
         "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.xml",
-        "microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",
+        "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
         "microsoft.bcl.asyncinterfaces.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
+        "useSharedDesignerContext.txt"
       ]
     },
     "Microsoft.Build/17.0.0": {
@@ -4154,6 +4696,70 @@
         "microsoft.dotnet.scaffolding.shared.nuspec"
       ]
     },
+    "Microsoft.Extensions.Caching.Abstractions/3.1.12": {
+      "sha512": "KOt2+vIFZ56zBEG2jgZWBjvxL4MSXBUV7npESYT7qAAABBywlJEa2pVvkbElBwOovLC/Q3cO1YcBc9OQc+dbxw==",
+      "type": "package",
+      "path": "microsoft.extensions.caching.abstractions/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Caching.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.xml",
+        "microsoft.extensions.caching.abstractions.3.1.12.nupkg.sha512",
+        "microsoft.extensions.caching.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration/3.1.12": {
+      "sha512": "sQeNlafyb7XIYubfELbAQtN3U7DubZEs8d7xaj09sAdD929spOqiZKHcWpEQDtWtwqXm70JWS1WDfxpOvuVMcw==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
+        "microsoft.extensions.configuration.3.1.12.nupkg.sha512",
+        "microsoft.extensions.configuration.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/3.1.12": {
+      "sha512": "LMq236lxH1ji2FYv+2o6A9Nfb9jrDWl6Dn1XleA473NmBfYf/93MfPBgmnJA1qlFQPt9BKBd3r3h7NaTbDcHMw==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.abstractions/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "microsoft.extensions.configuration.abstractions.3.1.12.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Binder/3.1.12": {
+      "sha512": "tso2dQMzmtALku0vMB6VuZpxDD6HYXqut+a8FdaU8XelnlR0aCi/LsK6Ej7VZbkKBqTQSgHAwyghbuKhk1sxog==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.binder/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.xml",
+        "microsoft.extensions.configuration.binder.3.1.12.nupkg.sha512",
+        "microsoft.extensions.configuration.binder.nuspec"
+      ]
+    },
     "Microsoft.Extensions.DependencyInjection/6.0.0": {
       "sha512": "k6PWQMuoBDGGHOQTtyois2u4AwyVcIwL2LaSLlTZQm2CYcJ1pxbt6jfAnpWmzENA/wfrYRI/X9DTLoUkE4AsLw==",
       "type": "package",
@@ -4204,17 +4810,100 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
-      "sha512": "6ZCllUYGFukkymSTx3Yr0G/ajRxoNJp7/FqSxSB4fGISST54ifBhgu4Nc0ItGi3i6DqwuNd8SUyObmiC++AO2Q==",
+    "Microsoft.Extensions.Identity.Core/3.1.12": {
+      "sha512": "MRNaIsE3PdT24+6cWxJhiyfTY3Eoncr/m+5nW3NtBjPQXhJKECGNdquh5EH5KwNaYls2KI53znl7KD4pWMkKyw==",
       "type": "package",
-      "path": "microsoft.extensions.logging.abstractions/2.0.0",
+      "path": "microsoft.extensions.identity.core/3.1.12",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Core.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Core.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Identity.Core.xml",
+        "microsoft.extensions.identity.core.3.1.12.nupkg.sha512",
+        "microsoft.extensions.identity.core.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Identity.Stores/3.1.12": {
+      "sha512": "xQOIvN3nFJ0ptl/qnozFJPzfY/TxrJFr9k/EPJkqHZx8jtzlGJ4mqvgknau0AunW25uXyT+O6co3AJ4B4OKcRQ==",
+      "type": "package",
+      "path": "microsoft.extensions.identity.stores/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Stores.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Identity.Stores.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Identity.Stores.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Identity.Stores.xml",
+        "microsoft.extensions.identity.stores.3.1.12.nupkg.sha512",
+        "microsoft.extensions.identity.stores.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging/3.1.12": {
+      "sha512": "EXwfP6M/G6mwM/f9eVNY3tOnY539gIEjeSXs2G/RtuGILteW455ZLxfZmE7qzWSc0J2wvoMuxdkB+WMsBW8Kqw==",
+      "type": "package",
+      "path": "microsoft.extensions.logging/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Logging.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Logging.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.xml",
+        "microsoft.extensions.logging.3.1.12.nupkg.sha512",
+        "microsoft.extensions.logging.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Abstractions/3.1.12": {
+      "sha512": "Ixi6qAF3sr1FjPntVamRCMcnrCPx6l0G8VxtVshEk4n8lGs0Hj62jmt/xJ4mHrxR5ST0T49ERT2HsJcv6z+wGw==",
+      "type": "package",
+      "path": "microsoft.extensions.logging.abstractions/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.abstractions.3.1.12.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Options/3.1.12": {
+      "sha512": "by2/frdg182EdpUkFw+2+h+POQTUCVNZRGWgFZKKZhxfuN+hJZFAaGMAuo1ouLexMa1PGTqWAgw/zaZ2WwU71Q==",
+      "type": "package",
+      "path": "microsoft.extensions.options/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Options.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Options.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Options.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Options.xml",
+        "microsoft.extensions.options.3.1.12.nupkg.sha512",
+        "microsoft.extensions.options.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Primitives/3.1.12": {
+      "sha512": "QjEKb7QWbk44/t05BKlYaHP1sX2jOW9MypKVeMikX6932J34AioVo9heppJ8XAUpBLL15iOiyncSLWgHE32xMg==",
+      "type": "package",
+      "path": "microsoft.extensions.primitives/3.1.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll",
+        "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.xml",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Primitives.xml",
+        "microsoft.extensions.primitives.3.1.12.nupkg.sha512",
+        "microsoft.extensions.primitives.nuspec"
       ]
     },
     "Microsoft.NET.StringTools/1.0.0": {
@@ -5041,6 +5730,23 @@
         "runtimes/linux/native/libmongocrypt.so",
         "runtimes/osx/native/libmongocrypt.dylib",
         "runtimes/win/native/mongocrypt.dll"
+      ]
+    },
+    "MongoDbGenericRepository/1.4.8": {
+      "sha512": "+cogUUMvXjnc8JUvDwnWitNAKRU7BrOleILH2AeLQnZ/WZNvocRw2PLNBIBlXyBdf3Nt2UtByL12d2lPGwP+VQ==",
+      "type": "package",
+      "path": "mongodbgenericrepository/1.4.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net452/MongoDbGenericRepository.dll",
+        "lib/net452/MongoDbGenericRepository.xml",
+        "lib/netstandard1.5/MongoDbGenericRepository.dll",
+        "lib/netstandard1.5/MongoDbGenericRepository.xml",
+        "lib/netstandard2.0/MongoDbGenericRepository.dll",
+        "lib/netstandard2.0/MongoDbGenericRepository.xml",
+        "mongodbgenericrepository.1.4.8.nupkg.sha512",
+        "mongodbgenericrepository.nuspec"
       ]
     },
     "NETStandard.Library/1.6.1": {
@@ -9283,6 +9989,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "AspNetCore.Identity.MongoDbCore >= 3.1.2",
+      "Google.Cloud.Storage.V1 >= 4.1.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.10",
       "MongoDB.Driver >= 2.18.0"
     ]
@@ -9324,6 +10032,14 @@
       "net6.0": {
         "targetAlias": "net6.0",
         "dependencies": {
+          "AspNetCore.Identity.MongoDbCore": {
+            "target": "Package",
+            "version": "[3.1.2, )"
+          },
+          "Google.Cloud.Storage.V1": {
+            "target": "Package",
+            "version": "[4.1.0, )"
+          },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[6.0.10, )"

@@ -1,24 +1,25 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreMVC.Services;
 
 public interface IBookRepository
 {
-    IEnumerable<Book> GetAll();
+    IEnumerable<Book> GetAll(string filter);
 
-    Book GetById();
+    Book GetById(string bookId);
 
-    Book Add(BookViewModel bookViewModel);
+    // IActionResult Add(Book book);
     
-    Task<Book> AddAsync(BookViewModel bookViewModel);
+    Task AddAsync(Book book);
 
-    Book Update(BookViewModel bookViewModel);
+    // IActionResult Update(Book book);
 
-    Task<Book> UpdateAsync(BookViewModel bookViewModel);
+    Task UpdateAsync(Book book);
 
-    Book Delete(string bookId);
+    // IActionResult Delete(string bookId);
 
-    Task<Book> DeleteAsync(string bookId);
+    Task DeleteAsync(string bookId);
     
 }

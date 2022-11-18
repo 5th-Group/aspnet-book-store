@@ -250,3 +250,13 @@
 /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
 /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
 /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/AspNetCore.Identity.MongoDbCore.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/MongoDbGenericRepository.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Api.Gax.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Api.Gax.Rest.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Apis.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Apis.Auth.PlatformServices.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Apis.Auth.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Apis.Core.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Apis.Storage.v1.dll
+/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/bin/Debug/net6.0/Google.Cloud.Storage.V1.dll

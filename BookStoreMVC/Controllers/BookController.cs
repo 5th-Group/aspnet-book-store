@@ -1,3 +1,4 @@
+using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +12,18 @@ namespace BookStoreMVC.Controllers
         {
             _repository = bookRepository;
         }
-        public IActionResult Index()
+        [HttpGet("Books")]
+        public IActionResult Index(string filter = "_")
         {
-            var books = _repository.GetAll();
-            
-
+            var books = _repository.GetAll(filter);
             return View(books);
+        }
+
+        [HttpGet("Book/{bookId}")]
+        public IActionResult Detail(string bookId)
+        {
+            var book = _repository.GetById(bookId);
+            return View(book);
         }
     }
 }
