@@ -1,4 +1,4 @@
-namespace BookStoreMVC.ViewModels;
+﻿namespace BookStoreMVC.ViewModels;
 
 public class BookViewModel
 {

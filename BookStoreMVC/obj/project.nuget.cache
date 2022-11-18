@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZnxwgH3JOzv4ak/qSH5W8hftUt6cpRWAuUlVWDOttwRbFw4vdptBodVFn3XHJvskvLH/iqwKxxPMCxQwjZSKdg==",
+  "dgSpecHash": "vgtcXuN6B/n1DabHWzqNY3JFz8Ci4N5YrPCPxninCVgxJj29EEpp+Zy1FwkuPWubaOFrebgE22Y2lA35ueE0hQ==",
   "success": true,
   "projectFilePath": "/home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/BookStoreMVC.csproj",
   "expectedPackageFiles": [
@@ -20,6 +20,7 @@
     "/home/wirexia/.nuget/packages/microsoft.aspnetcore.cryptography.internal/3.1.12/microsoft.aspnetcore.cryptography.internal.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/3.1.12/microsoft.aspnetcore.cryptography.keyderivation.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.aspnetcore.razor.language/6.0.0/microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/microsoft.aspnetcore.spaservices.extensions/6.0.1/microsoft.aspnetcore.spaservices.extensions.6.0.1.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.build/17.0.0/microsoft.build.17.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.build.framework/17.0.0/microsoft.build.framework.17.0.0.nupkg.sha512",
@@ -47,12 +48,15 @@
     "/home/wirexia/.nuget/packages/microsoft.extensions.configuration.binder/3.1.12/microsoft.extensions.configuration.binder.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.dependencyinjection/6.0.0/microsoft.extensions.dependencyinjection.6.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/microsoft.extensions.fileproviders.abstractions/6.0.0/microsoft.extensions.fileproviders.abstractions.6.0.0.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/microsoft.extensions.fileproviders.physical/6.0.0/microsoft.extensions.fileproviders.physical.6.0.0.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/microsoft.extensions.filesystemglobbing/6.0.0/microsoft.extensions.filesystemglobbing.6.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.identity.core/3.1.12/microsoft.extensions.identity.core.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.identity.stores/3.1.12/microsoft.extensions.identity.stores.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.logging/3.1.12/microsoft.extensions.logging.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.logging.abstractions/3.1.12/microsoft.extensions.logging.abstractions.3.1.12.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.extensions.options/3.1.12/microsoft.extensions.options.3.1.12.nupkg.sha512",
-    "/home/wirexia/.nuget/packages/microsoft.extensions.primitives/3.1.12/microsoft.extensions.primitives.3.1.12.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.net.stringtools/1.0.0/microsoft.net.stringtools.1.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.netcore.platforms/2.1.2/microsoft.netcore.platforms.2.1.2.nupkg.sha512",
     "/home/wirexia/.nuget/packages/microsoft.netcore.targets/1.1.3/microsoft.netcore.targets.1.1.3.nupkg.sha512",
@@ -179,7 +183,15 @@
     "/home/wirexia/.nuget/packages/system.windows.extensions/6.0.0/system.windows.extensions.6.0.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/system.xml.readerwriter/4.3.0/system.xml.readerwriter.4.3.0.nupkg.sha512",
     "/home/wirexia/.nuget/packages/system.xml.xdocument/4.3.0/system.xml.xdocument.4.3.0.nupkg.sha512",
+    "/home/wirexia/.nuget/packages/tailwind.extensions.aspnetcore/1.0.0-beta2/tailwind.extensions.aspnetcore.1.0.0-beta2.nupkg.sha512",
     "/home/wirexia/.nuget/packages/zstdsharp.port/0.6.2/zstdsharp.port.0.6.2.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file /home/wirexia/RiderProjects/BookStoreMVC/BookStoreMVC/obj/project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
