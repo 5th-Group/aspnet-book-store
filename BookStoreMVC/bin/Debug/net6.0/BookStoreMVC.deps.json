@@ -11,8 +11,7 @@
           "AspNetCore.Identity.MongoDbCore": "3.1.2",
           "Google.Cloud.Storage.V1": "4.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.10",
-          "MongoDB.Driver": "2.18.0",
-          "Tailwind.Extensions.AspNetCore": "1.0.0-beta2"
+          "MongoDB.Driver": "2.18.0"
         },
         "runtime": {
           "BookStoreMVC.dll": {}
@@ -181,7 +180,7 @@
           }
         }
       },
-      "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
         "runtime": {
           "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
             "assemblyVersion": "6.0.0.0",
@@ -984,7 +983,36 @@
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions/6.0.0": {},
-      "Microsoft.Extensions.Logging.Abstractions/2.0.0": {},
+      "Microsoft.Extensions.Identity.Core/3.1.12": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "3.1.12",
+          "Microsoft.Extensions.Logging": "3.1.12",
+          "Microsoft.Extensions.Options": "3.1.12"
+        }
+      },
+      "Microsoft.Extensions.Identity.Stores/3.1.12": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Identity.Core": "3.1.12",
+          "Microsoft.Extensions.Logging": "3.1.12"
+        }
+      },
+      "Microsoft.Extensions.Logging/3.1.12": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Binder": "3.1.12",
+          "Microsoft.Extensions.DependencyInjection": "6.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.12",
+          "Microsoft.Extensions.Options": "3.1.12"
+        }
+      },
+      "Microsoft.Extensions.Logging.Abstractions/3.1.12": {},
+      "Microsoft.Extensions.Options/3.1.12": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Primitives": "3.1.12"
+        }
+      },
+      "Microsoft.Extensions.Primitives/3.1.12": {},
       "Microsoft.NET.StringTools/1.0.0": {
         "dependencies": {
           "System.Memory": "4.5.4",
@@ -2223,17 +2251,6 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "Tailwind.Extensions.AspNetCore/1.0.0-beta2": {
-        "dependencies": {
-          "Microsoft.AspNetCore.SpaServices.Extensions": "6.0.1"
-        },
-        "runtime": {
-          "lib/net6.0/Tailwind.Extensions.AspNetCore.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "ZstdSharp.Port/0.6.2": {
         "runtime": {
           "lib/net6.0/ZstdSharp.dll": {
@@ -2362,7 +2379,7 @@
       "path": "microsoft.aspnetcore.razor.language/6.0.0",
       "hashPath": "microsoft.aspnetcore.razor.language.6.0.0.nupkg.sha512"
     },
-    "Microsoft.Bcl.AsyncInterfaces/5.0.0": {
+    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
@@ -2551,19 +2568,47 @@
       "path": "microsoft.extensions.dependencyinjection.abstractions/6.0.0",
       "hashPath": "microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
     },
-    "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
+    "Microsoft.Extensions.Identity.Core/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MRNaIsE3PdT24+6cWxJhiyfTY3Eoncr/m+5nW3NtBjPQXhJKECGNdquh5EH5KwNaYls2KI53znl7KD4pWMkKyw==",
+      "path": "microsoft.extensions.identity.core/3.1.12",
+      "hashPath": "microsoft.extensions.identity.core.3.1.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Stores/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xQOIvN3nFJ0ptl/qnozFJPzfY/TxrJFr9k/EPJkqHZx8jtzlGJ4mqvgknau0AunW25uXyT+O6co3AJ4B4OKcRQ==",
+      "path": "microsoft.extensions.identity.stores/3.1.12",
+      "hashPath": "microsoft.extensions.identity.stores.3.1.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-EXwfP6M/G6mwM/f9eVNY3tOnY539gIEjeSXs2G/RtuGILteW455ZLxfZmE7qzWSc0J2wvoMuxdkB+WMsBW8Kqw==",
+      "path": "microsoft.extensions.logging/3.1.12",
+      "hashPath": "microsoft.extensions.logging.3.1.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Logging.Abstractions/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ixi6qAF3sr1FjPntVamRCMcnrCPx6l0G8VxtVshEk4n8lGs0Hj62jmt/xJ4mHrxR5ST0T49ERT2HsJcv6z+wGw==",
+      "path": "microsoft.extensions.logging.abstractions/3.1.12",
+      "hashPath": "microsoft.extensions.logging.abstractions.3.1.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Options/3.1.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-by2/frdg182EdpUkFw+2+h+POQTUCVNZRGWgFZKKZhxfuN+hJZFAaGMAuo1ouLexMa1PGTqWAgw/zaZ2WwU71Q==",
+      "path": "microsoft.extensions.options/3.1.12",
+      "hashPath": "microsoft.extensions.options.3.1.12.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Primitives/3.1.12": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-QjEKb7QWbk44/t05BKlYaHP1sX2jOW9MypKVeMikX6932J34AioVo9heppJ8XAUpBLL15iOiyncSLWgHE32xMg==",
       "path": "microsoft.extensions.primitives/3.1.12",
       "hashPath": "microsoft.extensions.primitives.3.1.12.nupkg.sha512"
-    },
-    "Microsoft.Extensions.Primitives/6.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-9+PnzmQFfEFNR9J2aDTfJGGupShHjOuGw4VUv+JB044biSHrnmCIMD+mJHmb2H7YryrfBEXDurxQ47gJZdCKNQ==",
-      "path": "microsoft.extensions.primitives/6.0.0",
-      "hashPath": "microsoft.extensions.primitives.6.0.0.nupkg.sha512"
     },
     "Microsoft.NET.StringTools/1.0.0": {
       "type": "package",
@@ -3446,13 +3491,6 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
-    },
-    "Tailwind.Extensions.AspNetCore/1.0.0-beta2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-2YbzaEt2HloW5y8aQ5xKK/oEAhjaZ0LfB/BJFdgRMqwfH9U35ohk4iT/N7Kw5VPBorz9yhljZ6tudP/0BwtGzg==",
-      "path": "tailwind.extensions.aspnetcore/1.0.0-beta2",
-      "hashPath": "tailwind.extensions.aspnetcore.1.0.0-beta2.nupkg.sha512"
     },
     "ZstdSharp.Port/0.6.2": {
       "type": "package",
