@@ -1,3 +1,4 @@
+using BookStoreMVC.DataAccess;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
 using Tailwind;
@@ -5,10 +6,13 @@ using Tailwind;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<BookStoreDataAccess>(
+    builder.Configuration.GetSection("BookStoreDatabase"));
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IBookRepository, BookServices>();
+builder.Services.AddScoped<IBookRepository, BookServices>();
 
-var app = builder.Build();
+
+    var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

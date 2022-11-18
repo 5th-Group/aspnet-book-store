@@ -12,15 +12,11 @@ public class Author
     
     public string FirstName { get; set; } = null!;
     
-    public string MiddleName { get; set; } = null!;
-    
     public string LastName { get; set; } = null!;
     
-    public string Origin { get; set; } = null!;
-    
-    public string Gender { get; set; } = null!;
-    
-    public DateTime DateOfBirth { get; set; }
-    
-    public string Biography { get; set; } = null!;
+    public string Initials { get; set; } = null!;
+
+    public string DisplayName => FirstName + Initials + LastName;
+
+    public string Description { get; set; } = string.Empty;
 }
