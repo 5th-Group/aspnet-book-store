@@ -1,7 +1,7 @@
 using BookStoreMVC.DataAccess;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
-using Tailwind;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,10 +22,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.RunTailwind("tailwind", "./");
-}
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -33,6 +30,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",
