@@ -8,12 +8,34 @@
 
 
 </head>
-<body>
-   
+<body class="font-inter">
+    <!-- Navbar -->
+    <nav class="relative container mx-auto p-6 bg-fade">
+      <!-- Flex container -->
+      <div class="flex items-center justify-between">
+        <!-- Logo -->
+        <div >
+          <h1 >Logo</h1>
+        </div>
+        <!-- Menu Items -->
+        <div class=" space-x-6 flex">
+          <a href="#" class="hover:text-darkGrayishBlue">Home</a>
+          <a href="#" class="hover:text-darkGrayishBlue">Book</a>
+          <a href="#" class="hover:text-darkGrayishBlue">About Us</a>
+          <a href="#" class="hover:text-darkGrayishBlue">Careers</a>
+          <a href="#" class="hover:text-darkGrayishBlue">Community</a>
+        </div>
+        <!-- Button -->
+        <a
+          href="#"
+               class=" p-3 px-6 pt-2 text-white bg-slate-800 rounded-full baseline transition-colors hover:bg-fade block">Get Started</a>
+
+       
+    </nav>
 
         <!--Main Content-->
       
-            <div class="container flex flex-col">
+            <div class="container mx-auto">
                 @RenderBody();
             </div>
     
