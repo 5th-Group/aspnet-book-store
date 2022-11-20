@@ -6,28 +6,23 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+
+
     <ItemGroup>
       <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
+		
+		
+		
       <PackageReference Include="Google.Cloud.Storage.V1" Version="4.1.0" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
       <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
-      <PackageReference Include="Tailwind.Extensions.AspNetCore" Version="1.0.0-beta2" />
     </ItemGroup>
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
     </ItemGroup>
-
-	<ItemGroup>
-		<UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
-		<UpToDateCheckBuilt Include="postcss.config.js" Set="Css" />
-		<UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\css\" />
-	</ItemGroup>
-
+	
 	
 
-</Project>
+
+		</Project>
