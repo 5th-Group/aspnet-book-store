@@ -21,6 +21,10 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
     </ItemGroup>
+
+	<Target Name="Tailwind" BeforeTargets="Build">
+		<Exec Command="npm run tailwind-watch"/>
+	</Target>
 	
 	
 
