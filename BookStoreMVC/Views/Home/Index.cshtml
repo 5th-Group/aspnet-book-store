@@ -1,8 +1,39 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section id="hero">
+    <!-- Flex Container -->
+    <div class="container max-w-7xl flex items-center px-6 mx-auto mt-10 space-y-0 ">
+        <!-- Left item -->
+        <div class="flex flex-col mb-32 space-y-10 w-1/2">
+            <h1 class="font-glory max-w-lg font-bold text-8xl text-titleText text-left">
+                What book are you looking for ?
+            </h1>
+            <p class="max-w-sm text-normalText text-left">
+                Manage makes it simple for software teams to plan day-to-day tasks
+                while keeping the larger team goals in view.
+            </p>
+            <div class="flex justify-start">
+                <a href="#" class="bgButton">Get
+                    Started</a>
+            </div>
+
+            <!-- End Left Item -->
+        </div>
+        <!-- Right item -->
+        <div class="w-1/2 flex justify-items-end">
+
+            <div class="flex flex-col ">
+                <img class="object-cover w-[215px] h-[280px] rounded-lg rotate-[21deg] mb-5 ml-[116px]"
+                    src="~/img/BoldDime.png" alt="">
+                <img class="object-cover w-[215px] h-[280px] rounded-lg rotate-[21deg]" src="~/img/Brave The World.png"
+                    alt="">
+            </div>
+            <img class="object-cover w-[215px] h-[280px] rounded-lg rotate-[21deg] mr-28  mt-60"
+                src="~/img/Dark Screcets.png" alt="">
+        </div>
+    </div>
+    <!-- End Right item -->
+</section>
