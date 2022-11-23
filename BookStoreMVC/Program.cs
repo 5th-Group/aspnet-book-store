@@ -10,6 +10,7 @@ builder.Services.Configure<BookStoreDataAccess>(
     builder.Configuration.GetSection("BookStoreDatabase"));
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBookRepository, BookServices>();
+builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 
 
     var app = builder.Build();
