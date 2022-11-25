@@ -19,6 +19,7 @@ builder.Services.AddIdentity<User, Role>()
         builder.Configuration.GetValue<string>("BookStoreDatabase:Database"));
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
