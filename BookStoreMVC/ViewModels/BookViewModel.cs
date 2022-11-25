@@ -1,4 +1,6 @@
-﻿namespace BookStoreMVC.ViewModels;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace BookStoreMVC.ViewModels;
 
 public class BookViewModel
 {
@@ -16,7 +18,14 @@ public class BookViewModel
     
     public IList<string> Genre { get; set; } = null!;
 
-    public string[] Type = { "Paperback, Ebook, Hardcover" };
+    public IList<string> Type { get; set; } = null!;
+
+    public List<SelectListItem> TypeList { get; } = new()
+    {
+        new SelectListItem("Paperback", "Paperback"),
+        new SelectListItem("Hardcover", "Hardcover"),
+        new SelectListItem("E-book", "E-book")
+    };
 
     public string ImageUri { get; set; } = null!;
     
