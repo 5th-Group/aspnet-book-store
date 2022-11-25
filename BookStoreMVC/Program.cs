@@ -16,7 +16,7 @@ builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddIdentity<User, Role>()
     .AddMongoDbStores<User, Role, Guid>(
         builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
-        builder.Configuration.GetValue<string>("BookStoreDatabase:Database"));
+        builder.Configuration.GetValue<string>("BookStoreDatabase:DatabaseName"));
 
 
 

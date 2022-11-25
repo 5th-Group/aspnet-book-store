@@ -16,7 +16,9 @@ public class BookViewModel
     
     public IList<string> Genre { get; set; } = null!;
 
-    public string[] Type = { "Paperback, Ebook, Hardcover" };
+    public IList<string> Type { get; set; } = null!;
+
+    public string[] TypeList = { "Paperback", "Ebook", "Hardcover" };
 
     public string ImageUri { get; set; } = null!;
     
