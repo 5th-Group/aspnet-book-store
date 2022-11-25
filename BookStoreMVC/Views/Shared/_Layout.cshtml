@@ -2,10 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - BookStoreMVC</title>
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
 
 
 </head>
@@ -76,12 +76,17 @@
     <div class="mx-auto mt-10 min-h-screen ">
         @RenderBody()
     </div>
+</nav>
 
-    <!--End Main Content-->
+<!-- End Nav -->
 
+<!--Main Content-->
 
+<div class="mx-auto mt-10">
+    @RenderBody()
+</div>
 
-
+<!--End Main Content-->
     <!--Footer-->
     <footer class="shadow px-6 py-8 bg-primarytext-primary">
         <div class="flex  justify-between px-24 ">
@@ -108,9 +113,10 @@
     </footer>
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
