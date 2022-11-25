@@ -13,6 +13,8 @@ builder.Services.Configure<BookStoreDataAccess>(
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBookRepository, BookServices>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
+builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();
+builder.Services.AddScoped<IPublisherRepository, PublisherService>();
 builder.Services.AddIdentity<User, Role>()
     .AddMongoDbStores<User, Role, Guid>(
         builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
