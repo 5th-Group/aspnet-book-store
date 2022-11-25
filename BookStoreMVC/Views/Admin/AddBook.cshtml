@@ -1,9 +1,104 @@
 @model BookStoreMVC.ViewModels.BookViewModel
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Add Book";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
-<select asp-for="@Model.Type" asp-items="@Model.TypeList"></select>
+
+<section id="formAddAuthor">
+    <div class="container">
+        <div class=" mx-20 ">
+            <h1 class="mb-7 text-3xl font-bold text-titleText">Add Book</h1>
+            <form asp-action="AddBook" class="text-titleText grid  grid-cols-2 grid-rows-6 w-fit gap-x-32">
+                <div class="mb-7 ">
+                    <label class="mb-9" asp-for=@Model.Title></label>
+                    <input asp-for=@Model.Title
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Title class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.PageCount></label>
+                    <input asp-for=@Model.PageCount
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.PageCount class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Author></label>
+                    <input asp-for=@Model.Author
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Author class="text-red-700"></span>
+
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Language as></label>
+                    <input asp-for=@Model.Language
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Language class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.CreatedAt as></label>
+                    <input asp-for=@Model.CreatedAt
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.CreatedAt class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Genre as></label>
+                    <input asp-for=@Model.Genre
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Genre class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Type></label>
+                    @* <input type="op"> *@
+                    <select asp-for="@Model.Type" asp-items=@Model.TypeList></select>
+                    @* <select asp-for=@Model.Type asp-items=@Model.TypeList
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5
+                        focus:outline-none focus:border-primary transition-colors duration-300">
+                        </select> *@
+
+                </div>
+                <div class="mb-7 relative">
+                    <h1 class="mb-3">Image</h1>
+                    <label
+                        class="mb-9 border-2 p-2 rounded-md cursor-pointer bg-gray-50 border-gray-300 hover:outline-none hover:border-primary hover:bg-primary hover:text-white transition-colors duration-300 "
+                        asp-for=@Model.ImageUri></label>
+                    <input asp-for=@Model.ImageUri type="file" class="hidden absolute top-0 left-0 " />
+                    <span asp-validation-for=@Model.ImageUri class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+
+                    <label class="mb-9" asp-for=@Model.PublishDate as></label>
+                    <input asp-for=@Model.PublishDate
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.PublishDate class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Publisher as></label>
+                    <input asp-for=@Model.Publisher
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Publisher class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Isbn as></label>
+                    <input asp-for=@Model.Isbn
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    <span asp-validation-for=@Model.Isbn class="text-red-700"></span>
+                </div>
+                <div class="mb-7">
+                    <label class="mb-9" asp-for=@Model.Description as></label>
+                    <textarea asp-for=@Model.Description
+                        class="block p-2 rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72  focus:outline-none focus:border-primary transition-colors duration-300"></textarea>
+                    <span asp-validation-for=@Model.Description class="text-red-700"></span>
+
+                </div>
+
+                <button type="submit" class="nonBgButton w-full py-4 col-span-2 text-xl  font-bold">Add</button>
+            </form>
+
+        </div>
+    </div>
+
+
+
+</section>
