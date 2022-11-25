@@ -36,8 +36,15 @@ public class AuthorServices : IAuthorRepository
 
     public async Task AddAsync(Author author)
     {
-        await _authorCollection.InsertOneAsync(author);
-        
+        try
+        {
+            await _authorCollection.InsertOneAsync(author);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+
     }
 
     public Task DeleteAsync(string authorId)

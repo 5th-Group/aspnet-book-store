@@ -1,6 +1,8 @@
 using BookStoreMVC.DataAccess;
+using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
+using MongoDbGenericRepository;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +13,14 @@ builder.Services.Configure<BookStoreDataAccess>(
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IBookRepository, BookServices>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
+builder.Services.AddIdentity<User, Role>()
+    .AddMongoDbStores<User, Role, Guid>(
+        builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
+        builder.Configuration.GetValue<string>("BookStoreDatabase:Database"));
 
 
-    var app = builder.Build();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -22,7 +29,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 
 app.UseHttpsRedirection();

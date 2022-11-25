@@ -1,9 +1,10 @@
+using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BookStoreMVC.Models;
 
-public class User
+public class User : MongoIdentityUser<Guid>
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
