@@ -10,5 +10,7 @@ public class AuthorViewModel
     
     public string Initials { get; set; } = string.Empty;
 
+    public string DisplayName => $"{FirstName} {Initials} {LastName}";
+ 
     public string Description { get; set; } = string.Empty;
 }

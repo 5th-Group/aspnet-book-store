@@ -22,13 +22,15 @@ public class Book
     public string? Language { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public IList<string>? Genre { get; set; }
+    public IList<string> Genre { get; set; }
     
-    [BsonRepresentation(BsonType.ObjectId)]
-    public IList<string>? Type { get; set; }
+    // [BsonRepresentation(BsonType.ObjectId)]
+    // public IList<string> Type { get; set; }
+    public IEnumerable<string> Type { get; set; } = null!;
+
 
     [BsonRepresentation(BsonType.DateTime)]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public string ImageUri { get; set; } = null!;
 
@@ -38,7 +40,7 @@ public class Book
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Publisher { get; set; }
 
-    public string? Isbn { get; set; }
+    public string Isbn { get; set; } = string.Empty;
 
-    public string? Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

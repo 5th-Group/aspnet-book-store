@@ -17,6 +17,6 @@ public class Product
 
     public decimal Price { get; set; }
     
-    
-    public List<Review>? Reviews { get; set; }
+    [BsonRepresentation(BsonType.ObjectId)]
+    public IList<string>? Reviews { get; set; }
 }

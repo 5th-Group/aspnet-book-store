@@ -10,6 +10,8 @@ public interface IPublisherRepository
 
     Publisher Add();
 
+    Task AddAsync(Publisher document);
+
     Publisher Update(string publisherId);
 
     Publisher Delete(string publisherId);

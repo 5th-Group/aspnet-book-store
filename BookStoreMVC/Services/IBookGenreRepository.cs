@@ -7,9 +7,9 @@ public interface IBookGenreRepository
     IEnumerable<BookGenre> GetAll();
     BookGenre GetById(string bookGenreId);
 
-    BookGenre Add();
+    Task AddAsync(BookGenre model);
 
-    BookGenre Update(string bookGenreId);
+    Task UpdateAsync(BookGenre model);
 
-    BookGenre Delete(string bookGenreId);
+    Task DeleteAsync(string bookGenreId);
 }

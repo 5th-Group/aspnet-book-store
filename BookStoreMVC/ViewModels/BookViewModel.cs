@@ -12,11 +12,11 @@ public class BookViewModel
     
     public string? Language { get; set; }
     
-    public IList<string>? Genre { get; set; }
-    
-    public IList<string>? Type { get; set; }
-    
     public DateTime CreatedAt { get; set; }
+    
+    public IList<string> Genre { get; set; } = null!;
+
+    public string[] Type = { "Paperback, Ebook, Hardcover" };
 
     public string ImageUri { get; set; } = null!;
     

@@ -37,9 +37,9 @@ public class BookServices : IBookRepository
         throw new NotImplementedException();
     }
 
-    public Task AddAsync(Book book)
+    public async Task AddAsync(Book book)
     {
-        throw new NotImplementedException();
+        await _bookCollection.InsertOneAsync(book);
     }
 
     public IActionResult Update(Book book)

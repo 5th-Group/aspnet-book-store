@@ -2,70 +2,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - BookStoreMVC</title>
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
 
 
 </head>
 
 <body class="font-inter bg-backGr  ">
-    <!-- Navbar -->
-    <nav class="relative p-2 px-32  rounded shadow-md w-full">
-        <!-- Flex container -->
-        <div class="flex flex-row items-center justify-between">
-            <!-- Logo -->
-            <div class="basis-1/3 ">
-                <h1>Logo</h1>
-            </div>
-            <!-- Menu Items -->
-            <div class="basis-2/3  w-full flex justify-between px-32">
-                <a href="#" class="hover:text-primary hover:font-bold transition-all">Home</a>
-                <a href="#" class="hover:text-primary hover:font-bold transition-all">Book</a>
-                <a href="#" class="hover:text-primary hover:font-bold transition-all">Community</a>
-                <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
-            </div>
-            <!-- Button -->
-            <div class="basis-1/3 flex justify-end gap-2">
-                <div>
-                    <button type="button" class="nonBgButton">Login</button>
-                </div>
-
-                <div>
-                    <button type="button" class="bgButton">Sign
-                        Up</button>
-                </div>
-            </div>
-
-
-    </nav>
-
-    <!-- End Nav -->
-
-    <!--Main Content-->
-
-    <div class="mx-auto mt-10">
-        @RenderBody()
-    </div>
-
-    <!--End Main Content-->
-
-
-
-
-    <!--Footer-->
-    <footer class=" text-center fixed bottom-0 right-0 left-0 bg-primary">
-        <div class="text-gray-700 text-center p-4">
-            © 2021 Copyright:
-            <a class="text-gray-800" href="#">Book Store's name</a>
+<!-- Navbar -->
+<nav class="relative p-2 px-32  rounded shadow-md w-full">
+    <!-- Flex container -->
+    <div class="flex flex-row items-center justify-between">
+        <!-- Logo -->
+        <div class="basis-1/3 ">
+            <h1>Logo</h1>
         </div>
-    </footer>
+        <!-- Menu Items -->
+        <div class="basis-2/3  w-full flex justify-between px-32">
+            <a class="hover:text-primary hover:font-bold transition-all" asp-action="Index" asp-controller="Home">Home</a>
+            <a class="hover:text-primary hover:font-bold transition-all" asp-action="Index" asp-controller="Book">Book</a>
+            <a class="hover:text-primary hover:font-bold transition-all">Community</a>
+            <a class="hover:text-primary hover:font-bold transition-all">About Us</a>
+        </div>
+        <!-- Button -->
+        <div class="basis-1/3 flex justify-end gap-2">
+            <div>
+                <button type="button" class="nonBgButton">Login</button>
+            </div>
+
+            <div>
+                <button type="button" class="bgButton">
+                    Sign
+                    Up
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- End Nav -->
+
+<!--Main Content-->
+
+<div class="mx-auto mt-10">
+    @RenderBody()
+</div>
+
+<!--End Main Content-->
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<!--Footer-->
+<footer class=" text-center fixed bottom-0 right-0 left-0 bg-primary">
+    <div class="text-gray-700 text-center p-4">
+        © 2021 Copyright:
+        <a class="text-gray-800" href="#">Book Store's name</a>
+    </div>
+</footer>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>
