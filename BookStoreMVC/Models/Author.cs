@@ -16,7 +16,5 @@ public class Author
     
     public string Initials { get; set; } = null!;
 
-    public string DisplayName => FirstName + Initials + LastName;
-
     public string Description { get; set; } = string.Empty;
 }

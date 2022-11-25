@@ -27,8 +27,14 @@ public class BookViewModel
         new SelectListItem("E-book", "E-book")
     };
 
-    public string ImageUri { get; set; } = null!;
-    
+    public IFormFile? Img { get; set; }
+
+    public string? ImageUri { get; set; }
+
+    public string? ImageName { get; set; }
+
+    public string? SignedUrl { get; set; }
+
     public DateTime PublishDate { get; set; }
     
     public string? Publisher { get; set; }
