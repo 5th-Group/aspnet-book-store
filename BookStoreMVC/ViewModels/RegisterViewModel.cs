@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using BookStoreMVC.Models;
 
 namespace BookStoreMVC.ViewModels;
 
