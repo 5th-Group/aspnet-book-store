@@ -14,16 +14,16 @@ namespace BookStoreMVC.Models
 
             StartPage = PageIndex - 5;
             EndPage = PageIndex + 4;
-            if(StartPage <= 0)
+            if (StartPage <= 0)
             {
                 EndPage -= (StartPage - 1);
                 StartPage = 1;
             }
-            if(EndPage > TotalPage)
+            if (EndPage > TotalPage)
             {
                 EndPage = TotalPage;
 
-                if(EndPage > 10)
+                if (EndPage > 10)
                 {
                     StartPage = EndPage - 9;
                 }
@@ -35,12 +35,12 @@ namespace BookStoreMVC.Models
         {
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            
+
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
 
         public bool HasPreviousPage => PageIndex > 1;
-        public bool HasNextPage => PageIndex < TotalPage ;
+        public bool HasNextPage => PageIndex < TotalPage;
 
 
     }

@@ -14,6 +14,7 @@ namespace BookStoreMVC.Controllers
 
         private readonly ILanguageRepository _languageRepository;
         private readonly ICloudStorage _cloudStorage;
+        int PAGE_SIZE = 5;
 
         public AdminController(ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
         {
@@ -23,6 +24,7 @@ namespace BookStoreMVC.Controllers
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
             _cloudStorage = cloudStorage;
+
         }
 
         public IActionResult Index()
@@ -33,7 +35,7 @@ namespace BookStoreMVC.Controllers
         #region Book
 
         [HttpGet("Admin/Books/")]
-        public IActionResult BookIndex(string filter = "_")
+        public IActionResult BookIndex(string filter = "_", int? pageNumber = 1)
         {
             var bookList = _bookRepository.GetAll(filter).Select(book => new BookViewModel
             {
@@ -47,7 +49,7 @@ namespace BookStoreMVC.Controllers
                 CreatedAt = book.CreatedAt,
                 ImageUri = book.ImageUri,
                 ImageName = book.ImageName,
-                SignedUrl = GenerateSignedUrl(book.ImageName).ToString(),
+                SignedUrl = GenerateSignedUrl(book.ImageName).Result,
                 PublishDate = book.PublishDate,
                 Publisher = book.Publisher,
                 Isbn = book.Isbn,
@@ -56,8 +58,10 @@ namespace BookStoreMVC.Controllers
 
 
 
-            return View(bookList.ToList());
+            var result = PaginatedList<BookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            return View(result);
         }
+
 
 
         [HttpGet]
@@ -101,15 +105,18 @@ namespace BookStoreMVC.Controllers
 
         private string GenerateFileName(string imgFileName)
         {
-            var fileName = Path.GetFileName(imgFileName);
+            var fileName = Path.GetFileNameWithoutExtension(imgFileName);
             var fileExtension = Path.GetExtension(imgFileName);
-            return $"{fileName}-{DateTime.Now:yyyyMMMdd}{fileExtension}";
+
+            return $"{fileName}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{fileExtension}";
         }
 
-        private async Task<string> GenerateSignedUrl(string fileName)
+        private async Task<string> GenerateSignedUrl(string imgname)
         {
-            if (string.IsNullOrWhiteSpace(fileName)) return string.Empty;
-            var signedUrl = await _cloudStorage.GetSignedUrlAsync(fileName);
+            if (string.IsNullOrWhiteSpace(imgname)) return string.Empty;
+
+
+            var signedUrl = await _cloudStorage.GetSignedUrlAsync(imgname);
 
             return signedUrl;
         }
