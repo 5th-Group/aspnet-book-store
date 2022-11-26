@@ -10,7 +10,7 @@
     <div class="container">
         <div class=" mx-20 ">
             <h1 class="mb-7 text-3xl font-bold text-titleText">Add Book</h1>
-            <form asp-action="AddBook" class="text-titleText grid  grid-cols-2 grid-rows-6 w-fit gap-x-32">
+            <form asp-action="AddBook" class="text-titleText grid  grid-cols-2 grid-rows-6 w-fit gap-x-32" enctype="multipart/form-data" method="post">
                 <div class="mb-7 ">
                     <label class="mb-9" asp-for=@Model.Title></label>
                     <input asp-for=@Model.Title
@@ -64,9 +64,7 @@
                     <label
                         class="mb-9 border-2 p-2 rounded-md cursor-pointer bg-gray-50 border-gray-300 hover:outline-none hover:border-primary hover:bg-primary hover:text-white transition-colors duration-300 "
                         asp-for=@Model.Img></label>
-                    <input asp-for=@Model.Img type="file" class=" " />
-
-                    <span asp-validation-for=@Model.ImageUri class="text-red-700"></span>
+                    <input asp-for=@Model.Img type="file" class="" />
                 </div>
                 <div class="mb-7">
 
