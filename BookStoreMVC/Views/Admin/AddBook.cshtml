@@ -36,12 +36,13 @@
                         class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
                     <span asp-validation-for=@Model.Language class="text-red-700"></span>
                 </div>
-                <div class="mb-7">
+                @* <div class="mb-7">
                     <label class="mb-9" asp-for=@Model.CreatedAt as></label>
                     <input asp-for=@Model.CreatedAt
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5
+                    focus:outline-none focus:border-primary transition-colors duration-300" />
                     <span asp-validation-for=@Model.CreatedAt class="text-red-700"></span>
-                </div>
+                    </div> *@
                 <div class="mb-7">
                     <label class="mb-9" asp-for=@Model.Genre as></label>
                     <input asp-for=@Model.Genre
@@ -50,7 +51,7 @@
                 </div>
                 <div class="mb-7">
                     <label class="mb-9" asp-for=@Model.Type></label>
-                    @* <input type="op"> *@
+
                     <select asp-for="@Model.Type" asp-items=@Model.TypeList></select>
                     @* <select asp-for=@Model.Type asp-items=@Model.TypeList
                         class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5
@@ -62,8 +63,9 @@
                     <h1 class="mb-3">Image</h1>
                     <label
                         class="mb-9 border-2 p-2 rounded-md cursor-pointer bg-gray-50 border-gray-300 hover:outline-none hover:border-primary hover:bg-primary hover:text-white transition-colors duration-300 "
-                        asp-for=@Model.ImageUri></label>
-                    <input asp-for=@Model.ImageUri type="file" class="hidden absolute top-0 left-0 " />
+                        asp-for=@Model.Img></label>
+                    <input asp-for=@Model.Img type="file" class=" " />
+
                     <span asp-validation-for=@Model.ImageUri class="text-red-700"></span>
                 </div>
                 <div class="mb-7">

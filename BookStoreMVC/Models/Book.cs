@@ -33,6 +33,8 @@ public class Book
 
     public string ImageUri { get; set; } = null!;
 
+    public string ImageName { get; set; } = null!;
+
     [BsonRepresentation(BsonType.DateTime)]
     public DateTime PublishDate { get; set; }
 

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
@@ -15,22 +11,27 @@ namespace BookStoreMVC.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
-        
-        public AdminController(IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
+
+        private readonly ILanguageRepository _languageRepository;
+        private readonly ICloudStorage _cloudStorage;
+
+        public AdminController(ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
         {
+            _languageRepository = languageRepository;
             _authorRepository = authorRepository;
             _bookRepository = bookRepository;
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
+            _cloudStorage = cloudStorage;
         }
-        
+
         public IActionResult Index()
         {
             return View();
         }
 
         #region Book
-        
+
         [HttpGet("Admin/Books/")]
         public IActionResult BookIndex(string filter = "_")
         {
@@ -45,11 +46,15 @@ namespace BookStoreMVC.Controllers
                 Type = book.Type.ToArray(),
                 CreatedAt = book.CreatedAt,
                 ImageUri = book.ImageUri,
+                ImageName = book.ImageName,
+                SignedUrl = GenerateSignedUrl(book.ImageName).ToString(),
                 PublishDate = book.PublishDate,
                 Publisher = book.Publisher,
                 Isbn = book.Isbn,
                 Description = book.Description
             });
+
+
 
             return View(bookList.ToList());
         }
@@ -66,6 +71,13 @@ namespace BookStoreMVC.Controllers
         public async Task<IActionResult> AddBook(BookViewModel book)
         {
             if (!ModelState.IsValid) return View(book);
+
+            if (book.Img != null)
+            {
+                book.ImageName = GenerateFileName(book.Img.FileName);
+                book.ImageUri = await _cloudStorage.UploadFileAsync(book.Img, book.ImageName);
+            }
+
             var model = new Book
             {
                 Title = book.Title,
@@ -74,21 +86,36 @@ namespace BookStoreMVC.Controllers
                 Language = book.Language,
                 Genre = book.Genre,
                 Type = book.Type,
-                ImageUri = book.ImageUri,
+                ImageUri = book.ImageUri ?? string.Empty,
+                ImageName = book.ImageName ?? string.Empty,
                 PublishDate = book.PublishDate,
                 Publisher = book.Publisher,
-                Isbn = book.Isbn,
-                Description = book.Description,
+                Isbn = book.Isbn ?? string.Empty,
+                Description = book.Description ?? string.Empty,
             };
-            
+
             await _bookRepository.AddAsync(model);
             return RedirectToAction("BookIndex");
 
-            }
+        }
 
+        private string GenerateFileName(string imgFileName)
+        {
+            var fileName = Path.GetFileName(imgFileName);
+            var fileExtension = Path.GetExtension(imgFileName);
+            return $"{fileName}-{DateTime.Now:yyyyMMMdd}{fileExtension}";
+        }
+
+        private async Task<string> GenerateSignedUrl(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName)) return string.Empty;
+            var signedUrl = await _cloudStorage.GetSignedUrlAsync(fileName);
+
+            return signedUrl;
+        }
 
         #endregion
-        
+
         #region Author
 
         public IActionResult AuthorIndex()
@@ -103,7 +130,7 @@ namespace BookStoreMVC.Controllers
             }).ToList();
             return View(authorList);
         }
-        
+
         [HttpGet]
         public IActionResult AddAuthor()
         {
@@ -115,7 +142,7 @@ namespace BookStoreMVC.Controllers
         public async Task<IActionResult> AddAuthor(AuthorViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
-            
+
             var authorModel = new Author()
             {
                 FirstName = model.FirstName,
@@ -127,11 +154,11 @@ namespace BookStoreMVC.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
-        
+
         #endregion
 
         #region BookGenre
-        
+
         [HttpGet]
         public IActionResult BookGenreIndex()
         {
@@ -143,7 +170,7 @@ namespace BookStoreMVC.Controllers
 
             return View(bookGenreList.ToList());
         }
-        
+
         [HttpGet]
         public IActionResult AddBookGenre()
         {
@@ -184,8 +211,8 @@ namespace BookStoreMVC.Controllers
             var model = new PublisherViewModel();
             return View(model);
         }
-        
-        
+
+
         [HttpPost]
         public async Task<IActionResult> AddPublisher(PublisherViewModel publisher)
         {
@@ -201,6 +228,39 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
+        #endregion
+
+        #region Language
+        [HttpGet]
+        public IActionResult LanguageIndex()
+        {
+            var publishers = _languageRepository.GetAll().ToArray();
+            return View(publishers);
+        }
+
+        [HttpGet]
+        public IActionResult AddLanguage()
+        {
+            var model = new LanguageViewModel();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddLanguage(LanguageViewModel language)
+        {
+            if (!ModelState.IsValid) return View(language);
+            var document = new Language()
+            {
+                Id = language.Id,
+                Name = language.Name,
+                Code = language.Code,
+
+            };
+
+            await _languageRepository.AddAsync(document);
+            return RedirectToAction("PublisherIndex");
+        }
         #endregion
     }
 }

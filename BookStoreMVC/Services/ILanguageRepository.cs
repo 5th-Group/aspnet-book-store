@@ -5,12 +5,11 @@ namespace BookStoreMVC.Services;
 public interface ILanguageRepository
 {
     IEnumerable<Language> GetAll();
-
     Language GetById(string languageId);
 
-    Language Add();
+    Task AddAsync(Language model);
 
-    Language Update(string languageId);
+    Task UpdateAsync(Language model);
 
-    Language Delete(string languageId);
+    Task DeleteAsync(string languageId);
 }

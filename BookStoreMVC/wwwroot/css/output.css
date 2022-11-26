@@ -580,10 +580,6 @@ video {
   bottom: 0px;
 }
 
-.top-0{
-  top: 0px;
-}
-
 .left-0{
   left: 0px;
 }
@@ -698,10 +694,6 @@ video {
 
 .grid{
   display: grid;
-}
-
-.hidden{
-  display: none;
 }
 
 .h-24{

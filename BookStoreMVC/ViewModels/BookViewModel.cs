@@ -30,9 +30,13 @@ public class BookViewModel
         new SelectListItem("E-book", "E-book")
     };
 
-    [DisplayName("Choose image")]
-    public string ImageUri { get; set; } = null!;
+    public IFormFile? Img { get; set; }
 
+    public string? ImageUri { get; set; }
+
+    public string? ImageName { get; set; }
+
+    public string? SignedUrl { get; set; }
     [DataType(DataType.Date)]
     [DisplayName("Publish Date")]
     public DateTime PublishDate { get; set; }

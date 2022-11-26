@@ -10,7 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<BookStoreDataAccess>(
     builder.Configuration.GetSection("BookStoreDatabase"));
+builder.Services.Configure<BookStoreCloudStorage>(
+    builder.Configuration.GetSection("GoogleCloudStorage"));
+
 builder.Services.AddControllersWithViews();
+
+// Singleton DI Resolver
+builder.Services.AddSingleton<ICloudStorage, GoogleStorageServices>();
+
+// Scoped DI Resolver
 builder.Services.AddScoped<IBookRepository, BookServices>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();
@@ -43,6 +51,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 
