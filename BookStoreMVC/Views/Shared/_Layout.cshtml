@@ -10,7 +10,7 @@
 
 </head>
 
-<body class="font-inter bg-backGr  ">
+<body class="font-inter bg-backGr">
 <!-- Navbar -->
 <nav class="relative p-2 px-32  rounded shadow-md w-full">
     <!-- Flex container -->
@@ -21,7 +21,8 @@
         </div>
         <!-- End Logo -->
         <!-- Menu Items and Search bar-->
-        <div class="basis-2/4  w-full flex justify-between items-center">
+        <div
+            class="basis-2/4  w-full flex justify-between items-center @(ViewBag.Title == "List" ? "pr-[294px]" : "")">
             <!-- Menu Items -->
             <a asp-controller="Home" asp-action="Index"
                class="hover:text-primary hover:font-bold transition-all">
@@ -35,47 +36,50 @@
             <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
             <!-- End Menu Items -->
             <!-- Search bar-->
-            <div class="relative  items-center">
+            @if (ViewBag.Title != "List")
+            {
+                <div class="relative  items-center">
 
-                <!-- Search icon-->
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                              clip-rule="evenodd">
-                        </path>
-                    </svg>
+
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                  clip-rule="evenodd">
+                            </path>
+                        </svg>
+                    </div>
+
+
+                    <input type="text"
+                           class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+                           placeholder="Search...">
+
                 </div>
-                <!-- End Search icon-->
-                <!-- End Search input-->
-                <input type="text"
-                       class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primarytext-primary transition-colors duration-300 "
-                       placeholder="Search...">
-                <!-- End Search input-->
-            </div>
-            <!-- End Search bar-->
+            }
+
         </div>
-        <!-- End Menu Items and Search bar-->
-        <!-- Button login -->
+
+
         <div class="basic-1/4 flex justify-end gap-2">
             <div>
-                <button type="button" class="nonBgButton w-[100px]">Login</button>
+                <button type="button" class="nonBgButton py-2 w-24">Login</button>
             </div>
 
             <div>
-                <button type="button" class="bgButton  w-[100px]">
+                <button type="button" class="bgButton  py-2 w-24">
                     Sign
                     Up
                 </button>
             </div>
         </div>
-        <!-- End Button login -->
+
     </div>
+    <!-- End Button login -->
 
 
 </nav>
-
 <!-- End Nav -->
 
 <!--Main Content-->
@@ -94,7 +98,7 @@
 
 <!--End Main Content-->
 <!--Footer-->
-<footer class="shadow px-6 py-8 bg-primarytext-primary">
+<footer class="shadow px-6 py-8 bg-primary2-700 text-primary">
     <div class="flex  justify-between px-24 ">
         <h1 class="text-xl text-white">Logo</h1>
         <ul class="flex items-center text-sm  text-white">

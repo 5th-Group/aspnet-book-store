@@ -25,5 +25,11 @@ namespace BookStoreMVC.Controllers
             var book = _repository.GetById(bookId);
             return View(book);
         }
+
+        [HttpGet("Book/Cart")]
+        public IActionResult Cart()
+        {
+            return View();
+        }
     }
 }

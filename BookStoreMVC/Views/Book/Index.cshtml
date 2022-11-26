@@ -5,8 +5,73 @@
 
 <section id="bookBrowse">
   <!-- Flex Container -->
-  <div class="container max-w-7xl flex items-center px-6 mx-auto mt-10 space-y-0 ">
-    <h1 class="text-7xl">Hello</h1>
+  <div class="container max-w-[1400px] flex  gap-10  mx-auto my-10 pb-24 mt-20 justify-between ">
+    @* Category *@
+    <div class="basis-1/5 flex flex-col  rounded-lg h-fit">
+      <div class="relative  items-center">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+          <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </div>
+
+
+        <input type="text"
+          class="block w-full p-2 pl-10 h-12 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+          placeholder="Search...">
+
+      </div>
+
+      <h1 class="text-xl text-titleText font-medium py-5 "> Book Category</h1>
+
+      <a
+        class="text-md  text-titleText  font-light px-5 py-3 rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">Thriller</a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">Adventure</a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">Fiction</a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">Action</a>
+
+
+    </div>
+    @* End Category *@
+
+    @* Book Browse *@
+    <div class=" basis-3/4 flex flex-wrap gap-10 justify-evenly ">
+      <div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
+        <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src="~/img/BoldDime.png" alt="">
+        <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
+          <div class="w-[300px] h-[230px] p-5 pl-[90px] bg-white shadow-lg rounded-lg flex flex-col ">
+            <h1 class="text-lg  font-bold text-titleText truncate">Brave New World</h1>
+            <h2 class="font-light text-xs text-normalText mb-1 ">By: Harley T.H.</h2>
+            <h2 class="font-light text-sm text-primary  ">* * * * *</h2>
+            <h3 class="text-sm line-clamp-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. luptatem ea
+              ullam
+              est
+              nam
+              optio laborumtt
+              nulla
+              error aspernatur </h3>
+            <h2 class="font-bold text-primary mt-1 mb-2">$30.00</h2>
+            <div class="bgButton py-1">Add to cart</div>
+          </div>
+        </div>
+      </div>
+      <span class=" w-[460px] h-[280px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+      <span class=" w-[300px] h-[400px] bg-black "></span>
+
+    </div>
+    @* End Book Browse *@
+
   </div>
 
 </section>

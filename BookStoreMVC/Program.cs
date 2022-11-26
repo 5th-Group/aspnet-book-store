@@ -23,6 +23,10 @@ builder.Services.AddScoped<IBookRepository, BookServices>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();
 builder.Services.AddScoped<IPublisherRepository, PublisherService>();
+builder.Services.AddScoped<IOrderRepository, OrderService>();
+builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
+builder.Services.AddScoped<ICountryRepository, CountryServices>();
+builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
 
 builder.Services.AddIdentity<User, Role>()
     .AddMongoDbStores<User, Role, Guid>(
