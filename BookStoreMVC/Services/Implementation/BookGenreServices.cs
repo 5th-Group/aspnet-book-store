@@ -21,7 +21,7 @@ public class BookGenreServices : IBookGenreRepository
     public IEnumerable<BookGenre> GetAll()
     {
         return _bookGenreCollection.Find(_ => true).ToEnumerable();
-        
+
     }
 
     public BookGenre GetById(string bookGenreId)
@@ -54,8 +54,8 @@ public class BookGenreServices : IBookGenreRepository
         }
     }
 
-    public Task DeleteAsync(string bookGenreId)
+    public async Task DeleteAsync(string bookGenreId)
     {
-        throw new NotImplementedException();
+        await _bookGenreCollection.DeleteOneAsync(x => x.Id == bookGenreId);
     }
 }

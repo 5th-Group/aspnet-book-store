@@ -188,16 +188,21 @@ namespace BookStoreMVC.Controllers
 
         #region BookGenre
 
-        [HttpGet]
-        public IActionResult BookGenreIndex()
+
+        public IActionResult BookGenreIndex(int? pageNumber = 1)
         {
             var bookGenreList = _bookGenreRepository.GetAll().Select(bookGenre => new BookGenreViewModel
             {
                 Id = bookGenre.Id,
-                Name = bookGenre.Name
+                Name = bookGenre.Name,
             });
 
-            return View(bookGenreList.ToList());
+            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+            return View(result);
         }
 
         [HttpGet]
@@ -221,6 +226,14 @@ namespace BookStoreMVC.Controllers
             await _bookGenreRepository.AddAsync(bookGenreModel);
 
             return RedirectToAction("BookGenreIndex");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBookGenre(string bookGenreID)
+        {
+            await _bookGenreRepository.DeleteAsync(bookGenreID);
+            return Ok("BookGenreIndex");
         }
         #endregion
 
