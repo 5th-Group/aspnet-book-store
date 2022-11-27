@@ -14,9 +14,10 @@ namespace BookStoreMVC.Controllers
 
         private readonly ILanguageRepository _languageRepository;
         private readonly ICloudStorage _cloudStorage;
+        private readonly IHelpers _helpersRepository;
         int PAGE_SIZE = 5;
 
-        public AdminController(ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
+        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
         {
             _languageRepository = languageRepository;
             _authorRepository = authorRepository;
@@ -24,6 +25,7 @@ namespace BookStoreMVC.Controllers
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
             _cloudStorage = cloudStorage;
+            _helpersRepository = helpersRepository;
 
         }
 
@@ -49,7 +51,7 @@ namespace BookStoreMVC.Controllers
                 CreatedAt = book.CreatedAt,
                 ImageUri = book.ImageUri,
                 ImageName = book.ImageName,
-                SignedUrl = GenerateSignedUrl(book.ImageName).Result,
+                SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
                 PublishDate = book.PublishDate,
                 Publisher = book.Publisher,
                 Isbn = book.Isbn,
@@ -59,6 +61,10 @@ namespace BookStoreMVC.Controllers
 
 
             var result = PaginatedList<BookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
             return View(result);
         }
 
@@ -67,7 +73,11 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult AddBook()
         {
-            var bookModel = new BookViewModel();
+            var authorList = _authorRepository.GetAll();
+            var bookModel = new BookViewModel
+            {
+                authorsList = authorList
+            };
             return View(bookModel);
         }
 
@@ -103,6 +113,13 @@ namespace BookStoreMVC.Controllers
 
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(string bookId)
+        {
+            await _bookRepository.DeleteAsync(bookId);
+            return RedirectToAction("BookIndex");
+        }
         private string GenerateFileName(string imgFileName)
         {
             var fileName = Path.GetFileNameWithoutExtension(imgFileName);
@@ -111,21 +128,13 @@ namespace BookStoreMVC.Controllers
             return $"{fileName}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{fileExtension}";
         }
 
-        private async Task<string> GenerateSignedUrl(string imgname)
-        {
-            if (string.IsNullOrWhiteSpace(imgname)) return string.Empty;
 
-
-            var signedUrl = await _cloudStorage.GetSignedUrlAsync(imgname);
-
-            return signedUrl;
-        }
 
         #endregion
 
         #region Author
 
-        public IActionResult AuthorIndex()
+        public IActionResult AuthorIndex(int? pageNumber = 1)
         {
             var authorList = _authorRepository.GetAll().Select(author => new AuthorViewModel
             {
@@ -134,8 +143,15 @@ namespace BookStoreMVC.Controllers
                 LastName = author.LastName,
                 Initials = author.Initials,
                 Description = author.Description,
-            }).ToList();
-            return View(authorList);
+            });
+
+
+            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+            return View(result);
         }
 
         [HttpGet]
@@ -160,6 +176,12 @@ namespace BookStoreMVC.Controllers
             await _authorRepository.AddAsync(authorModel);
 
             return RedirectToAction("Index", "Admin");
+        }
+
+        public async Task<IActionResult> DeleteAuthor(string authorId)
+        {
+            await _authorRepository.DeleteAsync(authorId);
+            return RedirectToAction("AuthorIndex");
         }
 
         #endregion
@@ -206,10 +228,19 @@ namespace BookStoreMVC.Controllers
         #region Publisher
 
         [HttpGet]
-        public IActionResult PublisherIndex()
+        public IActionResult PublisherIndex(int? pageIndex)
         {
-            var publishers = _publisherRepository.GetAll().ToArray();
-            return View(publishers);
+            var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
+            {
+                Id = publisher.Id,
+                Contact = publisher.Contact,
+                Name = publisher.Name,
+                Origin = publisher.Origin
+            });
+
+
+            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageIndex ?? 1, PAGE_SIZE);
+            return View(result);
         }
 
         [HttpGet]

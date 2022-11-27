@@ -12,10 +12,10 @@ public class AuthorServices : IAuthorRepository
     {
         var mongoClient = new MongoClient(
             dataAccess.Value.ConnectionString);
-        
+
         var mongoDatabase = mongoClient.GetDatabase(
             dataAccess.Value.DatabaseName);
-        
+
         _authorCollection = mongoDatabase.GetCollection<Author>(
             dataAccess.Value.AuthorCollectionName);
     }
@@ -47,10 +47,8 @@ public class AuthorServices : IAuthorRepository
 
     }
 
-    public Task DeleteAsync(string authorId)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task DeleteAsync(string id) =>
+       await _authorCollection.DeleteOneAsync(x => x.Id == id);
 
     public Task UpdateAsync(string authorId)
     {
