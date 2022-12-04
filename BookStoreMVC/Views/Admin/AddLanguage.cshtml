@@ -1,8 +1,31 @@
 @model BookStoreMVC.ViewModels.LanguageViewModel
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Add Language";
+    Layout = "_LayoutAdmin";
 }
 
-<h2>title</h2>
+<section id="formAddAuthor">
+    <div class=" mx-20 my-10 max-w-fit">
+        <h1 class="mb-7 text-3xl font-bold text-titleText">Add Language</h1>
+        <form asp-action="AddLanguage" class="text-titleText">
+
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Name as></label>
+                <input asp-for=@Model.Name
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Name class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Code as></label>
+                <input asp-for=@Model.Code
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Code class="text-red-700"></span>
+            </div>
+
+            <button type="submit" class="nonBgButton w-full py-2">Add</button>
+        </form>
+    </div>
+
+
+</section>

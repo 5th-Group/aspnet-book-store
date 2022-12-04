@@ -1,6 +1,7 @@
 using BookStoreMVC.DataAccess;
 using BookStoreMVC.Models;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
@@ -12,10 +13,10 @@ public class AuthorServices : IAuthorRepository
     {
         var mongoClient = new MongoClient(
             dataAccess.Value.ConnectionString);
-        
+
         var mongoDatabase = mongoClient.GetDatabase(
             dataAccess.Value.DatabaseName);
-        
+
         _authorCollection = mongoDatabase.GetCollection<Author>(
             dataAccess.Value.AuthorCollectionName);
     }
@@ -24,9 +25,12 @@ public class AuthorServices : IAuthorRepository
         return _authorCollection.Find(_ => true).ToEnumerable();
     }
 
-    public Author GetById(string authorId)
+    public async Task<Author> GetById(string authorId)
     {
-        throw new NotImplementedException();
+        var resutl = await _authorCollection.Find(x => x.Id == authorId).FirstOrDefaultAsync();
+
+
+        return resutl;
     }
     //
     // public Author Add()
@@ -47,10 +51,8 @@ public class AuthorServices : IAuthorRepository
 
     }
 
-    public Task DeleteAsync(string authorId)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task DeleteAsync(string id) =>
+       await _authorCollection.DeleteOneAsync(x => x.Id == id);
 
     public Task UpdateAsync(string authorId)
     {

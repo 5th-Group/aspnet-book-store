@@ -1,0 +1,194 @@
+@{
+    ViewBag.Title = "Cart";
+}
+
+
+<section id="cart">
+    @* <div class="overflow-x-auto relative shadow-md rounded-lg"> *@
+    <div class=" mx-auto text-sm  max-w-7xl container text-left">
+
+        <div class=" flex justify-between mb-6 w-full">
+            <h2 class="text-xl text-titleText font-bold   basis-1/5"></h2>
+            <h2 class="text-xl text-titleText font-bold   basis-1/5">Product</h2>
+            <h2 class="text-xl text-titleText font-bold  pl-10  basis-1/5">QTY</h2>
+            <h2 class="text-xl text-titleText font-bold  basis-1/5">Price</h2>
+            <h2 class="text-xl text-titleText font-bold  basis-1/5">Action</h2>
+        </div>
+
+        <div class="space-y-4 flex flex-col">
+
+
+            <div class="flex  items-center bg-white shadow-md  rounded-lg">
+                <div class="text-left basis-1/5">
+                    <img src="~/img/BoldDime.png" class="w-36 h-24 object-cover rounded-lg" alt="">
+                </div>
+                <div class="text-left basis-1/5 text-titleText  font-bold text-base">
+                    <h1>Brave New World</h1>
+                    <h2 class="text-sm font-light text-normalText">By: Harley T.H.</h2>
+                </div>
+                <div class="flex items-center space-x-3 basis-1/5">
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div>
+                        <input type="number" id="second_product"
+                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="1" required>
+                    </div>
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="text-left basis-1/5 font-bold text-primary text-base">$30.00</h1>
+
+                <a class="basis-1/5 font-medium text-red-500 hover:underline cursor-pointer">Remove</a>
+
+            </div>
+
+            <div class="flex  items-center bg-white shadow-md  rounded-lg">
+                <div class="text-left basis-1/5">
+                    <img src="~/img/BoldDime.png" class="w-36 h-24 object-cover rounded-lg" alt="">
+                </div>
+                <div class="text-left basis-1/5 text-titleText  font-bold text-base">
+                    <h1>Brave New World</h1>
+                    <h2 class="text-sm font-light text-normalText">By: Harley T.H.</h2>
+                </div>
+                <div class="flex items-center space-x-3 basis-1/5">
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div>
+                        <input type="number" id="second_product"
+                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="1" required>
+                    </div>
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="text-left basis-1/5 font-bold text-primary text-base">$30.00</h1>
+
+                <a class="basis-1/5 font-medium text-red-500 hover:underline cursor-pointer">Remove</a>
+
+            </div>
+
+            <div class="flex  items-center bg-white shadow-md  rounded-lg">
+                <div class="text-left basis-1/5">
+                    <img src="~/img/BoldDime.png" class="w-36 h-24 object-cover rounded-lg" alt="">
+                </div>
+                <div class="text-left basis-1/5 text-titleText  font-bold text-base">
+                    <h1>Brave New World</h1>
+                    <h2 class="text-sm font-light text-normalText">By: Harley T.H.</h2>
+                </div>
+                <div class="flex items-center space-x-3 basis-1/5">
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div>
+                        <input type="number" id="second_product"
+                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="1" required>
+                    </div>
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="text-left basis-1/5 font-bold text-primary text-base">$30.00</h1>
+
+                <a class="basis-1/5 font-medium text-red-500 hover:underline cursor-pointer">Remove</a>
+
+            </div>
+
+            <div class="flex  items-center bg-white shadow-md  rounded-lg">
+                <div class="text-left basis-1/5">
+                    <img src="~/img/BoldDime.png" class="w-36 h-24 object-cover rounded-lg" alt="">
+                </div>
+                <div class="text-left basis-1/5 text-titleText  font-bold text-base">
+                    <h1>Brave New World</h1>
+                    <h2 class="text-sm font-light text-normalText">By: Harley T.H.</h2>
+                </div>
+                <div class="flex items-center space-x-3 basis-1/5">
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <div>
+                        <input type="number" id="second_product"
+                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block px-2.5 py-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="1" required>
+                    </div>
+                    <button
+                        class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+                        type="button">
+                        <span class="sr-only">Quantity button</span>
+                        <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+                <h1 class="text-left basis-1/5 font-bold text-primary text-base">$30.00</h1>
+
+                <a class="basis-1/5 font-medium text-red-500 hover:underline cursor-pointer">Remove</a>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    </div>
+</section>

@@ -6,7 +6,7 @@ public interface IAuthorRepository
 {
     IEnumerable<Author> GetAll();
 
-    Author GetById(string authorId);
+    Task<Author> GetById(string authorId);
 
     // Author Add();
 

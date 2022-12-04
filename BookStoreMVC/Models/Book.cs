@@ -23,11 +23,11 @@ public class Book
 
     [BsonRepresentation(BsonType.ObjectId)]
     public IList<string> Genre { get; set; }
-    
+
     // [BsonRepresentation(BsonType.ObjectId)]
     // public IList<string> Type { get; set; }
-    public IEnumerable<string> Type { get; set; } = null!;
-    
+    public IList<string> Type { get; set; } = null!;
+
     [BsonRepresentation(BsonType.DateTime)]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 

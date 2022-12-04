@@ -2,7 +2,66 @@
 
 @{
     ViewBag.Title = "title";
-    Layout = "_Layout";
+    Layout = "_LayoutAdmin";
 }
 
-<h2>title</h2>
+<section id="formAddAuthor">
+    <div class="max-w-fit my-10 mx-20">
+        <h1 class="mb-7 text-3xl font-bold text-titleText">Add Publisher</h1>
+        <form asp-action="AddPublisher" class="text-titleText">
+
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Name as></label>
+                <input asp-for=@Model.Name
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Name class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Contact.Address as></label>
+                <input asp-for=@Model.Contact.Address
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Contact.Address class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Contact.PhoneNumber as></label>
+                <input asp-for=@Model.Contact.PhoneNumber
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Contact.PhoneNumber class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Contact.Twitter as></label>
+                <input asp-for=@Model.Contact.Twitter
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Contact.Twitter class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Contact.Facebook as></label>
+                <input asp-for=@Model.Contact.Facebook
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Contact.Facebook class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Contact.Email as></label>
+                <input asp-for=@Model.Contact.Email
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Contact.Email class="text-red-700"></span>
+            </div>
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.Origin as></label>
+                <input asp-for=@Model.Origin
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.Origin class="text-red-700"></span>
+            </div>
+
+            <button type="submit" class="nonBgButton w-full py-2">Add</button>
+        </form>
+    </div>
+
+
+</section>
+
+@section Scripts{
+@{
+    <partial name="_ValidationScriptsPartial" />
+}
+}
