@@ -1,6 +1,5 @@
-using BookStoreMVC.Models;
 using BookStoreMVC.Services;
-using BookStoreMVC.ViewModels;
+using BookStoreMVC.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreMVC.Controllers
@@ -9,12 +8,14 @@ namespace BookStoreMVC.Controllers
     {
         private readonly IBookRepository _bookRepository;
         private readonly IHelpers _helperRepository;
-        int PAGE_SIZE = 6;
+        // int _pageSize = 6;
+        
         public BookController(IBookRepository bookRepository, IHelpers helpersRepository)
         {
             _bookRepository = bookRepository;
             _helperRepository = helpersRepository;
         }
+        
         [HttpGet("Books")]
         public IActionResult Index(string filter = "_", int? pageNumber = 1)
         {

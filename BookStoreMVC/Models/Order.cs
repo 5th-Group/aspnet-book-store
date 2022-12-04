@@ -8,9 +8,8 @@ public class Order
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
-
-    [BsonElement("productList")]
-    public IList<OrderProducts> ProductList { get; set; } = null!;
+    
+    public IEnumerable<ProductList> ProductList { get; set; } = null!;
     
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 

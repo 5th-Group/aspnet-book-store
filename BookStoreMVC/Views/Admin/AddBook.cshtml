@@ -1,4 +1,4 @@
-@model BookStoreMVC.ViewModels.AddBookViewModel
+@model BookStoreMVC.ViewModels.Book.AddBookViewModel
 
 @{
     ViewBag.Title = "Add Book";
@@ -11,13 +11,13 @@
     <div class=" mx-20 my-10">
         <h1 class="mb-7 text-3xl font-bold text-titleText">Add Book</h1>
         <form asp-action="AddBook" class="text-titleText grid  grid-cols-2 grid-rows-6 w-fit gap-x-32"
-            enctype="multipart/form-data" method="post">
+              enctype="multipart/form-data" method="post">
 
             @* Title *@
             <div class="mb-7 ">
                 <label class="mb-9" asp-for=@Model.Title></label>
                 <input asp-for=@Model.Title
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
                 <span asp-validation-for=@Model.Title class="text-red-700"></span>
             </div>
             @* Title *@
@@ -26,7 +26,7 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.PageCount></label>
                 <input asp-for=@Model.PageCount
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
                 <span asp-validation-for=@Model.PageCount class="text-red-700"></span>
             </div>
             @* Page Count *@
@@ -36,10 +36,10 @@
 
                 <label class="mb-9" asp-for=@Model.Author></label>
                 <select asp-for=@Model.Author
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @if (Model.authorsList != null)
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    @if (Model.AuthorsList != null)
                     {
-                        foreach (var item in Model.authorsList)
+                        foreach (var item in Model.AuthorsList)
                         {
                             <option value=@item.Id>@item.LastName @item.Initials @item.FirstName</option>
                         }
@@ -52,10 +52,10 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Language></label>
                 <select asp-for=@Model.Language
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @if (Model.languageList != null)
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    @if (Model.LanguageList != null)
                     {
-                        foreach (var item in Model.languageList)
+                        foreach (var item in Model.LanguageList)
                         {
                             <option value=@item.Id>@item.Name</option>
                         }
@@ -69,7 +69,7 @@
 
                 <label class="mb-9" asp-for=@Model.PublishDate as></label>
                 <input asp-for=@Model.PublishDate
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
                 <span asp-validation-for=@Model.PublishDate class="text-red-700"></span>
             </div>
             @* Publishdate *@
@@ -78,10 +78,10 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Publisher></label>
                 <select asp-for=@Model.Publisher
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @if (Model.publisherList != null)
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    @if (Model.PublisherList != null)
                     {
-                        foreach (var item in Model.publisherList)
+                        foreach (var item in Model.PublisherList)
                         {
                             <option value=@item.Id>@item.Name</option>
                         }
@@ -94,7 +94,7 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Type></label>
                 <select asp-for=@Model.Type asp-items=@Model.TypeList
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
 
                 </select>
 
@@ -105,10 +105,10 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Genre></label>
                 <select asp-for=@Model.Genre
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @if (Model.genreList != null)
+                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    @if (Model.GenreList != null)
                     {
-                        foreach (var item in Model.genreList)
+                        foreach (var item in Model.GenreList)
                         {
                             <option value=@item.Id>@item.Name</option>
                         }
@@ -134,7 +134,7 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Isbn as></label>
                 <input asp-for=@Model.Isbn
-                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
                 <span asp-validation-for=@Model.Isbn class="text-red-700"></span>
             </div>
             @* ISBN *@
@@ -143,7 +143,8 @@
             @* Image *@
             <div class="mb-7 relative col-span-2">
                 <label asp-for=@Model.Img>
-                    Image</label>
+                    Image
+                </label>
                 <input
                     class="p-2 block w-full text-sm text-gray-900 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none focus:border-primary transition-colors duration-300"
                     asp-for=@Model.Img type="file">
@@ -158,8 +159,6 @@
         </form>
 
     </div>
-
-
 
 
 </section>
