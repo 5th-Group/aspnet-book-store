@@ -12,24 +12,24 @@ public class BookServices : IBookRepository
     private readonly IMongoCollection<Book> _bookCollection;
     public BookServices(IOptions<BookStoreDataAccess> dataAccess)
     {
-        
+
         var mongoClient = new MongoClient(
             dataAccess.Value.ConnectionString);
-        
+
         var mongoDatabase = mongoClient.GetDatabase(
             dataAccess.Value.DatabaseName);
-        
+
         _bookCollection = mongoDatabase.GetCollection<Book>(
             dataAccess.Value.BookCollectionName);
     }
     public IEnumerable<Book> GetAll(string filter)
     {
-        return _bookCollection.Find( filter => true).ToEnumerable();
+        return _bookCollection.Find(filter => true).ToEnumerable();
     }
 
     public Book GetById(string bookId)
     {
-        return _bookCollection.Find( $"_id: {ObjectId.Parse(bookId)}").FirstOrDefault();
+        return _bookCollection.Find($"_id: {ObjectId.Parse(bookId)}").FirstOrDefault();
     }
 
     public IActionResult Add(Book book)
@@ -57,8 +57,6 @@ public class BookServices : IBookRepository
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(string bookId)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task DeleteAsync(string id) =>
+       await _bookCollection.DeleteOneAsync(x => x.Id == id);
 }

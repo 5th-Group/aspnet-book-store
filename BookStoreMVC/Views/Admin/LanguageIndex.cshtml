@@ -1,6 +1,27 @@
+@model PaginatedList<BookStoreMVC.ViewModels.LanguageViewModel>
 @{
-    ViewBag.Title = "Language Index";
-    Layout = "_Layout";
-}
+    ViewBag.Title = "Language";
+    Layout = "_LayoutAdmin";
 
-<h2 class="text-3xl">@ViewBag.Title</h2>
+}
+<section id="languageIndex" class="p-10">
+    <h1 class="text-5xl mb-10  font-bold text-titleText">@ViewBag.Title</h1>
+    <!-- Flex Container -->
+    <div class="overflow-x-auto relative shadow-lg rounded-lg  mx-auto">
+
+        <div>
+            @await Html.PartialAsync("_IndexPartital", Model)
+
+        </div>
+
+
+        @* Button *@
+
+        @await Html.PartialAsync("_ControlBtnPartial", Model)
+
+
+
+    </div>
+
+
+</section>

@@ -14,5 +14,5 @@ public interface IPublisherRepository
 
     Publisher Update(string publisherId);
 
-    Publisher Delete(string publisherId);
+    Task DeleteAsync(string publisherId);
 }

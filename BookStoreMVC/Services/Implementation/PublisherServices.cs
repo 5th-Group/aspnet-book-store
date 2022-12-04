@@ -50,4 +50,7 @@ public class PublisherService : IPublisherRepository
     {
         throw new NotImplementedException();
     }
+
+    public async Task DeleteAsync(string id) =>
+      await _publisherCollection.DeleteOneAsync(x => x.Id == id);
 }

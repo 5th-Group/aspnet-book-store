@@ -1,6 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Books";
-    Layout = "_Layout";
+﻿@model PaginatedList<BookStoreMVC.ViewModels.AddBookViewModel>
+@{
+  ViewData["Title"] = "Books";
+  Layout = "_Layout";
 }
 
 <section id="bookBrowse">
@@ -42,32 +43,29 @@
 
     @* Book Browse *@
     <div class=" basis-3/4 flex flex-wrap gap-10 justify-evenly ">
-      <div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
-        <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src="~/img/BoldDime.png" alt="">
-        <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
-          <div class="w-[300px] h-[230px] p-5 pl-[90px] bg-white shadow-lg rounded-lg flex flex-col ">
-            <h1 class="text-lg  font-bold text-titleText truncate">Brave New World</h1>
-            <h2 class="font-light text-xs text-normalText mb-1 ">By: Harley T.H.</h2>
-            <h2 class="font-light text-sm text-primary  ">* * * * *</h2>
-            <h3 class="text-sm line-clamp-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. luptatem ea
-              ullam
-              est
-              nam
-              optio laborumtt
-              nulla
-              error aspernatur </h3>
-            <h2 class="font-bold text-primary mt-1 mb-2">$30.00</h2>
-            <div class="bgButton py-1">Add to cart</div>
+      @foreach (var item in Model)
+      {
+        <div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
+          <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src="~/img/BoldDime.png" alt="">
+          <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
+            <div class="w-[300px] h-[230px] p-5 pl-[90px] bg-white shadow-lg rounded-lg flex flex-col ">
+              <h1 class="text-lg  font-bold text-titleText truncate">Brave New World</h1>
+              <h2 class="font-light text-xs text-normalText mb-1 ">By: Harley T.H.</h2>
+              <h2 class="font-light text-sm text-primary  ">* * * * *</h2>
+              <h3 class="text-sm line-clamp-2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. luptatem ea
+                ullam
+                est
+                nam
+                optio laborumtt
+                nulla
+                error aspernatur </h3>
+              <h2 class="font-bold text-primary mt-1 mb-2">$30.00</h2>
+              <div class="bgButton py-1">Add to cart</div>
+            </div>
           </div>
         </div>
-      </div>
-      <span class=" w-[460px] h-[280px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
-      <span class=" w-[300px] h-[400px] bg-black "></span>
+      }
+
 
     </div>
     @* End Book Browse *@

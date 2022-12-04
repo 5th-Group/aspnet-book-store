@@ -20,7 +20,7 @@ public class LanguageServices : ILanguageRepository
     }
     public IEnumerable<Language> GetAll()
     {
-        throw new NotImplementedException();
+        return _languageCollection.Find(_ => true).ToEnumerable();
     }
 
     public Language GetById(string languageId)
@@ -46,8 +46,9 @@ public class LanguageServices : ILanguageRepository
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(string languageId)
+    public async Task DeleteAsync(string languageId)
     {
-        throw new NotImplementedException();
+        await _languageCollection.DeleteOneAsync(x => x.Id == languageId);
+
     }
 }
