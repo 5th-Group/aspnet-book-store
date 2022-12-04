@@ -16,7 +16,6 @@ public class AuthorViewModel
     public string LastName { get; set; } = null!;
 
     [DisplayName("Initials")]
-
     public string Initials { get; set; } = string.Empty;
 
 

@@ -1,10 +1,8 @@
-﻿using BookStoreMVC.Models;
+﻿using System.ComponentModel;
+using BookStoreMVC.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
-namespace BookStoreMVC.ViewModels;
-
+namespace BookStoreMVC.ViewModels.Book;
 
 public class AddBookViewModel
 {
@@ -15,18 +13,25 @@ public class AddBookViewModel
     public int PageCount { get; set; }
 
     public string? Author { get; set; }
+    
     public Author? AuthorDisplay { get; set; }
 
-    public IEnumerable<Author>? authorsList { get; set; } = null!;
+    public IEnumerable<Author>? AuthorsList { get; set; } = null!;
 
     public string? Language { get; set; }
 
-    public IEnumerable<Language>? languageList { get; set; } = null!;
+    public IEnumerable<Language>? LanguageList { get; set; } = null!;
+    
     public IList<string> Genre { get; set; } = null!;
-    public IEnumerable<BookGenre>? genreList { get; set; } = null!;
+    
+    public IEnumerable<BookGenre>? GenreList { get; set; } = null!;
+    
     public string? Publisher { get; set; }
-    public IEnumerable<Publisher>? publisherList { get; set; } = null!;
+    
+    public IEnumerable<Publisher>? PublisherList { get; set; } = null!;
+    
     public IList<string> Type { get; set; } = null!;
+    
     public List<SelectListItem> TypeList { get; } = new()
     {
         new SelectListItem("Paperback", "Paperback"),

@@ -1,6 +1,7 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
+using BookStoreMVC.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreMVC.Controllers
@@ -58,21 +59,13 @@ namespace BookStoreMVC.Controllers
                 Description = book.Description
             });
 
-
-
-
             Headers = PropertiesFromType(bookList);
-
-
-
+            
             var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
             }
-
-
-
 
             return View(result);
         }
@@ -80,18 +73,19 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult AddBook()
         {
-            var _authorList = _authorRepository.GetAll();
-            var _genreList = _bookGenreRepository.GetAll();
-            var _languageList = _languageRepository.GetAll();
-            var _publisherList = _publisherRepository.GetAll();
+            var authors = _authorRepository.GetAll();
+            var genres = _bookGenreRepository.GetAll();
+            var languages = _languageRepository.GetAll();
+            var publishers = _publisherRepository.GetAll();
 
             var bookModel = new AddBookViewModel
             {
-                authorsList = _authorList,
-                genreList = _genreList,
-                languageList = _languageList,
-                publisherList = _publisherList
+                AuthorsList = authors,
+                GenreList = genres,
+                LanguageList = languages,
+                PublisherList = publishers
             };
+            
             return View(bookModel);
         }
 
