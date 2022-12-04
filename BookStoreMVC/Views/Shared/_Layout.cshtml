@@ -2,131 +2,140 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BookStoreMVC</title>
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
 
 
 </head>
 
 <body class="font-inter bg-backGr">
-<!-- Navbar -->
-<nav class="relative p-2 px-32  rounded shadow-md w-full">
-    <!-- Flex container -->
-    <div class="flex flex-row items-center justify-between gap-6">
-        <!-- Logo -->
-        <div class="basis-1/4 ">
-            <h1>Logo</h1>
-        </div>
-        <!-- End Logo -->
-        <!-- Menu Items and Search bar-->
-        <div
-            class="basis-2/4  w-full flex justify-between items-center @(ViewBag.Title == "List" ? "pr-[294px]" : "")">
-            <!-- Menu Items -->
-            <a asp-controller="Home" asp-action="Index"
-               class="hover:text-primary hover:font-bold transition-all">
-                Home
-            </a>
-            <a asp-controller="Book" asp-action="Index"
-               class="hover:text-primary hover:font-bold transition-all">
-                Book
-            </a>
-            <a href="#" class="hover:text-primary hover:font-bold transition-all">Community</a>
-            <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
-            <!-- End Menu Items -->
-            <!-- Search bar-->
-            @if (ViewBag.Title != "List")
-            {
-                <div class="relative  items-center">
+    <!-- Navbar -->
+    <nav class="relative p-2 px-32  rounded shadow-md w-full">
+        <!-- Flex container -->
+        <div class="flex flex-row items-center justify-between gap-6">
+            <!-- Logo -->
+            <div class="basis-1/4 ">
+                <h1>Logo</h1>
+            </div>
+            <!-- End Logo -->
+            <!-- Menu Items and Search bar-->
+            <div
+                class="basis-2/4  w-full flex justify-between items-center @(ViewBag.Title == "List" ? "pr-[294px]" : "")">
+                <!-- Menu Items -->
+                <a asp-controller="Home" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
+                    Home
+                </a>
+                <a asp-controller="Book" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
+                    Book
+                </a>
+                <a href="#" class="hover:text-primary hover:font-bold transition-all">Community</a>
+                <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
+                <!-- End Menu Items -->
+                <!-- Search bar-->
+                @if (ViewBag.Title != "List")
+                {
+                    <div class="relative  items-center">
 
 
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                             xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd"
-                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                  clip-rule="evenodd">
-                            </path>
-                        </svg>
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                clip-rule="evenodd">
+                                </path>
+                            </svg>
+                        </div>
+
+
+                        <input type="text"
+                        class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+                        placeholder="Search...">
+
                     </div>
+                }
+
+            </div>
+
+            <button
+                class="inline-flex relative items-center text-sm font-medium text-center hover:-translate-y-1 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 text-primary ">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+
+                <div
+                    class="inline-flex absolute -top-2 -right-2 justify-center items-center w-5 h-5 text-[8px] font-bold text-white bg-red-500 rounded-full border-2 border-white">
+                    20</div>
+            </button>
 
 
-                    <input type="text"
-                           class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
-                           placeholder="Search...">
 
+
+
+
+            <div class="basic-1/4 flex justify-end gap-2">
+                <div>
+                    <button type="button" class="nonBgButton py-2 w-24">Login</button>
                 </div>
-            }
 
-        </div>
-
-
-        <div class="basic-1/4 flex justify-end gap-2">
-            <div>
-                <button type="button" class="nonBgButton py-2 w-24">Login</button>
+                <div>
+                    <button type="button" class="bgButton  py-2 w-24">
+                        Sign
+                        Up
+                    </button>
+                </div>
             </div>
 
-            <div>
-                <button type="button" class="bgButton  py-2 w-24">
-                    Sign
-                    Up
-                </button>
-            </div>
         </div>
+        <!-- End Button login -->
 
+
+    </nav>
+    <!-- End Nav -->
+
+    <!--Main Content-->
+
+    <div class="mx-auto m-10 min-h-screen ">
+        @RenderBody()
     </div>
-    <!-- End Button login -->
+
+    <!-- End Nav -->
 
 
-</nav>
-<!-- End Nav -->
-
-<!--Main Content-->
-
-<div class="mx-auto mt-10 min-h-screen ">
-    @RenderBody()
-</div>
-
-<!-- End Nav -->
-
-<!--Main Content-->
-
-<div class="mx-auto mt-10">
-    @RenderBody()
-</div>
-
-<!--End Main Content-->
-<!--Footer-->
-<footer class="shadow px-6 py-8 bg-primary2-700 text-primary">
-    <div class="flex  justify-between px-24 ">
-        <h1 class="text-xl text-white">Logo</h1>
-        <ul class="flex items-center text-sm  text-white">
-            <li>
-                <a href="#" class="mr-4   hover:underline md:mr-6 ">About</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4  hover:underline md:mr-6">Privacy Policy</a>
-            </li>
-            <li>
-                <a href="#" class="mr-4  hover:underline md:mr-6 ">Licensing</a>
-            </li>
-            <li>
-                <a href="#" class="  hover:underline">Contact</a>
-            </li>
-        </ul>
-    </div>
-    <hr class=" mx-auto border-white my-8"/>
-    <span class="block text-sm text-center text-white">
-        © 2022 <a href="#" class="hover:underline">BookStore</a>. All
-        Rights Reserved.
-    </span>
-</footer>
+    <!--Footer-->
+    <footer class="shadow px-6 py-8 bg-primary2-700 text-primary">
+        <div class="flex  justify-between px-24 ">
+            <h1 class="text-xl text-white">Logo</h1>
+            <ul class="flex items-center text-sm  text-white">
+                <li>
+                    <a href="#" class="mr-4   hover:underline md:mr-6 ">About</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4  hover:underline md:mr-6">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="#" class="mr-4  hover:underline md:mr-6 ">Licensing</a>
+                </li>
+                <li>
+                    <a href="#" class="  hover:underline">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <hr class=" mx-auto border-white my-8" />
+        <span class="block text-sm text-center text-white">
+            © 2022 <a href="#" class="hover:underline">BookStore</a>. All
+            Rights Reserved.
+        </span>
+    </footer>
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

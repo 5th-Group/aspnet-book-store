@@ -16,7 +16,7 @@ namespace BookStoreMVC.Controllers
         private readonly ICloudStorage _cloudStorage;
         private readonly IHelpers _helpersRepository;
         int PAGE_SIZE = 5;
-
+        private IEnumerable<string>? Headers = null!;
         public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
         {
             _languageRepository = languageRepository;
@@ -39,17 +39,17 @@ namespace BookStoreMVC.Controllers
         [HttpGet("Admin/Books/")]
         public IActionResult BookIndex(string filter = "_", int? pageNumber = 1)
         {
-            var bookList = _bookRepository.GetAll(filter).Select(book => new BookViewModel
+            var bookList = _bookRepository.GetAll(filter).Select(book => new IndexBookViewModel
             {
                 Id = book.Id,
                 Title = book.Title,
                 PageCount = book.PageCount,
                 Author = book.Author,
+                AuthorDisplay = _authorRepository.GetById(book.Author).Result,
                 Language = book.Language,
                 Genre = book.Genre,
                 Type = book.Type.ToArray(),
                 CreatedAt = book.CreatedAt,
-                ImageUri = book.ImageUri,
                 ImageName = book.ImageName,
                 SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
                 PublishDate = book.PublishDate,
@@ -60,30 +60,45 @@ namespace BookStoreMVC.Controllers
 
 
 
-            var result = PaginatedList<BookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+
+            Headers = PropertiesFromType(bookList);
+
+
+
+            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
             }
+
+
+
+
             return View(result);
         }
-
-
 
         [HttpGet]
         public IActionResult AddBook()
         {
-            var authorList = _authorRepository.GetAll();
-            var bookModel = new BookViewModel
+            var _authorList = _authorRepository.GetAll();
+            var _genreList = _bookGenreRepository.GetAll();
+            var _languageList = _languageRepository.GetAll();
+            var _publisherList = _publisherRepository.GetAll();
+
+            var bookModel = new AddBookViewModel
             {
-                authorsList = authorList
+                authorsList = _authorList,
+                genreList = _genreList,
+                languageList = _languageList,
+                publisherList = _publisherList
             };
             return View(bookModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(BookViewModel book)
+        public async Task<IActionResult> AddBook(AddBookViewModel book)
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (!ModelState.IsValid) return View(book);
 
             if (book.Img != null)
@@ -115,7 +130,7 @@ namespace BookStoreMVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(string bookId)
+        public async Task<IActionResult> DeleteBook(string bookId)
         {
             await _bookRepository.DeleteAsync(bookId);
             return RedirectToAction("BookIndex");
@@ -126,6 +141,19 @@ namespace BookStoreMVC.Controllers
             var fileExtension = Path.GetExtension(imgFileName);
 
             return $"{fileName}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{fileExtension}";
+        }
+
+        public IEnumerable<string> PropertiesFromType<T>(IEnumerable<T> input)
+        {
+            var item = input.First();
+            var properties = new List<string>();
+
+            foreach (var item2 in item.GetType().GetProperties())
+            {
+                properties.Add(item2.Name);
+            }
+
+            return properties;
         }
 
 
@@ -145,13 +173,14 @@ namespace BookStoreMVC.Controllers
                 Description = author.Description,
             });
 
-
-            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            Headers = PropertiesFromType(authorList);
+            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "authorList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
             }
             return View(result);
+
         }
 
         [HttpGet]
@@ -197,7 +226,8 @@ namespace BookStoreMVC.Controllers
                 Name = bookGenre.Name,
             });
 
-            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE);
+            Headers = PropertiesFromType(bookGenreList);
+            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookGenreList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -233,7 +263,7 @@ namespace BookStoreMVC.Controllers
         public async Task<IActionResult> DeleteBookGenre(string bookGenreID)
         {
             await _bookGenreRepository.DeleteAsync(bookGenreID);
-            return Ok("BookGenreIndex");
+            return RedirectToAction("BookGenreIndex");
         }
         #endregion
 
@@ -241,7 +271,7 @@ namespace BookStoreMVC.Controllers
         #region Publisher
 
         [HttpGet]
-        public IActionResult PublisherIndex(int? pageIndex)
+        public IActionResult PublisherIndex(int? pageNumber)
         {
             var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
             {
@@ -252,7 +282,12 @@ namespace BookStoreMVC.Controllers
             });
 
 
-            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageIndex ?? 1, PAGE_SIZE);
+            Headers = PropertiesFromType(publishers);
+            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "publisherList");
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
             return View(result);
         }
 
@@ -266,6 +301,7 @@ namespace BookStoreMVC.Controllers
 
         [HttpPost]
         public async Task<IActionResult> AddPublisher(PublisherViewModel publisher)
+
         {
             if (!ModelState.IsValid) return View(publisher);
             var document = new Publisher
@@ -279,14 +315,34 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
+        public async Task<IActionResult> DeletePublisher(string publisherId)
+        {
+            await _publisherRepository.DeleteAsync(publisherId);
+            return RedirectToAction("PublisherIndex");
+        }
         #endregion
+
 
         #region Language
         [HttpGet]
-        public IActionResult LanguageIndex()
+        public IActionResult LanguageIndex(int? pageNumber = 1)
         {
-            var publishers = _languageRepository.GetAll().ToArray();
-            return View(publishers);
+            var languageList = _languageRepository.GetAll().Select(language => new LanguageViewModel
+            {
+                Id = language.Id,
+                Code = language.Code,
+                Name = language.Name
+            });
+
+            Headers = PropertiesFromType(languageList);
+            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "languageList");
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+            return View(result);
+
+
         }
 
         [HttpGet]
@@ -311,6 +367,13 @@ namespace BookStoreMVC.Controllers
 
             await _languageRepository.AddAsync(document);
             return RedirectToAction("PublisherIndex");
+        }
+
+
+        public async Task<IActionResult> DeleteLanguage(string languageID)
+        {
+            await _languageRepository.DeleteAsync(languageID);
+            return RedirectToAction("LanguageIndex");
         }
         #endregion
     }

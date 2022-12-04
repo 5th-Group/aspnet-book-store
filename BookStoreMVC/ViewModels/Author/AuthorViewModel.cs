@@ -6,17 +6,17 @@ namespace BookStoreMVC.ViewModels;
 public class AuthorViewModel
 {
     public string? Id { get; set; }
-    
+
     [Required(ErrorMessage = "This field is required !")]
     [DisplayName("First Name")]
     public string FirstName { get; set; } = null!;
-    
+
     [Required(ErrorMessage = "This field is required !")]
     [DisplayName("Last Name")]
     public string LastName { get; set; } = null!;
 
     [DisplayName("Initials")]
-    [Required(ErrorMessage = "This field is required !")]
+
     public string Initials { get; set; } = string.Empty;
 
 

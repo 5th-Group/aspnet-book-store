@@ -1,6 +1,7 @@
 using BookStoreMVC.DataAccess;
 using BookStoreMVC.Models;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
@@ -24,9 +25,12 @@ public class AuthorServices : IAuthorRepository
         return _authorCollection.Find(_ => true).ToEnumerable();
     }
 
-    public Author GetById(string authorId)
+    public async Task<Author> GetById(string authorId)
     {
-        throw new NotImplementedException();
+        var resutl = await _authorCollection.Find(x => x.Id == authorId).FirstOrDefaultAsync();
+
+
+        return resutl;
     }
     //
     // public Author Add()

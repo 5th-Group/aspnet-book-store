@@ -1,0 +1,449 @@
+@{
+    @* Book *@
+    string[] bookHeaders = { "Language", "Genre", "Type" };
+    List<string> bookHeadersList = new List<string>(bookHeaders);
+
+
+    @* Book *@
+
+    @* Author *@
+    string[] authorHeaders = { "Description" };
+    List<string> authorHeadersList = new List<string>(authorHeaders);
+
+    @* Author *@
+
+    @* Language *@
+    string[] languageHeaders = { "Name", "Code" };
+    List<string> languageHeadersList = new List<string>(languageHeaders);
+
+
+    @* Language *@
+
+    @* Book genre *@
+    string[] bookGenreHeaders = { "Name" };
+    List<string> bookGenreHeadersList = new List<string>(bookGenreHeaders);
+
+
+    @* Book genre *@
+
+    @* Publisher *@
+    string[] publisherHeaders = { "Name", "Contact" };
+    List<string> publisherHeadersList = new List<string>(publisherHeaders);
+
+    @* Publisher *@
+}
+
+
+
+@* Search bar *@
+<div class="flex justify-between items-center p-4 bg-white">
+    @* Search bar *@
+    <div>
+        <label for="table-search" class="sr-only">Search</label>
+        <div class="relative">
+
+            @* Icon *@
+            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor"
+                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        clip-rule="evenodd"></path>
+                </svg>
+            </div>
+            @* Icon *@
+
+            @* Input Bar *@
+            <input type="text" id="table-search-users"
+                class="block w-2/3 focus:w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-all duration-300"
+                placeholder="Search...">
+
+            @* Input Bar *@
+        </div>
+    </div>
+    @* Search bar *@
+
+    @if (Model.Type == "bookList")
+    {
+        @* Add Btn *@
+        <form asp-action="AddBook">
+            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+            </button>
+        </form>
+        @* Add Btn *@
+    }
+
+    @if (Model.Type == "authorList")
+    {
+        @* Add Btn *@
+        <form asp-action="AddAuthor">
+            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+            </button>
+        </form>
+        @* Add Btn *@
+    }
+
+    @if (Model.Type == "languageList")
+    {
+        @* Add Btn *@
+        <form asp-action="AddLanguage">
+            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+            </button>
+        </form>
+        @* Add Btn *@
+
+
+    }
+
+    @if (Model.Type == "bookGenreList")
+    {
+        @* Add Btn *@
+        <form asp-action="AddBookGenre">
+            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+            </button>
+        </form>
+        @* Add Btn *@
+
+
+    }
+
+    @if (Model.Type == "publisherList")
+    {
+        @* Add Btn *@
+        <form asp-action="AddPublisher">
+            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+
+            </button>
+        </form>
+        @* Add Btn *@
+
+
+    }
+</div>
+@* End Search bar *@
+
+<table class="w-full text-sm text-left text-gray-400">
+    @* Header *@
+    <thead class="text-xs  uppercase  text-gray-500 bg-gray-100 rounded-md">
+        <tr>
+            @* Book Header *@
+            @if (Model.Type == "bookList" && Model != null)
+            {
+                <th scope="col" class="py-3 px-6">
+                    Book
+                </th>
+                @foreach (var item in Model.Headers)
+                {
+                    foreach (var header in bookHeadersList)
+                    {
+                        if (item == header)
+                        {
+                            <th scope="col" class="py-3 px-6">
+                                @item
+                            </th>
+                        }
+                    }
+                }
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+            }
+            @* Book Header *@
+
+            @* Author Header *@
+            @if (Model.Type == "authorList" && Model != null)
+            {
+                <th scope="col" class="py-3 px-6">
+                    Name
+                </th>
+                @foreach (var item in Model.Headers)
+                {
+                    foreach (var header in authorHeadersList)
+                    {
+                        if (item == header)
+                        {
+                            <th scope="col" class="py-3 px-6 ">
+                                @item
+                            </th>
+                        }
+                    }
+                }
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+            }
+            @* Author Header *@
+
+            @* Language Header *@
+            @if (Model.Type == "languageList" && Model != null)
+            {
+                @foreach (var item in Model.Headers)
+                {
+                    foreach (var header in languageHeadersList)
+                    {
+                        if (item == header)
+                        {
+                            <th scope="col" class="py-3 px-6 ">
+                                @item
+                            </th>
+                        }
+                    }
+                }
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+            }
+            @* Language Header *@
+
+            @* Book Genre Header *@
+            @if (Model.Type == "bookGenreList" && Model != null)
+            {
+                @foreach (var item in Model.Headers)
+                {
+                    foreach (var header in bookGenreHeadersList)
+                    {
+                        if (item == header)
+                        {
+                            <th scope="col" class="py-3 px-6 ">
+                                @item
+                            </th>
+                        }
+                    }
+                }
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+            }
+            @* Book Genre Header *@
+
+            @* Publisher Header *@
+            @if (Model.Type == "publisherList" && Model != null)
+            {
+                @foreach (var item in Model.Headers)
+                {
+                    foreach (var header in publisherHeadersList)
+                    {
+                        if (item == header)
+                        {
+                            <th scope="col" class="py-3 px-6 ">
+                                @item
+                            </th>
+                        }
+                    }
+                }
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+            }
+            @* Publisher Header *@
+
+        </tr>
+    </thead>
+    @* End Header *@
+    <tbody>
+        @* BookList *@
+        @if (Model.Type == "bookList" && Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+
+                    <th scope="row" class="flex items-center py-4 pl-5 whitespace-nowrap ">
+                        <img class="w-20 h-30 rounded-lg" src="@item.SignedUrl">
+                        <div class="pl-3">
+                            <div class="text-base font-semibold text-titleText">@item.Title </div>
+                            <div class="font-normal text-gray-500">@item.AuthorDisplay.FirstName @item.AuthorDisplay.LastName
+                            </div>
+                        </div>
+                    </th>
+                    <td class="py-4 px-6">
+                        @item.Language
+                    </td>
+
+
+                    <td class="py-4 px-6">
+                        genre
+                    </td>
+
+                    <td class="py-4 px-6">
+                        @item.Type
+                    </td>
+                    <td class="py-4 px-6 text-center space-x-2">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-controller="Admin" asp-action="DeleteBook"
+                    asp-route-bookId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }
+        @* BookList *@
+
+        @* Author List *@
+        @if (Model.Type == "authorList" && Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.DisplayName
+                    </td>
+
+
+                    <td class="py-4 px-6">
+                        <p class=" line-clamp-1">@item.Description</p>
+                    </td>
+
+
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-controller="Admin" asp-action="DeleteAuthor"
+                    asp-route-authorId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }
+        @* Author List *@
+
+        @* Book Genre List *@
+        @if (Model.Type == "bookGenreList" && Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Name
+                    </td>
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-controller="Admin" asp-action="DeleteBookGenre"
+                    asp-route-bookGenreId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }
+        @* Book Genre List *@
+
+
+        @* Language List *@
+        @if (Model.Type == "languageList" && Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Name
+                    </td>
+
+
+                    <td class="py-4 px-6">
+                        @item.Code
+                    </td>
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-controller="Admin" asp-action="DeleteLanguage"
+                    asp-route-languageId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }
+        @* Language List *@
+
+
+        @* Publisher List *@
+        @if (Model.Type == "publisherList" && Model != null)
+        {
+
+            foreach (var item in Model)
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Name
+                    </td>
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Contact
+                    </td>
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-controller="Admin" asp-action="DeletePublisher"
+                    asp-route-publisherId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+            }
+        }
+        @* Publisher List *@
+
+    </tbody>
+</table>
+
+@* Not found MSG *@
+<div class="flex justify-center -space-x-px py-4 bg-white ">
+    <h1 class="font-medium text-titleText">@ViewBag.Temp</h1>
+</div>
+@* Not found MSG *@

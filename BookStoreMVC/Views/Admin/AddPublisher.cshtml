@@ -2,11 +2,11 @@
 
 @{
     ViewBag.Title = "title";
-    Layout = "_Layout";
+    Layout = "_LayoutAdmin";
 }
 
 <section id="formAddAuthor">
-    <div class="max-w-fit ml-20">
+    <div class="max-w-fit my-10 mx-20">
         <h1 class="mb-7 text-3xl font-bold text-titleText">Add Publisher</h1>
         <form asp-action="AddPublisher" class="text-titleText">
 
@@ -59,3 +59,9 @@
 
 
 </section>
+
+@section Scripts{
+@{
+    <partial name="_ValidationScriptsPartial" />
+}
+}
