@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +13,8 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+
+    #region Basic
 
     public IActionResult Index()
     {
@@ -30,4 +31,7 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    #endregion
+
 }

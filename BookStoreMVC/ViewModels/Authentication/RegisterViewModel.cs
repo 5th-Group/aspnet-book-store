@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using BookStoreMVC.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStoreMVC.ViewModels;
 
@@ -28,9 +29,17 @@ public class RegisterViewModel
     public string LastName { get; set; } = null!;
 
     [Required(ErrorMessage = "Please choose your gender")]
-    public string[] Gender = { "Male, Female, Other" };
+    public string Gender { get; set; } = string.Empty;
 
+    public IList<SelectListItem> GenderList = new List<SelectListItem>
+    {
+        new SelectListItem("Male", "male"),
+        new SelectListItem("Female", "female"),
+        new SelectListItem("Other", "other")
+    };
 
+    public IEnumerable<UserAddress> Address { get; set; }
+    
     // public IList<UserAddress> Address { get; set; } = null!;
 
     public string Email { get; set; } = null!;
