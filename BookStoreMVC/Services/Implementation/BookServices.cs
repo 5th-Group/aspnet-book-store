@@ -27,9 +27,10 @@ public class BookServices : IBookRepository
         return _bookCollection.Find(filter => true).ToEnumerable();
     }
 
-    public Book GetById(string bookId)
+    public async Task<Book> GetById(string bookId)
     {
-        return _bookCollection.Find($"_id: {ObjectId.Parse(bookId)}").FirstOrDefault();
+        var resutl = await _bookCollection.Find(x => x.Id == bookId).FirstOrDefaultAsync();
+        return resutl;
     }
 
     public IActionResult Add(Book book)

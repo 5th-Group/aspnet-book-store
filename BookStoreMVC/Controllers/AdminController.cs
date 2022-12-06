@@ -18,11 +18,11 @@ namespace BookStoreMVC.Controllers
         private readonly IHelpers _helpersRepository;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        
-        private const int PageSize = 5;
+
+        private const int PageSize = 10;
         private IEnumerable<string>? Headers = null!;
-        
-        
+
+
         public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _languageRepository = languageRepository;
@@ -34,7 +34,6 @@ namespace BookStoreMVC.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _helpersRepository = helpersRepository;
-
         }
 
         public IActionResult Index()
@@ -52,7 +51,6 @@ namespace BookStoreMVC.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 PageCount = book.PageCount,
-                Author = book.Author,
                 AuthorDisplay = _authorRepository.GetById(book.Author).Result,
                 Language = book.Language,
                 Genre = book.Genre,
@@ -67,8 +65,10 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(bookList);
-            
-            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PageSize, Headers, "bookList");
+
+
+
+            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -92,7 +92,7 @@ namespace BookStoreMVC.Controllers
                 LanguageList = languages,
                 PublisherList = publishers
             };
-            
+
             return View(bookModel);
         }
 
@@ -175,7 +175,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(authorList);
-            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PageSize, Headers, "authorList");
+            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "AuthorIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -228,7 +228,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(bookGenreList);
-            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PageSize, Headers, "bookGenreList");
+            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookGenreIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -283,7 +283,7 @@ namespace BookStoreMVC.Controllers
 
 
             Headers = PropertiesFromType(publishers);
-            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PageSize, Headers, "publisherList");
+            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "PublisherIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -334,7 +334,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(languageList);
-            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PageSize, Headers, "languageList");
+            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "LanguageIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -406,7 +406,7 @@ namespace BookStoreMVC.Controllers
             var rolesList = _roleManager.Roles.ToList();
             return View(rolesList);
         }
-        
+
         [HttpGet]
         public IActionResult AddRole() => View();
 
