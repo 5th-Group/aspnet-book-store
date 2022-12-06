@@ -8,10 +8,10 @@ public interface IBookRepository
 {
     IEnumerable<Book> GetAll(string filter);
 
-    Book GetById(string bookId);
+    Task<Book> GetById(string bookId);
 
     // IActionResult Add(Book book);
-    
+
     Task AddAsync(Book book);
 
     // IActionResult Update(Book book);
@@ -21,5 +21,5 @@ public interface IBookRepository
     // IActionResult Delete(string bookId);
 
     Task DeleteAsync(string bookId);
-    
+
 }

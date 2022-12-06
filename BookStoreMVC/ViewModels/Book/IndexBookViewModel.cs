@@ -1,5 +1,4 @@
 using BookStoreMVC.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,7 +13,6 @@ public class IndexBookViewModel
 
     public int PageCount { get; set; }
 
-    public string? Author { get; set; }
     public Author? AuthorDisplay { get; set; }
 
     public string? Language { get; set; }
@@ -33,12 +31,12 @@ public class IndexBookViewModel
     public string? SignedUrl { get; set; }
 
 
-    // [DataType(DataType.Date)]
+    [DataType(DataType.Date)]
     [DisplayName("Publish Date")]
     public DateTime PublishDate { get; set; }
 
     [DisplayName("ISBN")]
     public string? Isbn { get; set; }
-    // [MaxLength(5000)]
+    [MaxLength(5000)]
     public string? Description { get; set; }
 }
