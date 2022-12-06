@@ -2,6 +2,7 @@ using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Book;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreMVC.Controllers
@@ -12,13 +13,17 @@ namespace BookStoreMVC.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
-
         private readonly ILanguageRepository _languageRepository;
         private readonly ICloudStorage _cloudStorage;
         private readonly IHelpers _helpersRepository;
-        int PAGE_SIZE = 5;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        
+        private const int PageSize = 5;
         private IEnumerable<string>? Headers = null!;
-        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
+        
+        
+        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _languageRepository = languageRepository;
             _authorRepository = authorRepository;
@@ -26,6 +31,8 @@ namespace BookStoreMVC.Controllers
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
             _cloudStorage = cloudStorage;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _helpersRepository = helpersRepository;
 
         }
@@ -61,7 +68,7 @@ namespace BookStoreMVC.Controllers
 
             Headers = PropertiesFromType(bookList);
             
-            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PageSize, Headers, "bookList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -168,7 +175,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(authorList);
-            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "authorList");
+            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PageSize, Headers, "authorList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -221,7 +228,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(bookGenreList);
-            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookGenreList");
+            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PageSize, Headers, "bookGenreList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -261,7 +268,6 @@ namespace BookStoreMVC.Controllers
         }
         #endregion
 
-
         #region Publisher
 
         [HttpGet]
@@ -277,7 +283,7 @@ namespace BookStoreMVC.Controllers
 
 
             Headers = PropertiesFromType(publishers);
-            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "publisherList");
+            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PageSize, Headers, "publisherList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -316,7 +322,6 @@ namespace BookStoreMVC.Controllers
         }
         #endregion
 
-
         #region Language
         [HttpGet]
         public IActionResult LanguageIndex(int? pageNumber = 1)
@@ -329,7 +334,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(languageList);
-            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "languageList");
+            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PageSize, Headers, "languageList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -369,6 +374,69 @@ namespace BookStoreMVC.Controllers
             await _languageRepository.DeleteAsync(languageID);
             return RedirectToAction("LanguageIndex");
         }
+        #endregion
+
+        #region User Management
+
+        [HttpGet]
+        public IActionResult UserIndex()
+        {
+            var userList = _userManager.Users.ToList();
+
+            return View(userList);
+        }
+
+        [HttpGet]
+        public IActionResult AddIdentity() => View();
+
+
+        public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
+        {
+            return RedirectToAction();
+        }
+
+
+        #endregion
+
+        #region Role Management
+
+        [HttpGet]
+        public IActionResult RoleIndex()
+        {
+            var rolesList = _roleManager.Roles.ToList();
+            return View(rolesList);
+        }
+        
+        [HttpGet]
+        public IActionResult AddRole() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(Role model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var result = await _roleManager.CreateAsync(new Role
+            {
+                Name = model.Name,
+            });
+
+            if (result.Succeeded)
+            {
+                ViewData["Message"] = $"Role {model.Name} added successfully.";
+            }
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+                return View(model);
+            }
+
+            return RedirectToAction("RoleIndex");
+        }
+
         #endregion
     }
 }

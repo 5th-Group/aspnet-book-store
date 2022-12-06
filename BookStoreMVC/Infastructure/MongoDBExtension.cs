@@ -4,7 +4,7 @@ namespace BookStoreMVC.Infastructure;
 
 public static class MongoDbExtension 
 {
-    public static async Task<TDocument> FetchDBRefAsAsync<TDocument>(this MongoDBRef dbRef, IMongoDatabase database)
+    public static async Task<TDocument> FetchDbRefAsAsync<TDocument>(this MongoDBRef dbRef, IMongoDatabase database)
     {
         var collection = database.GetCollection<TDocument>(dbRef.CollectionName);
 
