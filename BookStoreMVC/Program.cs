@@ -15,6 +15,14 @@ builder.Services.Configure<BookStoreCloudStorage>(
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "SwiftLib";
+    options.IdleTimeout = new TimeSpan(0, 30, 0);
+});
+
 // Singleton DI Resolver
 builder.Services.AddSingleton<ICloudStorage, GoogleStorageServices>();
 
@@ -28,6 +36,9 @@ builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
 builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
 builder.Services.AddScoped<IHelpers, HelperService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 
 builder.Services.AddIdentity<User, Role>()
     .AddMongoDbStores<User, Role, Guid>(
@@ -54,6 +65,9 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
+
 
 
 app.MapControllerRoute(

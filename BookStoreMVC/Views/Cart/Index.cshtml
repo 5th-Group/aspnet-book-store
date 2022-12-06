@@ -1,0 +1,118 @@
+@model ShoppingCart
+@{
+
+    ViewBag.Title = "Cart";
+
+}
+
+
+<section id="cart">
+    @* <div class="overflow-x-auto relative shadow-md rounded-lg"> *@
+    <div class=" mx-auto text-sm  max-w-7xl container text-left">
+
+        @if (@Model.ShoppingCartItems != null && @Model.ShoppingCartItems.Count() > 0)
+        {
+            <div class=" flex justify-between mb-6 w-full">
+                <h2 class="text-base text-titleText font-bold   basis-1/5"></h2>
+                <h2 class="text-base text-titleText font-bold   basis-1/5">Product</h2>
+                <h2 class="text-base text-titleText font-bold  pl-10  basis-1/5">QTY</h2>
+                <h2 class="text-base text-titleText font-bold  basis-1/5">Price</h2>
+                <h2 class="text-base text-titleText font-bold  basis-1/5">Action</h2>
+            </div>
+        }
+
+        <div class="space-y-4 flex flex-col  ">
+
+            @if (@Model.ShoppingCartItems != null && @Model.ShoppingCartItems.Count > 0)
+            {
+                @foreach (var item in Model.ShoppingCartItems)
+                {
+                    var decsDisabled = item.Amount > 1 ? "" : "pointer-events-none bg-gray-200";
+                    <div class="flex  items-center bg-white shadow-md  rounded-lg">
+
+                        @* Img *@
+                        <div class="text-left basis-1/5">
+                            <img src=@item.Book.SignedUrl class="w-36 h-24  object-cover rounded-lg" alt="">
+                        </div>
+                        @* Img *@
+
+                        @* Title *@
+                        <div class="text-left basis-1/5 text-titleText  font-bold text-base">
+                            <h1>@item.Book.Title</h1>
+                            <h2 class="text-sm font-light text-normalText">@item.Book.AuthorDisplay.LastName</h2>
+                        </div>
+                        @* Title *@
+
+                        @* Quantity Button *@
+                        <div class="flex items-center space-x-3 basis-1/5">
+                            @* Decrease *@
+                            <form method="post" asp-controller="Cart" asp-action="AddToCart" asp-route-decs="decs"
+                        asp-route-id=@item.Book.Id>
+                                <button
+                            class="inline-flex @decsDisabled  items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
+                            type="submit">
+                                    <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                    clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </form>
+
+                            @* Decrease *@
+
+                            @* Quantity *@
+                            <div>
+                                <input type="number" id="second_product"
+                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-primary transition-color duration-200 block px-2.5 py-1 "
+                            disabled value=@item.Amount>
+                            </div>
+
+                            @* Quantity *@
+
+                            @* Increase *@
+                            <form method="post" asp-controller="Cart" asp-action="AddToCart" asp-route-incs="incs"
+                        asp-route-id=@item.Book.Id>
+                                <button
+                            class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
+                            type="submit">
+                                    <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd"
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                    clip-rule="evenodd"></path>
+                                    </svg>
+                                </button>
+                            </form>
+
+                            @* Increase *@
+                        </div>
+                        @* Quantity Button *@
+
+                        @* Price *@
+                        <h1 class="text-left basis-1/5 font-bold text-primary text-base">$30.00</h1>
+                        @* Price *@
+
+
+                        <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Cart" asp-action="Remove"
+                    asp-route-id=@item.Book.Id>
+                            <button class="font-medium text-red-500 hover:underline cursor-pointer"
+                        type="submit ">Remove</button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <h1 class=" text-xl font-bold self-center block">No item in Cart!</h1>
+            }
+
+
+
+
+
+
+        </div>
+    </div>
+    </div>
+</section>
