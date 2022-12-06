@@ -150,7 +150,7 @@
     <thead class="text-xs  uppercase  text-gray-500 bg-gray-100 rounded-md">
         <tr>
             @* Book Header *@
-            @if (Model.Type == "bookList" && Model != null)
+            @if (Model.Type == "BookIndex" && Model != null)
             {
                 <th scope="col" class="py-3 px-6">
                     Book
@@ -174,7 +174,7 @@
             @* Book Header *@
 
             @* Author Header *@
-            @if (Model.Type == "authorList" && Model != null)
+            @if (Model.Type == "AuthorIndex" && Model != null)
             {
                 <th scope="col" class="py-3 px-6">
                     Name
@@ -198,7 +198,7 @@
             @* Author Header *@
 
             @* Language Header *@
-            @if (Model.Type == "languageList" && Model != null)
+            @if (Model.Type == "LanguageIndex" && Model != null)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -219,7 +219,7 @@
             @* Language Header *@
 
             @* Book Genre Header *@
-            @if (Model.Type == "bookGenreList" && Model != null)
+            @if (Model.Type == "BookGenreIndex" && Model != null)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -240,7 +240,7 @@
             @* Book Genre Header *@
 
             @* Publisher Header *@
-            @if (Model.Type == "publisherList" && Model != null)
+            @if (Model.Type == "PublisherIndex" && Model != null)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -265,7 +265,7 @@
     @* End Header *@
     <tbody>
         @* BookList *@
-        @if (Model.Type == "bookList" && Model != null)
+        @if (Model.Type == "BookIndex" && Model != null)
         {
 
             foreach (var item in Model)
@@ -310,7 +310,7 @@
         @* BookList *@
 
         @* Author List *@
-        @if (Model.Type == "authorList" && Model != null)
+        @if (Model.Type == "AuthorIndex" && Model != null)
         {
 
             foreach (var item in Model)
@@ -345,7 +345,7 @@
         @* Author List *@
 
         @* Book Genre List *@
-        @if (Model.Type == "bookGenreList" && Model != null)
+        @if (Model.Type == "BookGenreIndex" && Model != null)
         {
 
             foreach (var item in Model)
@@ -374,7 +374,7 @@
 
 
         @* Language List *@
-        @if (Model.Type == "languageList" && Model != null)
+        @if (Model.Type == "LanguageIndex" && Model != null)
         {
 
             foreach (var item in Model)
@@ -408,7 +408,7 @@
 
 
         @* Publisher List *@
-        @if (Model.Type == "publisherList" && Model != null)
+        @if (Model.Type == "PublisherIndex" && Model != null)
         {
 
             foreach (var item in Model)
@@ -421,7 +421,7 @@
                     </td>
 
                     <td class="py-4 px-6 whitespace-nowrap">
-                        @item.Contact
+                        @item.Contact.Email
                     </td>
 
                     <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">

@@ -15,7 +15,7 @@ namespace BookStoreMVC.Controllers
         private readonly ILanguageRepository _languageRepository;
         private readonly ICloudStorage _cloudStorage;
         private readonly IHelpers _helpersRepository;
-        int PAGE_SIZE = 5;
+        int PAGE_SIZE = 10;
         private IEnumerable<string>? Headers = null!;
         public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage)
         {
@@ -26,7 +26,6 @@ namespace BookStoreMVC.Controllers
             _publisherRepository = publisherRepository;
             _cloudStorage = cloudStorage;
             _helpersRepository = helpersRepository;
-
         }
 
         public IActionResult Index()
@@ -44,7 +43,6 @@ namespace BookStoreMVC.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 PageCount = book.PageCount,
-                Author = book.Author,
                 AuthorDisplay = _authorRepository.GetById(book.Author).Result,
                 Language = book.Language,
                 Genre = book.Genre,
@@ -65,7 +63,7 @@ namespace BookStoreMVC.Controllers
 
 
 
-            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -174,7 +172,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(authorList);
-            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "authorList");
+            var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "AuthorIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -227,7 +225,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(bookGenreList);
-            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookGenreList");
+            var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookGenreIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -283,7 +281,7 @@ namespace BookStoreMVC.Controllers
 
 
             Headers = PropertiesFromType(publishers);
-            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "publisherList");
+            var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "PublisherIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
@@ -335,7 +333,7 @@ namespace BookStoreMVC.Controllers
             });
 
             Headers = PropertiesFromType(languageList);
-            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "languageList");
+            var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "LanguageIndex");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
