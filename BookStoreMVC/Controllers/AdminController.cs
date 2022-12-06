@@ -387,10 +387,13 @@ namespace BookStoreMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult SignIn()
         {
-
-
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SignUp()
+        {
             return View();
         }
 
