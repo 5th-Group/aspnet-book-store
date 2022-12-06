@@ -387,6 +387,17 @@ namespace BookStoreMVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult AddIdentity() => View();
 
 
