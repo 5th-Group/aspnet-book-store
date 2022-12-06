@@ -2,6 +2,7 @@ using BookStoreMVC.DataAccess;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
+using Microsoft.AspNetCore.Mvc.Razor;
 using MongoDbGenericRepository;
 
 
@@ -37,6 +38,22 @@ builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
 builder.Services.AddScoped<IHelpers, HelperService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.Configure<RazorViewEngineOptions>(o =>
+        {
+            // {2} is area, {1} is controller,{0} is the action    
+            o.ViewLocationFormats.Clear();
+            o.ViewLocationFormats.Add("/Views/{1}/Author/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/{1}/Book/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/{1}/BookGenre/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/{1}/Language/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/{1}/Publisher/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/{1}/User/{0}" + RazorViewEngine.ViewExtension);
+            o.ViewLocationFormats.Add("/Views/Shared/{0}" + RazorViewEngine.ViewExtension);
+
+
+
+        });
 
 
 

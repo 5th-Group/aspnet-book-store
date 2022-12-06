@@ -1,4 +1,6 @@
+using BookStoreMVC.Models;
 using BookStoreMVC.Services;
+using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Book;
 using Microsoft.AspNetCore.Mvc;
 

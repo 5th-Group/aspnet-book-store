@@ -1,7 +1,7 @@
 @model PaginatedList<BookStoreMVC.ViewModels.IndexBookViewModel>
 @{
-    ViewData["Title"] = "Books";
-    Layout = "_Layout";
+  ViewData["Title"] = "Books";
+  Layout = "_Layout";
 }
 
 <section id="bookBrowse">
@@ -22,34 +22,34 @@
         </div>
 
 
-                <input type="text"
-                       class="block w-full p-2 pl-10 h-12 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
-                       placeholder="Search...">
+        <input type="text"
+          class="block w-full p-2 pl-10 h-12 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+          placeholder="Search...">
 
-            </div>
+      </div>
 
-            <h1 class="text-xl text-titleText font-medium py-5 "> Book Category</h1>
+      <h1 class="text-xl text-titleText font-medium py-5 "> Book Category</h1>
 
-            <a
-                class="text-md  text-titleText  font-light px-5 py-3 rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
-                Thriller
-            </a>
-            <a
-                class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
-                Adventure
-            </a>
-            <a
-                class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
-                Fiction
-            </a>
-            <a
-                class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
-                Action
-            </a>
+      <a
+        class="text-md  text-titleText  font-light px-5 py-3 rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
+        Thriller
+      </a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
+        Adventure
+      </a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
+        Fiction
+      </a>
+      <a
+        class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer">
+        Action
+      </a>
 
 
-        </div>
-        @* End Category *@
+    </div>
+    @* End Category *@
 
     @* Book Browse *@
     <div class=" basis-3/4 flex flex-wrap gap-10 justify-evenly ">
@@ -76,7 +76,7 @@
           </div>
         </div>
         @* End Book Browse *@
-
+      }
     </div>
 
 </section>

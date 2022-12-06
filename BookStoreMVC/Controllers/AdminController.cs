@@ -19,7 +19,7 @@ namespace BookStoreMVC.Controllers
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
 
-        private const int PageSize = 10;
+        private const int PAGE_SIZE = 10;
         private IEnumerable<string>? Headers = null!;
 
 
@@ -390,10 +390,10 @@ namespace BookStoreMVC.Controllers
         public IActionResult AddIdentity() => View();
 
 
-        public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
-        {
-            return RedirectToAction();
-        }
+        // public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
+        // {
+        //     return RedirectToAction();
+        // }
 
 
         #endregion
