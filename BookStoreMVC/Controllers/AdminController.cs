@@ -64,7 +64,10 @@ namespace BookStoreMVC.Controllers
                 Description = book.Description
             });
 
-            Headers = PropertiesFromType(bookList);
+            if (bookList != null)
+            {
+                Headers = PropertiesFromType(bookList);
+            }
 
 
 
@@ -83,7 +86,7 @@ namespace BookStoreMVC.Controllers
             var authors = _authorRepository.GetAll();
             var genres = _bookGenreRepository.GetAll();
             var languages = _languageRepository.GetAll();
-            var publishers = _publisherRepository.GetAll();
+            var publishers = _publisherRepository.GetAll("");
 
             var bookModel = new AddBookViewModel
             {
@@ -173,8 +176,11 @@ namespace BookStoreMVC.Controllers
                 Initials = author.Initials,
                 Description = author.Description,
             });
+            if (authorList != null)
+            {
 
-            Headers = PropertiesFromType(authorList);
+                Headers = PropertiesFromType(authorList);
+            }
             var result = PaginatedList<AuthorViewModel>.Create(authorList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "AuthorIndex");
             if (!result.Any())
             {
@@ -226,8 +232,11 @@ namespace BookStoreMVC.Controllers
                 Id = bookGenre.Id,
                 Name = bookGenre.Name,
             });
+            if (bookGenreList != null)
+            {
 
-            Headers = PropertiesFromType(bookGenreList);
+                Headers = PropertiesFromType(bookGenreList);
+            }
             var result = PaginatedList<BookGenreViewModel>.Create(bookGenreList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookGenreIndex");
             if (!result.Any())
             {
@@ -271,9 +280,9 @@ namespace BookStoreMVC.Controllers
         #region Publisher
 
         [HttpGet]
-        public IActionResult PublisherIndex(int? pageNumber)
+        public IActionResult PublisherIndex(int? pageNumber, string filter)
         {
-            var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
+            var publishers = _publisherRepository.GetAll(filter).Select(publisher => new PublisherViewModel
             {
                 Id = publisher.Id,
                 Contact = publisher.Contact,
@@ -282,9 +291,17 @@ namespace BookStoreMVC.Controllers
             });
 
 
-            Headers = PropertiesFromType(publishers);
+            if (publishers.Any() && publishers != null)
+            {
+                Headers = PropertiesFromType(publishers);
+
+            }
+
+
+
+
             var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "PublisherIndex");
-            if (!result.Any())
+            if (!result.Any() || result == null)
             {
                 ViewBag.Temp = "Not found";
             }
@@ -332,8 +349,11 @@ namespace BookStoreMVC.Controllers
                 Code = language.Code,
                 Name = language.Name
             });
+            if (languageList != null)
+            {
 
-            Headers = PropertiesFromType(languageList);
+                Headers = PropertiesFromType(languageList);
+            }
             var result = PaginatedList<LanguageViewModel>.Create(languageList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "LanguageIndex");
             if (!result.Any())
             {
