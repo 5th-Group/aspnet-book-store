@@ -64,7 +64,7 @@ namespace BookStoreMVC.Controllers
                 Description = book.Description
             });
 
-            if (bookList != null)
+            if (bookList != null && bookList.Any())
             {
                 Headers = PropertiesFromType(bookList);
             }
@@ -86,7 +86,7 @@ namespace BookStoreMVC.Controllers
             var authors = _authorRepository.GetAll();
             var genres = _bookGenreRepository.GetAll();
             var languages = _languageRepository.GetAll();
-            var publishers = _publisherRepository.GetAll("");
+            var publishers = _publisherRepository.GetAll();
 
             var bookModel = new AddBookViewModel
             {
@@ -176,7 +176,7 @@ namespace BookStoreMVC.Controllers
                 Initials = author.Initials,
                 Description = author.Description,
             });
-            if (authorList != null)
+            if (authorList != null && authorList.Any())
             {
 
                 Headers = PropertiesFromType(authorList);
@@ -232,7 +232,7 @@ namespace BookStoreMVC.Controllers
                 Id = bookGenre.Id,
                 Name = bookGenre.Name,
             });
-            if (bookGenreList != null)
+            if (bookGenreList != null && bookGenreList.Any())
             {
 
                 Headers = PropertiesFromType(bookGenreList);
@@ -282,7 +282,7 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult PublisherIndex(int? pageNumber, string filter)
         {
-            var publishers = _publisherRepository.GetAll(filter).Select(publisher => new PublisherViewModel
+            var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
             {
                 Id = publisher.Id,
                 Contact = publisher.Contact,
@@ -349,7 +349,7 @@ namespace BookStoreMVC.Controllers
                 Code = language.Code,
                 Name = language.Name
             });
-            if (languageList != null)
+            if (languageList != null && languageList.Any())
             {
 
                 Headers = PropertiesFromType(languageList);
