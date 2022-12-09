@@ -63,7 +63,7 @@
     </div>
     @* Search bar *@
 
-    @if (Model.Type == "bookList")
+    @if (Model.Type == "BookIndex")
     {
         @* Add Btn *@
         <form asp-action="AddBook">
@@ -77,7 +77,7 @@
         @* Add Btn *@
     }
 
-    @if (Model.Type == "authorList")
+    @if (Model.Type == "AuthorIndex")
     {
         @* Add Btn *@
         <form asp-action="AddAuthor">
@@ -92,7 +92,7 @@
         @* Add Btn *@
     }
 
-    @if (Model.Type == "languageList")
+    @if (Model.Type == "LanguageIndex")
     {
         @* Add Btn *@
         <form asp-action="AddLanguage">
@@ -109,7 +109,7 @@
 
     }
 
-    @if (Model.Type == "bookGenreList")
+    @if (Model.Type == "BookGenreIndex")
     {
         @* Add Btn *@
         <form asp-action="AddBookGenre">
@@ -126,7 +126,7 @@
 
     }
 
-    @if (Model.Type == "publisherList")
+    @if (Model.Type == "PublisherIndex")
     {
         @* Add Btn *@
         <form asp-action="AddPublisher">
