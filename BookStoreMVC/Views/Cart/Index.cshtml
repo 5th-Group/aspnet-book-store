@@ -1,4 +1,4 @@
-@model ShoppingCart
+@model PaginatedList<ShoppingCartItem>
 @{
 
     ViewBag.Title = "Cart";
@@ -8,9 +8,9 @@
 
 <section id="cart">
     @* <div class="overflow-x-auto relative shadow-md rounded-lg"> *@
-    <div class=" mx-auto text-sm  max-w-7xl container text-left">
+    <div class=" mx-auto text-sm  max-w-7xl container text-left mt-10">
 
-        @if (@Model.ShoppingCartItems != null && @Model.ShoppingCartItems.Count() > 0)
+        @if (Model != null && Model.Count() > 0)
         {
             <div class=" flex justify-between mb-6 w-full">
                 <h2 class="text-base text-titleText font-bold   basis-1/5"></h2>
@@ -23,9 +23,9 @@
 
         <div class="space-y-4 flex flex-col  ">
 
-            @if (@Model.ShoppingCartItems != null && @Model.ShoppingCartItems.Count > 0)
+            @if (Model != null && Model.Count() > 0)
             {
-                @foreach (var item in Model.ShoppingCartItems)
+                @foreach (var item in Model)
                 {
                     var decsDisabled = item.Amount > 1 ? "" : "pointer-events-none bg-gray-200";
                     <div class="flex  items-center bg-white shadow-md  rounded-lg">
@@ -104,7 +104,7 @@
             }
             else
             {
-                <h1 class=" text-xl font-bold self-center block">No item in Cart!</h1>
+                <h1 class=" text-3xl font-bold self-center block">No item in Cart!</h1>
             }
 
 

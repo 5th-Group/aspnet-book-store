@@ -63,7 +63,7 @@
     </div>
     @* Search bar *@
 
-    @if (Model.Type == "bookList")
+    @if (Model.Type == "BookIndex")
     {
         @* Add Btn *@
         <form asp-action="AddBook">
@@ -77,7 +77,7 @@
         @* Add Btn *@
     }
 
-    @if (Model.Type == "authorList")
+    @if (Model.Type == "AuthorIndex")
     {
         @* Add Btn *@
         <form asp-action="AddAuthor">
@@ -92,7 +92,7 @@
         @* Add Btn *@
     }
 
-    @if (Model.Type == "languageList")
+    @if (Model.Type == "LanguageIndex")
     {
         @* Add Btn *@
         <form asp-action="AddLanguage">
@@ -109,7 +109,7 @@
 
     }
 
-    @if (Model.Type == "bookGenreList")
+    @if (Model.Type == "BookGenreIndex")
     {
         @* Add Btn *@
         <form asp-action="AddBookGenre">
@@ -126,7 +126,7 @@
 
     }
 
-    @if (Model.Type == "publisherList")
+    @if (Model.Type == "PublisherIndex")
     {
         @* Add Btn *@
         <form asp-action="AddPublisher">
@@ -150,7 +150,7 @@
     <thead class="text-xs  uppercase  text-gray-500 bg-gray-100 rounded-md">
         <tr>
             @* Book Header *@
-            @if (Model.Type == "BookIndex" && Model != null)
+            @if (Model.Type == "BookIndex" && Model.Count > 0)
             {
                 <th scope="col" class="py-3 px-6">
                     Book
@@ -174,7 +174,7 @@
             @* Book Header *@
 
             @* Author Header *@
-            @if (Model.Type == "AuthorIndex" && Model != null)
+            @if (Model.Type == "AuthorIndex" && Model.Count > 0)
             {
                 <th scope="col" class="py-3 px-6">
                     Name
@@ -198,7 +198,7 @@
             @* Author Header *@
 
             @* Language Header *@
-            @if (Model.Type == "LanguageIndex" && Model != null)
+            @if (Model.Type == "LanguageIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -219,7 +219,7 @@
             @* Language Header *@
 
             @* Book Genre Header *@
-            @if (Model.Type == "BookGenreIndex" && Model != null)
+            @if (Model.Type == "BookGenreIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -240,7 +240,7 @@
             @* Book Genre Header *@
 
             @* Publisher Header *@
-            @if (Model.Type == "PublisherIndex" && Model != null)
+            @if (Model.Type == "PublisherIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
                 {
@@ -265,7 +265,7 @@
     @* End Header *@
     <tbody>
         @* BookList *@
-        @if (Model.Type == "BookIndex" && Model != null)
+        @if (Model.Type == "BookIndex" && Model.Count > 0)
         {
 
             foreach (var item in Model)
@@ -310,7 +310,7 @@
         @* BookList *@
 
         @* Author List *@
-        @if (Model.Type == "AuthorIndex" && Model != null)
+        @if (Model.Type == "AuthorIndex" && Model.Count > 0)
         {
 
             foreach (var item in Model)
@@ -345,7 +345,7 @@
         @* Author List *@
 
         @* Book Genre List *@
-        @if (Model.Type == "BookGenreIndex" && Model != null)
+        @if (Model.Type == "BookGenreIndex" && Model.Count > 0)
         {
 
             foreach (var item in Model)
@@ -374,7 +374,7 @@
 
 
         @* Language List *@
-        @if (Model.Type == "LanguageIndex" && Model != null)
+        @if (Model.Type == "LanguageIndex" && Model.Count > 0)
         {
 
             foreach (var item in Model)
@@ -408,7 +408,7 @@
 
 
         @* Publisher List *@
-        @if (Model.Type == "PublisherIndex" && Model != null)
+        @if (Model.Type == "PublisherIndex" && Model.Count > 0)
         {
 
             foreach (var item in Model)

@@ -13,7 +13,7 @@
 <body class="font-inter bg-backGr">
     <div class="flex justify-start gap-5">
         @* Side bar *@
-        <aside class="w-1/4 shadow-xl bg-primary2-800">
+        <aside class="w-1/4   bg-gradient-to-b from-primary to-primary2-400">
             <div class="overflow-y-auto py-4 px-3  h-full ">
                 <a class="flex items-center pl-2.5 mb-5">
                     <img src="https://flowbite.com/docs/images/logo.svg" class="mr-3 h-6 sm:h-7" alt="Flowbite Logo" />
@@ -23,9 +23,9 @@
                     @* Book index *@
                     <li>
                         <a asp-action="BookIndex"
-                            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            class="flex items-center p-2 text-base font-normal  rounded-lg text-white hover:bg-gray-700">
                             <svg aria-hidden="true"
-                                class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                                class="w-6 h-6 text-white transition duration-75  group-hover:text-gray-900 "
                                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                                 <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
@@ -155,30 +155,7 @@
 
 
     <!--Footer-->
-    <footer class="shadow px-6 py-8 bg-primary2-800 text-primary">
-        <div class="flex  justify-between px-24 ">
-            <h1 class="text-xl text-white">Logo</h1>
-            <ul class="flex items-center text-sm  text-white">
-                <li>
-                    <a href="#" class="mr-4   hover:underline md:mr-6 ">About</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4  hover:underline md:mr-6">Privacy Policy</a>
-                </li>
-                <li>
-                    <a href="#" class="mr-4  hover:underline md:mr-6 ">Licensing</a>
-                </li>
-                <li>
-                    <a href="#" class="  hover:underline">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <hr class=" mx-auto border-white my-8" />
-        <span class="block text-sm text-center text-white">
-            © 2022 <a href="#" class="hover:underline">BookStore</a>. All
-            Rights Reserved.
-        </span>
-    </footer>
+    @Html.Partial("_FooterPartial")
 
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
