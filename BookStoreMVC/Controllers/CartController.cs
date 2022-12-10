@@ -13,6 +13,13 @@ namespace BookStoreMVC.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IHelpers _helpersRepository;
 
+        private IList<ShoppingCartItem> cartItemList = new List<ShoppingCartItem>();
+
+        private const int PAGE_SIZE = 10;
+
+        private IEnumerable<string> Headers;
+
+
         public const string CARTKEY = "cart";
         public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository)
         {
@@ -20,20 +27,33 @@ namespace BookStoreMVC.Controllers
             _authorRepository = authorRepository;
             _helpersRepository = helpersRepository;
         }
-        public IActionResult Index()
+        public IActionResult Index(int? pageNumber = 1)
         {
-            var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
-            var shoppingCart = new ShoppingCart
+            IEnumerable<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
+            // var shoppingCart = new ShoppingCart
+            // {
+            //     ShoppingCartItems = cart
+            // };
+
+            if (cart != null)
             {
-                ShoppingCartItems = cart
-            };
-            // ViewBag.total = cart.ShoppingCartItems.Sum(item => item.Book.Price * item.Quantity);
-            if (shoppingCart != null)
-            {
-                return View(shoppingCart);
+                foreach (var item in cart)
+                {
+                    cartItemList.Add(item);
+                }
 
             }
-            return View();
+
+            var result = PaginatedList<ShoppingCartItem>.Create(cartItemList, pageNumber ?? 1, PAGE_SIZE, Headers, "CartIndex");
+            return View(result);
+
+
+            // ViewBag.total = cart.ShoppingCartItems.Sum(item => item.Book.Price * item.Quantity);
+
+
+
+            // return View();
+
         }
 
 
