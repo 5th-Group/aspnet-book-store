@@ -33,13 +33,13 @@ namespace BookStoreMVC.Controllers
 
             if (userByUsername != null && userByEmail != null) ViewData["Message"] = "User does not exist.";
 
-            var result = await _signInManager.PasswordSignInAsync( (userByEmail ?? userByUsername)!, model.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync((userByEmail ?? userByUsername)!, model.Password, true, false);
 
             if (!result.Succeeded) ViewData["Message"] = "Username or password is incorrect";
 
             _logger.LogInformation($"User {userByEmail?.Username ?? userByUsername?.Username} has logged in at {DateTime.Now}");
             ViewData["Message"] = "Logged in successfully";
-            
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -60,7 +60,7 @@ namespace BookStoreMVC.Controllers
                 Gender = model.Gender,
                 Address = model.Address,
                 Email = model.Email,
-                Roles = model.Role,
+                // Roles = model.Role,
                 Country = model.Country,
                 PhoneNumber = model.PhoneNumber
             };

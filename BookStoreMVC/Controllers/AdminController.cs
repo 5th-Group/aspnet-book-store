@@ -409,10 +409,26 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
+            var model = new LoginViewModel();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult SignIn(LoginViewModel model)
+        {
+
             return View();
         }
         [HttpGet]
         public IActionResult SignUp()
+        {
+            var model = new RegisterViewModel();
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public IActionResult SignUp(RegisterViewModel model)
         {
             return View();
         }

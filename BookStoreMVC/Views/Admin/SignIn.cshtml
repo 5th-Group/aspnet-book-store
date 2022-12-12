@@ -1,3 +1,4 @@
+@model BookStoreMVC.ViewModels.LoginViewModel
 @{
     ViewBag.Title = "Login";
     Layout = "_Layout";
@@ -25,23 +26,23 @@
             @* Sign in *@
 
             @* Email *@
-            <div class="space-y-5">
+            <form asp-action="SignIn" method="post" class="space-y-5">
                 <div class="space-y-2">
-                    <label class="text-sm font-medium text-gray-700 tracking-wide">Email</label>
-                    <input
+                    <label asp-for=@Model.Username class="text-sm font-medium text-gray-700 tracking-wide">Email</label>
+                    <input asp-for=@Model.Username
                         class=" w-full text-base px-4 py-2 border-2  border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
-                        type="" placeholder="nbi6731@gmail.com">
+                        type="email" placeholder="nbi6731@gmail.com">
+                    <span asp-validation-for=@Model.Username class="text-red-700"></span>
                 </div>
                 @* Email *@
 
                 @* Password *@
                 <div class="space-y-2">
-                    <label class="mb-5 text-sm font-medium text-gray-700 tracking-wide">
-                        Password
-                    </label>
-                    <input
-                        class="w-full content-center text-base px-4 py-2 border-2   border-gray-300 rounded-lg focus:outline-none focus:border-primary"
-                        type="password" placeholder="Enter your password">
+                    <label asp-for=@Model.Password class="text-sm font-medium text-gray-700 tracking-wide"></label>
+                    <input asp-for=@Model.Password
+                        class=" w-full text-base px-4 py-2 border-2  border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
+                        type="password" placeholder="Enter Password">
+                    <span asp-validation-for=@Model.Password class="text-red-700"></span>
                 </div>
                 @* Password *@
 
@@ -62,9 +63,13 @@
                 <div>
                     <button type="submit"
                         class="w-full flex justify-center bg-primary2-400 hover:bg-primary text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                        Sign in
+                        Sign In
                     </button>
                 </div>
+            </form>
+
+            <div class="mt-9 text-center">
+                <h2>Don't have an account? <a asp-action="SignUp" class="text-primary hover:underline">Sign Up</a></h2>
             </div>
 
         </div>
