@@ -1,14 +1,16 @@
 using AspNetCore.Identity.MongoDbCore.Models;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDbGenericRepository.Attributes;
 
 namespace BookStoreMVC.Models;
 
+[CollectionName("ApplicationUsers")]
 public class User : MongoIdentityUser<Guid>
 {
-    public string Username { get; set; } = null!;
-    
-    public string Password { get; set; } = null!;
+    // public string Username { get; set; } = null!;
+    //
+    // public string Password { get; set; } = null!;
     
     public string FirstName { get; set; } = null!;
     
@@ -18,12 +20,12 @@ public class User : MongoIdentityUser<Guid>
     
     public IEnumerable<UserAddress> Address { get; set; } = null!;
     
-    public string Email { get; set; } = null!;
+    // public string Email { get; set; } = null!;
+    //
+    // public string Roles { get; set; } = null!;
     
-    public string Roles { get; set; } = null!;
-    
-    [BsonRepresentation(BsonType.ObjectId)]
+    // [BsonRepresentation(BsonType.ObjectId)]
     public string? Country { get; set; }
 
-    public string PhoneNumber { get; set; } = null!;
+    // public string PhoneNumber { get; set; } = null!;
 }

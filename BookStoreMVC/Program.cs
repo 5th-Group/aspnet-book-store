@@ -27,6 +27,7 @@ builder.Services.AddSession(options =>
 
 // Singleton DI Resolver
 builder.Services.AddSingleton<ICloudStorage, GoogleStorageServices>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Scoped DI Resolver
 builder.Services.AddScoped<IBookRepository, BookServices>();
@@ -38,11 +39,25 @@ builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
 builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
 builder.Services.AddScoped<IHelpers, HelperService>();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
+// Authorization Policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireUserRole",
+        policyBuilder => policyBuilder.RequireRole("User"));
+    options.AddPolicy("RequireAdminRole",
+        policyBuilder => policyBuilder.RequireRole("Admin"));
+});
 
 
 
-builder.Services.AddIdentity<User, Role>()
+builder.Services.AddIdentity<User, Role>(opts =>
+    {
+        opts.Password.RequiredLength = 8;
+        opts.Password.RequiredUniqueChars = 1;
+        opts.Password.RequireNonAlphanumeric = false;
+    })
     .AddMongoDbStores<User, Role, Guid>(
         builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
         builder.Configuration.GetValue<string>("BookStoreDatabase:DatabaseName"));
@@ -66,6 +81,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseSession();

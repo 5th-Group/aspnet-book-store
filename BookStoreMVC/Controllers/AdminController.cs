@@ -1,6 +1,7 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
+using BookStoreMVC.ViewModels.Admin;
 using BookStoreMVC.ViewModels.Book;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -401,46 +402,56 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult UserIndex()
         {
-            var userList = _userManager.Users.ToList();
+            var userList = _userManager.Users;
 
-            return View(userList);
+            return View(userList.ToList());
         }
-
-        [HttpGet]
-        public IActionResult SignIn()
-        {
-            var model = new LoginViewModel();
-            return View(model);
-        }
-
-        [HttpPost]
-        public IActionResult SignIn(LoginViewModel model)
-        {
-
-            return View();
-        }
-        [HttpGet]
-        public IActionResult SignUp()
-        {
-            var model = new RegisterViewModel();
-            return View(model);
-        }
-
-
-        [HttpPost]
-        public IActionResult SignUp(RegisterViewModel model)
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult AddIdentity() => View();
-
+        
 
         // public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
         // {
         //     return RedirectToAction();
         // }
+
+        [HttpGet]
+        public IActionResult AddUser()
+        {
+            ViewBag.RolesList = _roleManager.Roles.ToArray();
+            
+            var model = new AddUserViewModel();
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(AddUserViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = new User
+            {
+                UserName = model.Username,
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = model.Gender,
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            
+            await _userManager.AddToRoleAsync(user, model.Role);
+
+            return RedirectToAction("UserIndex");
+        }
 
 
         #endregion
@@ -450,8 +461,8 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult RoleIndex()
         {
-            var rolesList = _roleManager.Roles.ToList();
-            return View(rolesList);
+            var rolesList = _roleManager.Roles;
+            return View(rolesList.ToList());
         }
 
         [HttpGet]

@@ -1,6 +1,5 @@
 @model PaginatedList<ShoppingCartItem>
 @{
-
     ViewBag.Title = "Cart";
 
 }
@@ -47,14 +46,15 @@
                         <div class="flex items-center space-x-3 basis-1/5">
                             @* Decrease *@
                             <form method="post" asp-controller="Cart" asp-action="AddToCart" asp-route-decs="decs"
-                        asp-route-id=@item.Book.Id>
+                                  asp-route-id=@item.Book.Id>
                                 <button
-                            class="inline-flex @decsDisabled  items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
-                            type="submit">
+                                    class="inline-flex @decsDisabled  items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
+                                    type="submit">
                                     <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                                    clip-rule="evenodd"></path>
+                                              clip-rule="evenodd">
+                                        </path>
                                     </svg>
                                 </button>
                             </form>
@@ -64,23 +64,24 @@
                             @* Quantity *@
                             <div>
                                 <input type="number" id="second_product"
-                            class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-primary transition-color duration-200 block px-2.5 py-1 "
-                            disabled value=@item.Amount>
+                                       class="bg-gray-50 w-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-primary transition-color duration-200 block px-2.5 py-1 "
+                                       disabled value=@item.Amount>
                             </div>
 
                             @* Quantity *@
 
                             @* Increase *@
                             <form method="post" asp-controller="Cart" asp-action="AddToCart" asp-route-incs="incs"
-                        asp-route-id=@item.Book.Id>
+                                  asp-route-id=@item.Book.Id>
                                 <button
-                            class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
-                            type="submit">
+                                    class="inline-flex items-center p-1 text-sm font-medium text-gray-500 bg-white rounded-full border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
+                                    type="submit">
                                     <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
+                                         xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
-                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                    clip-rule="evenodd"></path>
+                                              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                              clip-rule="evenodd">
+                                        </path>
                                     </svg>
                                 </button>
                             </form>
@@ -95,9 +96,11 @@
 
 
                         <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Cart" asp-action="Remove"
-                    asp-route-id=@item.Book.Id>
+                              asp-route-id=@item.Book.Id>
                             <button class="font-medium text-red-500 hover:underline cursor-pointer"
-                        type="submit ">Remove</button>
+                                    type="submit ">
+                                Remove
+                            </button>
                         </form>
                     </div>
                 }
@@ -113,6 +116,5 @@
 
 
         </div>
-    </div>
     </div>
 </section>

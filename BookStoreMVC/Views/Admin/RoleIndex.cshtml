@@ -1,4 +1,4 @@
-@model System.Collections.Generic.List<BookStoreMVC.Models.Role>
+@model List<BookStoreMVC.Models.Role>
 
 @{
     ViewBag.Title = "title";
@@ -6,3 +6,9 @@
 }
 
 <h2>title</h2>
+@{
+    foreach (var role in Model)
+    {
+        <h3>@role.Name</h3>
+    }
+}

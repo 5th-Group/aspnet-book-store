@@ -1,0 +1,15 @@
+@model List<User>
+
+@{
+    ViewBag.Title = "User Index";
+    Layout = "_Layout";
+}
+
+<h2>title</h2>
+@{
+    foreach (var user in Model)
+    {
+        <h3>@user.Id</h3>
+        <h3>@user.UserName</h3>
+    }
+}
