@@ -106,9 +106,8 @@
                 <label class="mb-9" asp-for=@Model.Genre></label>
                 <select asp-for=@Model.Genre
                         class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @if (Model.GenreList != null)
-                    {
-                        foreach (var item in Model.GenreList)
+                    @{ if (Model.GenreList != null)
+                          foreach (var item in Model.GenreList)
                         {
                             <option value=@item.Id>@item.Name</option>
                         }

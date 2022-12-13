@@ -1,6 +1,7 @@
-@model BookStoreMVC.ViewModels.RegisterViewModel
+@model BookStoreMVC.ViewModels.Authentication.RegisterViewModel
+
 @{
-    ViewBag.Title = "Login";
+    ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
@@ -29,7 +30,7 @@
 
 
 
-            <form class=" grid grid-cols-2 gap-x-3 gap-y-2 " action="" method="post">
+            <form class=" grid grid-cols-2 gap-x-3 gap-y-2 " asp-action="Register" asp-controller="Authentication" method="post">
 
                 @* Lastname *@
                 <div class="">
@@ -78,6 +79,13 @@
 
 
                 @* Address *@
+                <div class="">
+                    <label asp-for=@Model.AddressType class=" text-sm font-medium text-gray-700 tracking-wide"></label>
+                    <input asp-for=@Model.AddressType
+                        class="w-full  text-base px-4 py-2 border-2  border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
+                        type="" placeholder="312 Lac Long Quan">
+                    <span asp-validation-for=@Model.AddressType></span>
+                </div>
                 <div class="">
                     <label asp-for=@Model.Address class=" text-sm font-medium text-gray-700 tracking-wide"></label>
                     <input asp-for=@Model.Address
@@ -147,7 +155,6 @@
                         class="w-full content-center text-base px-4 py-2 border-2   border-gray-300 transition-colors duration-300 rounded-lg focus:outline-none focus:border-primary"
                         type="password" placeholder="Enter your password">
                         @foreach (var item in Model.GenderList)
-
                         {
                             <option value=@item.Value>@item.Text</option>
                         }
@@ -169,7 +176,7 @@
 
 
             <div class="mt-9 text-center">
-                <h2>Already a member? <a asp-action="SignIn" class="text-primary hover:underline">Sign In</a></h2>
+                <h2>Already a member? <a asp-action="Login" class="text-primary hover:underline">Sign In</a></h2>
             </div>
         </div>
     </div>

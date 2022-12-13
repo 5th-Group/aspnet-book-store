@@ -59,9 +59,9 @@ namespace BookStoreMVC.Controllers
         }
 
         [HttpGet("Book/{bookId}")]
-        public IActionResult Detail(string bookId)
+        public async Task<IActionResult> Detail(string bookId)
         {
-            var book = _bookRepository.GetById(bookId);
+            var book = await _bookRepository.GetById(bookId);
             return View(book);
         }
 

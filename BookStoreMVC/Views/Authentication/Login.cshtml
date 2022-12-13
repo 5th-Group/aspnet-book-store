@@ -26,12 +26,12 @@
             @* Sign in *@
 
             @* Email *@
-            <form asp-action="SignIn" method="post" class="space-y-5">
+            <form asp-action="Login" asp-controller="Authentication" method="post" class="space-y-5">
                 <div class="space-y-2">
-                    <label asp-for=@Model.Username class="text-sm font-medium text-gray-700 tracking-wide">Email</label>
+                    <label asp-for=@Model.Username class="text-sm font-medium text-gray-700 tracking-wide">Email or Username</label>
                     <input asp-for=@Model.Username
                         class=" w-full text-base px-4 py-2 border-2  border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
-                        type="email" placeholder="nbi6731@gmail.com">
+                        placeholder="nbi6731@gmail.com">
                     <span asp-validation-for=@Model.Username class="text-red-700"></span>
                 </div>
                 @* Email *@
@@ -69,7 +69,7 @@
             </form>
 
             <div class="mt-9 text-center">
-                <h2>Don't have an account? <a asp-action="SignUp" class="text-primary hover:underline">Sign Up</a></h2>
+                <h2>Don't have an account? <a asp-action="Register" class="text-primary hover:underline">Sign Up</a></h2>
             </div>
 
         </div>

@@ -1,5 +1,6 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
+using BookStoreMVC.ViewModels.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,7 +24,7 @@ namespace BookStoreMVC.Controllers
         [HttpGet]
         public IActionResult Login() => View();
 
-
+        [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -31,20 +32,26 @@ namespace BookStoreMVC.Controllers
             var userByUsername = await _userManager.FindByNameAsync(model.Username);
             var userByEmail = await _userManager.FindByNameAsync(model.Username);
 
-            if (userByUsername != null && userByEmail != null) ViewData["Message"] = "User does not exist.";
+            if (userByUsername is null && userByEmail is null) ViewData["Message"] = "User does not exist.";
 
             var result = await _signInManager.PasswordSignInAsync((userByEmail ?? userByUsername)!, model.Password, true, false);
 
             if (!result.Succeeded) ViewData["Message"] = "Username or password is incorrect";
 
-            _logger.LogInformation($"User {userByEmail?.Username ?? userByUsername?.Username} has logged in at {DateTime.Now}");
+            _logger.LogInformation($"User {userByEmail?.UserName ?? userByUsername?.UserName} has logged in at {DateTime.Now}");
             ViewData["Message"] = "Logged in successfully";
 
             return RedirectToAction("Index", "Home");
         }
 
+        
+        // [Route("/register")]
         [HttpGet]
-        public IActionResult Register() => View();
+        public IActionResult Register()
+        {
+            var model = new RegisterViewModel();
+            return View(model);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -54,23 +61,26 @@ namespace BookStoreMVC.Controllers
             // Data mapping
             var user = new User
             {
-                Username = model.Username,
+                Id = default,
+                UserName = model.Username,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Gender = model.Gender,
-                Address = model.Address,
+                Address = new List<UserAddress>().Append(new UserAddress
+                {
+                    Type = model.AddressType,
+                    Location = model.Address
+                }),
                 Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
                 // Roles = model.Role,
                 Country = model.Country,
-                PhoneNumber = model.PhoneNumber
+                PhoneNumber = model.PhoneNumber,
             };
 
             // Create user async
-            var result = await _userManager.CreateAsync(user, user.Password);
-
-            // Add user to role
-            await _userManager.AddToRoleAsync(user, "User");
-
+            var result = await _userManager.CreateAsync(user, model.Password);
+            
             // Error handling
             if (!result.Succeeded)
             {
@@ -80,7 +90,12 @@ namespace BookStoreMVC.Controllers
                 }
 
             }
+            
+            // Add user to role
+            await _userManager.AddToRoleAsync(user, "User");
 
+            
+            
             ViewData["Message"] = "Account have been created successfully.";
 
             return RedirectToAction("Index", "Home");
