@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,8 +32,11 @@ public class HomeController : Controller
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult Error(int? statusCode = null)
     {
+        if (statusCode is (int)HttpStatusCode.Unauthorized or (int)HttpStatusCode.Forbidden)
+            return RedirectToAction("Login", "Authentication");
+
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 

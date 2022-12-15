@@ -142,7 +142,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        private int isExist(string id)
+        private int IsExist(string id)
         {
             List<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, CARTKEY);
             for (int i = 0; i < cart.Count; i++)

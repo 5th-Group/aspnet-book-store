@@ -6,11 +6,14 @@ using MongoDbGenericRepository.Attributes;
 namespace BookStoreMVC.Models;
 
 [CollectionName("ApplicationUsers")]
-public class User : MongoIdentityUser<Guid>
+public class User : MongoIdentityUser<ObjectId>
 {
     // public string Username { get; set; } = null!;
     //
     // public string Password { get; set; } = null!;
+    // [BsonId]
+    // [BsonRepresentation(BsonType.ObjectId)]
+    // public override string? Id { get; set; }
     
     public string FirstName { get; set; } = null!;
     
