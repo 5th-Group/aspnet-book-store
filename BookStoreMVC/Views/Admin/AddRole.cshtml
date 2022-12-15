@@ -1,4 +1,4 @@
-@model Role
+@model BookStoreMVC.ViewModels.Admin.AddRoleViewModel
 
 @{
     ViewBag.Title = "title";
@@ -6,3 +6,7 @@
 }
 
 <h2>title</h2>
+<form method="post">
+    <input asp-for="@Model.Name"/>
+    <button type="submit">Add</button>
+</form>

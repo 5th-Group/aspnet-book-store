@@ -84,7 +84,7 @@ namespace BookStoreMVC.Controllers
             else
             {
                 var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
-                int index = isExist(id);
+                int index = IsExist(id);
                 if (index != -1)
                 {
                     if (decs == "decs")
@@ -136,7 +136,7 @@ namespace BookStoreMVC.Controllers
         public IActionResult Remove(string id)
         {
             List<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
-            int index = isExist(id);
+            int index = IsExist(id);
             if (index != -1)
             {
                 cart.RemoveAt(index);
@@ -147,7 +147,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        private int isExist(string id)
+        private int IsExist(string id)
         {
             List<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
             for (int i = 0; i < cart.Count; i++)
