@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace BookStoreMVC.Models;
 
-public class ProductList
+public class ProductListItem
 {
     [BsonRepresentation(BsonType.ObjectId)]
     public string ProductDetail { get; set; } = null!;

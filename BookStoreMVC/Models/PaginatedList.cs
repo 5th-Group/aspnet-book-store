@@ -19,8 +19,8 @@ namespace BookStoreMVC.Models
             Headers = headers;
             Type = type;
 
-            StartPage = PageIndex - 5;
-            EndPage = PageIndex + 4;
+            StartPage = PageIndex - 2;
+            EndPage = PageIndex + 2;
             if (StartPage <= 0)
             {
                 EndPage -= (StartPage - 1);
