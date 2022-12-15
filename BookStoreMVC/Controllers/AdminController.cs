@@ -3,6 +3,7 @@ using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Admin;
 using BookStoreMVC.ViewModels.Book;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -413,6 +414,7 @@ namespace BookStoreMVC.Controllers
         //     return RedirectToAction();
         // }
 
+        [Authorize()]
         [HttpGet]
         public IActionResult AddUser()
         {
@@ -469,7 +471,7 @@ namespace BookStoreMVC.Controllers
         public IActionResult AddRole() => View();
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(Role model)
+        public async Task<IActionResult> AddRole(AddRoleViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 

@@ -29,8 +29,8 @@ public class BookServices : IBookRepository
 
     public async Task<Book> GetById(string bookId)
     {
-        var resutl = await _bookCollection.Find(x => x.Id == bookId).FirstOrDefaultAsync();
-        return resutl;
+        return await _bookCollection.Find(x => x.Id == bookId).FirstOrDefaultAsync();
+        
     }
 
     public IActionResult Add(Book book)

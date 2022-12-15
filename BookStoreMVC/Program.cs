@@ -2,8 +2,7 @@ using BookStoreMVC.DataAccess;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
-using Microsoft.AspNetCore.Mvc.Razor;
-using MongoDbGenericRepository;
+using MongoDB.Bson;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +37,9 @@ builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
 builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
+// builder.Services.AddScoped<IPaymentService, VNPPayment>();
+// builder.Services.AddScoped<IPaymentService, MomoPayment>();
+// builder.Services.AddScoped<IPaymentService[]>(_ => new []{builder.Services.AddScoped<PaymentService<>>()});
 builder.Services.AddScoped<IHelpers, HelperService>();
 
 
@@ -51,6 +53,11 @@ builder.Services.AddAuthorization(options =>
 });
 
 
+// Inject Httpclient
+builder.Services.AddHttpClient("momo-payment", client => client.BaseAddress = new Uri("https://test-payment.momo.vn"));
+builder.Services.AddHttpClient("vnp-payment", client => client.BaseAddress = new Uri("https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"));
+
+
 
 builder.Services.AddIdentity<User, Role>(opts =>
     {
@@ -58,7 +65,7 @@ builder.Services.AddIdentity<User, Role>(opts =>
         opts.Password.RequiredUniqueChars = 1;
         opts.Password.RequireNonAlphanumeric = false;
     })
-    .AddMongoDbStores<User, Role, Guid>(
+    .AddMongoDbStores<User, Role, ObjectId>(
         builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
         builder.Configuration.GetValue<string>("BookStoreDatabase:DatabaseName"));
 
@@ -86,6 +93,7 @@ app.UseAuthorization();
 
 app.UseSession();
 
+app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 
 app.MapControllerRoute(
