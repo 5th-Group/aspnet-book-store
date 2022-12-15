@@ -15,17 +15,17 @@ public class RegisterViewModel
     [PasswordPropertyText]
     [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,20}$", ErrorMessage = "Mật khẩu ít nhất 8 kí tự, phải có 1 kí tự đặc biệt, chữ số và kí tự viết hoa")]
     public string Password { get; set; } = null!;
-    
+
     [DisplayName("Confirm Password")]
     [Required(ErrorMessage = "Password confirmation can not be empty")]
     [PasswordPropertyText]
     [Compare("Password", ErrorMessage = "Password does not match")]
     public string ConfirmPassword { get; set; } = null!;
-    
+
     [DisplayName("First Name")]
     [Required(ErrorMessage = "First Name can not be empty")]
     public string FirstName { get; set; } = null!;
-    
+
     [DisplayName("Last Name")]
     [Required(ErrorMessage = "Last Name can not be empty")]
     public string LastName { get; set; } = null!;
@@ -41,6 +41,7 @@ public class RegisterViewModel
     };
 
     // public IEnumerable<UserAddress> Address { get; set; }
+    [DisplayName("Address Type")]
     public string AddressType { get; set; }
 
     public string Address { get; set; }

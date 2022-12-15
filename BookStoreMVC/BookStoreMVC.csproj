@@ -12,6 +12,7 @@
       <PackageReference Include="Google.Cloud.Storage.V1" Version="4.1.0" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
       <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+      <PackageReference Include="Stripe.net" Version="41.2.0" />
     </ItemGroup>
 
     <ItemGroup>
