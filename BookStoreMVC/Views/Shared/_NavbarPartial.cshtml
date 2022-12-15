@@ -58,11 +58,11 @@
 
         <div class="basic-1/4 flex justify-end gap-2">
             <div>
-                <button asp-action="Login" asp-controller="Authentication" type="button" class="nonBgButton py-2 w-24">Login</button>
+                <button onclick="location.href='@Url.Action("Login", "Authentication")'" type="button" class="nonBgButton py-2 w-24">Login</button>
             </div>
 
             <div>
-                <button asp-action="Register" asp-controller="Authentication"  type="button" class="bgButton  py-2 w-24">Sign Up</button>
+                <button onclick="location.href='@Url.Action("Register", "Authentication")'"  type="button" class="bgButton  py-2 w-24">Sign Up</button>
             </div>
         </div>
 

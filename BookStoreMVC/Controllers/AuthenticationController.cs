@@ -61,7 +61,6 @@ namespace BookStoreMVC.Controllers
             // Data mapping
             var user = new User
             {
-                Id = default,
                 UserName = model.Username,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
@@ -93,7 +92,6 @@ namespace BookStoreMVC.Controllers
             
             // Add user to role
             await _userManager.AddToRoleAsync(user, "User");
-
             
             
             ViewData["Message"] = "Account have been created successfully.";
