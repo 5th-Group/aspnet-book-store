@@ -12,10 +12,10 @@
 
 
 
-<nav class="relative p-2 px-32  rounded shadow-md w-full">
+<nav class="relative p-2 px-32   shadow-md w-full">
 
     <!-- Flex container -->
-    <div class="flex flex-row items-center justify-between gap-6">
+    <div class="flex flex-row items-center h-[44px] justify-between gap-6">
         <!-- Logo -->
         <div class="basis-1/4 ">
             <h1>Logo</h1>
@@ -93,7 +93,7 @@
                 <div class="flex items-center gap-2">
                     <span>
                         Hello,
-                        <a asp-controller="User" asp-action="Index">@User.Identity.Name</a>
+                        <a asp-controller="User" asp-action="Index" class="hover:text-primary">@User.Identity.Name</a>
 
                     </span>
                     <div class="w-7 h-7 bg-primary rounded-full flex justify-center items-center text-white">

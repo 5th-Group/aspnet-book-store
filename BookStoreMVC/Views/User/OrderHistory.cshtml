@@ -1,3 +1,4 @@
+@model IEnumerable<Order>
 @{
     ViewData["Title"] = "Order History";
     Layout = "_Layout";
@@ -71,26 +72,61 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="bg-white border-b   hover:bg-gray-50 ">
+                        @foreach (var order in Model)
+                        {
+                            <tr class="bg-white border-b   hover:bg-gray-50 ">
 
-                            <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
-                                190122
-                            </th>
-                            <td class="py-4 px-6">
-                                12/8/2022
-                            </td>
-                            <td class="text-green-500 font-medium py-4 px-6">
-                                Paid
-                            </td>
-                            <td class="py-4 px-6 font-medium text-primary">
-                                $2999
-                            </td>
-                            <td class="py-4 px-6">
-                                <a href="#"
+
+
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                                    @order.Id
+                                </th>
+                                <td class="py-4 px-6">
+                                    @order.CreatedAt.ToString("dd/MM/yyyy")
+                                </td>
+                                @if (order.Status == "Paid")
+                                {
+                                    <td class="text-green-600 font-bold py-4 px-6">
+                                        <div
+                                    class=" flex gap-1  px-2 py-1 pr-3 rounded-lg bg-green-100 w-fit  items-center justify-center">
+
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4.5 12.75l6 6 9-13.5" />
+                                            </svg>
+
+
+                                            <span class="">@order.Status</span>
+                                        </div>
+
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="text-red-600 font-bold py-4 px-6">
+                                        <div
+                                    class=" flex gap-1  px-2 py-1 pr-3 rounded-lg bg-red-100 w-fit  items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="w-5 h-5 ">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            <span>@order.Status</span>
+                                        </div>
+                                    </td>
+                                }
+                                <td class="py-4 px-6 font-medium text-primary">
+                                    $9999
+                                </td>
+                                <td class="py-4 px-6">
+                                    <a href="#"
                                     class="font-medium text-normalText hover:text-white transition-colors duration-200  hover:bg-primary  p-2 rounded-lg border-2 border-primary">Cancel
-                                    Order</a>
-                            </td>
-                        </tr>
+                                        Order</a>
+                                </td>
+                            </tr>
+                        }
+
 
                     </tbody>
                 </table>

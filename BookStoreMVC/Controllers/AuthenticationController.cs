@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Authentication;
@@ -19,6 +20,8 @@ namespace BookStoreMVC.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+
 
         #region User Authentication
 
@@ -106,6 +109,38 @@ namespace BookStoreMVC.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("User", "ChangePassword");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                TempData["error"] = "Không tìm thấy user";
+                return View();
+            }
+
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["success"] = "Cập nhật mật khẩu thành công";
+            }
+            else
+            {
+                TempData["error"] = "Cập nhật mật khẩu thất bại";
+            }
+            return RedirectToAction("User", nameof(ChangePassword));
+        }
+
 
         #endregion
     }

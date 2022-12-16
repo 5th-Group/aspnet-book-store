@@ -1,11 +1,11 @@
-using System.Diagnostics;
-using System.Security.Claims;
+
 using BookStoreMVC.Models;
+using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace BookStoreMVC.Controllers;
 
@@ -15,13 +15,20 @@ public class UserController : Controller
 
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IOrderRepository _orderRepository;
 
 
-    public UserController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager)
+    public UserController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager, IOrderRepository orderRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _logger = logger;
+        _orderRepository = orderRepository;
+    }
+
+    public string GetCartKey()
+    {
+        return User.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 
     #region Basic
@@ -51,14 +58,18 @@ public class UserController : Controller
     [HttpGet]
     public IActionResult ChangePassword()
     {
-        return View();
+        var model = new ChangePasswordViewModel();
+        return View(model);
     }
     [Authorize("RequireUserRole")]
     [HttpGet]
     public IActionResult OrderHistory()
     {
-        return View();
+        IEnumerable<Order> orderList = _orderRepository.GetByUserId(GetCartKey());
+
+        return View(orderList);
     }
+
 
 
 

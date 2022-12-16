@@ -3,6 +3,7 @@
 );
 
 let elements;
+var payment_intent = {};
 var base_url = window.location.origin;
 
 initialize();
@@ -17,7 +18,9 @@ async function initialize() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
   });
-  const { clientSecret } = await response.json();
+  payment_intent = await response.json();
+
+  const { clientSecret } = payment_intent;
 
   const appearance = {
     theme: "stripe",
@@ -35,6 +38,7 @@ async function initialize() {
 async function handleSubmit(e) {
   e.preventDefault();
   setLoading(true);
+  const { paymentIntent_id } = payment_intent;
 
   const { error } = await stripe.confirmPayment({
     elements,
@@ -50,7 +54,9 @@ async function handleSubmit(e) {
   // redirected to the `return_url`.
 
   if (error) {
-    window.location.replace(`${base_url}/payments/failed`);
+    window.location.replace(
+      `${base_url}/payments/failed?paymentIntent_id=${paymentIntent_id}`
+    );
   }
 
   setLoading(false);
