@@ -1,4 +1,19 @@
+@using Microsoft.AspNetCore.Identity;
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
+@{
+
+    string letter = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        letter = UserManager.GetUserAsync(User).Result.LastName.Substring(0, 1);
+    };
+}
+
+
+
 <nav class="relative p-2 px-32  rounded shadow-md w-full">
+
     <!-- Flex container -->
     <div class="flex flex-row items-center justify-between gap-6">
         <!-- Logo -->
@@ -48,31 +63,45 @@
 
         </div>
 
-        <a asp-controller="Cart" asp-action="Index"
-            class="inline-flex relative items-center text-sm font-medium text-center hover:-translate-y-1 duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6 text-primary ">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-            </svg>
-            @await Html.PartialAsync("_CartSummaryPartial")
+        <div class="basic-1/4 flex gap-5 justify-end gap-2">
+            <a asp-controller="Cart" asp-action="Index"
+                class="inline-flex relative items-center text-sm font-medium text-center hover:-translate-y-1 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6 text-primary ">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+                @await Html.PartialAsync("_CartSummaryPartial")
 
-        </a>
+            </a>
+            @if (!SignInManager.IsSignedIn(User))
+            {
 
-        <div class="basic-1/4 flex justify-end gap-2">
-            <div>
-                <button onclick="location.href='@Url.Action("Login", "Authentication")'" type="button"
+                <div>
+                    <button onclick="location.href='@Url.Action("Login", "Authentication")'" type="button"
                     class="nonBgButton py-2 w-24">Login</button>
-                            </div>
-
-            <div>
-            <button onclick="location.href='@Url.Action("Register", "Authentication")'" type="button"
-                class="bgButton  py-2 w-24">Sign Up</button>
-           <iv>
-      </div>
-
-/div>
-<!-- End Flex container -->
 
 
+
+                    <button onclick="location.href='@Url.Action("Register", "Authentication")'" type="button"
+                    class="bgButton  py-2 w-24">Sign Up</button>
+                </div>
+
+            }
+            else
+            {
+                <div class="flex items-center gap-2">
+                    <span>
+                        Hello,
+                        <a asp-controller="User" asp-action="Index">@User.Identity.Name</a>
+
+                    </span>
+                    <div class="w-7 h-7 bg-primary rounded-full flex justify-center items-center text-white">
+                        <span>@letter</span>
+                    </div>
+                </div>
+            }
+            <!-- End Flex container -->
+        </div>
+    </div>
 </nav>

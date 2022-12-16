@@ -15,6 +15,7 @@
 .bgButton {
   @apply align-middle text-white transition-all bg-primary border-primary border-2  hover:opacity-70 rounded-lg  text-center hover:-translate-y-1 duration-300;
 }
+
 #payment-message {
   color: rgb(105, 115, 134);
   font-size: 16px;
@@ -65,6 +66,7 @@
   -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
 }
+
 .spinner:after {
   @apply bg-primary;
   width: 10.4px;
