@@ -1,6 +1,7 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,8 +45,8 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
-        // [Route("/register")]
+
+        [Route("/register")]
         [HttpGet]
         public IActionResult Register()
         {
@@ -79,7 +80,7 @@ namespace BookStoreMVC.Controllers
 
             // Create user async
             var result = await _userManager.CreateAsync(user, model.Password);
-            
+
             // Error handling
             if (!result.Succeeded)
             {
@@ -89,17 +90,22 @@ namespace BookStoreMVC.Controllers
                 }
 
             }
-            
+
             // Add user to role
             await _userManager.AddToRoleAsync(user, "User");
-            
-            
+
+
             ViewData["Message"] = "Account have been created successfully.";
 
             return RedirectToAction("Index", "Home");
         }
-
-
+        [Authorize("RequireUserRole")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
         #endregion
     }
