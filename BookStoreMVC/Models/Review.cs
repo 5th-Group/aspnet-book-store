@@ -9,6 +9,9 @@ public class Review
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
 
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string ProductId { get; set; } = null!;
+
     public string Comment { get; set; } = null!;
 
     [BsonRepresentation(BsonType.ObjectId)]

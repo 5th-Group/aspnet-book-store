@@ -35,9 +35,9 @@ public class RegisterViewModel
 
     public IList<SelectListItem> GenderList = new List<SelectListItem>
     {
-        new("Male", "male"),
-        new("Female", "female"),
-        new("Other", "other")
+        new("Male", "Male"),
+        new("Female", "Female"),
+        new("Other", "Other")
     };
 
     // public IEnumerable<UserAddress> Address { get; set; }
