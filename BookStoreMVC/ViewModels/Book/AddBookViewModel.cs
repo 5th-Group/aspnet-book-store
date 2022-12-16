@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using BookStoreMVC.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Build.Framework;
 
 namespace BookStoreMVC.ViewModels.Book;
 
@@ -59,4 +60,13 @@ public class AddBookViewModel
     public string? Isbn { get; set; }
     // [MaxLength(5000)]
     public string? Description { get; set; }
+
+    [Required]
+    public decimal HardcoverPrice { get; set; }
+    
+    [Required]
+    public decimal PaperbackPrice { get; set; }
+    
+    [Required]
+    public decimal EbookPrice { get; set; }
 }

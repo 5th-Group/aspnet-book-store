@@ -6,6 +6,8 @@ using BookStoreMVC.ViewModels.Book;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDbGenericRepository.Utils;
 
 namespace BookStoreMVC.Controllers
 {
@@ -16,6 +18,7 @@ namespace BookStoreMVC.Controllers
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
+        private readonly IProductRepository _productRepository;
         private readonly ICloudStorage _cloudStorage;
         private readonly IHelpers _helpersRepository;
         private readonly UserManager<User> _userManager;
@@ -25,7 +28,7 @@ namespace BookStoreMVC.Controllers
         private IEnumerable<string>? Headers = null!;
 
 
-        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager, IProductRepository productRepository)
         {
             _languageRepository = languageRepository;
             _authorRepository = authorRepository;
@@ -35,6 +38,7 @@ namespace BookStoreMVC.Controllers
             _cloudStorage = cloudStorage;
             _userManager = userManager;
             _roleManager = roleManager;
+            _productRepository = productRepository;
             _helpersRepository = helpersRepository;
         }
 
@@ -102,34 +106,59 @@ namespace BookStoreMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(AddBookViewModel book)
+        public async Task<IActionResult> AddBook(AddBookViewModel model)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
-            if (!ModelState.IsValid) return View(book);
+            if (!ModelState.IsValid) return View(model);
 
-            if (book.Img != null)
+            if (model.Img != null)
             {
-                book.ImageName = GenerateFileName(book.Img.FileName);
-                book.ImageUri = await _cloudStorage.UploadFileAsync(book.Img, book.ImageName);
+                model.ImageName = GenerateFileName(model.Img.FileName);
+                model.ImageUri = await _cloudStorage.UploadFileAsync(model.Img, model.ImageName);
             }
 
-            var model = new Book
+            var book = new Book
             {
-                Title = book.Title,
-                PageCount = book.PageCount,
-                Author = book.Author,
-                Language = book.Language,
-                Genre = book.Genre,
-                Type = book.Type,
-                ImageUri = book.ImageUri ?? string.Empty,
-                ImageName = book.ImageName ?? string.Empty,
-                PublishDate = book.PublishDate,
-                Publisher = book.Publisher,
-                Isbn = book.Isbn ?? string.Empty,
-                Description = book.Description ?? string.Empty,
+                Id = IdGenerator.GetId<ObjectId>().ToString(),
+                Title = model.Title,
+                PageCount = model.PageCount,
+                Author = model.Author,
+                Language = model.Language,
+                Genre = model.Genre,
+                Type = model.Type,
+                ImageUri = model.ImageUri ?? string.Empty,
+                ImageName = model.ImageName ?? string.Empty,
+                PublishDate = model.PublishDate,
+                Publisher = model.Publisher,
+                Isbn = model.Isbn ?? string.Empty,
+                Description = model.Description ?? string.Empty,
             };
 
-            await _bookRepository.AddAsync(model);
+            // var doc = BsonDocument.Create(model);
+            await _bookRepository.AddAsync(book);
+
+            var product = new Product
+            {
+                BookId = book.Id,
+                BasePrice = new PriceStruct
+                {
+                    Hardcover = model.HardcoverPrice,
+                    Paperback = model.PaperbackPrice,
+                    Ebook = model.EbookPrice
+                },
+                CurrentPrice = new PriceStruct
+                {
+                    Hardcover = model.HardcoverPrice,
+                    Paperback = model.PaperbackPrice,
+                    Ebook = model.EbookPrice
+                },
+                CreatedDate = DateTime.Now,
+                ExpireDate = DateTime.Now,
+                AverageScore = 0
+            };
+
+            await _productRepository.AddAsync(product);
+
             return RedirectToAction("BookIndex");
 
         }
