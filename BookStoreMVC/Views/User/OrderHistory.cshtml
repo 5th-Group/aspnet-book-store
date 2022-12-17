@@ -50,7 +50,7 @@
 
                 @* Search bar *@
 
-                <table class="w-full text-sm text-left text-gray-500 ">
+                <table class=" table-auto text-sm text-left text-gray-500 whitespace-nowrap ">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
                         <tr>
 
@@ -77,8 +77,7 @@
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
 
 
-
-                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap ">
+                                <th scope="row" class="py-4 px-6 font-medium text-gray-900 ">
                                     @order.Id
                                 </th>
                                 <td class="py-4 px-6">
@@ -116,8 +115,8 @@
                                         </div>
                                     </td>
                                 }
-                                <td class="py-4 px-6 font-medium text-primary">
-                                    $9999
+                                <td class="py-4 px-6 align-middle max-w-[10rem] font-bold truncate  text-primary ">
+                                    @order.TotalPrice.ToString("#,##") đ
                                 </td>
                                 <td class="py-4 px-6">
                                     <a href="#"

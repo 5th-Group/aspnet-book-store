@@ -16,6 +16,7 @@ namespace BookStoreMVC.Controllers
         private readonly IConfiguration _configuration;
         private readonly IOrderRepository _orderRepository;
         private readonly UserManager<User> _userManager;
+
         public PaymentsController(IConfiguration configuration, IOrderRepository orderRepository, UserManager<User> userManager)
         {
             _userManager = userManager;
@@ -23,6 +24,11 @@ namespace BookStoreMVC.Controllers
             _configuration = configuration;
             StripeConfiguration.ApiKey = _configuration.GetValue<string>(
                 "Stripe:SecretKey");
+        }
+
+        public string GetCartKey()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
         public IActionResult Payment()
@@ -33,13 +39,27 @@ namespace BookStoreMVC.Controllers
         {
             return View();
         }
+        private int TotalPriceCalc(IList<ProductListItem> list)
+        {
+            decimal toltal = 0;
+            foreach (var item in list)
+            {
+                toltal += item.TotalPrice;
+            }
+            return Convert.ToInt32(toltal);
+        }
+
         [HttpPost("create-payment-intent")]
         public ActionResult Create()
         {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
+
+
             var paymentIntentService = new PaymentIntentService();
             var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
             {
-                Amount = 300000,
+                Amount = TotalPriceCalc(cart),
                 Currency = "vnd",
                 AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
                 {
@@ -48,7 +68,7 @@ namespace BookStoreMVC.Controllers
 
             });
 
-            return Json(new { clientSecret = paymentIntent.ClientSecret });
+            return Json(new { clientSecret = paymentIntent.ClientSecret, paymentIntent_id = paymentIntent.Id });
         }
 
         [HttpGet]
@@ -57,9 +77,7 @@ namespace BookStoreMVC.Controllers
         {
             if (string.IsNullOrEmpty(payment_intent))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                ViewBag.Result = userId;
-                return View();
+                return NotFound();
             }
 
 
@@ -70,14 +88,13 @@ namespace BookStoreMVC.Controllers
 
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, CartController.CARTKEY);
-
-
+                var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
 
                 var order = new Order
                 {
                     Customer = userId,
-                    ProductList = cart
+                    ProductList = cart,
+                    TotalPrice = Convert.ToDecimal(TotalPriceCalc(cart))
                 };
 
 
@@ -108,9 +125,45 @@ namespace BookStoreMVC.Controllers
             }
         }
 
-        public IActionResult Failed()
+
+
+
+        public async Task<IActionResult> Failed([FromQuery] string paymentIntent_id)
         {
-            return View();
+            if (string.IsNullOrEmpty(paymentIntent_id))
+            {
+                ViewBag.Result = "Nothing here, go back!";
+                return View();
+            }
+
+
+            try
+            {
+                var paymentIntentService = new PaymentIntentService();
+                PaymentIntent result = await paymentIntentService.GetAsync(paymentIntent_id);
+
+                string userId = GetCartKey();
+
+                var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
+
+                var order = new Order
+                {
+                    Customer = userId,
+                    ProductList = cart,
+                    Status = "Failed"
+                };
+
+                await _orderRepository.AddAsync(order);
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+
+                ViewBag.Result = ex.Message;
+
+                return View();
+            }
         }
     }
 
