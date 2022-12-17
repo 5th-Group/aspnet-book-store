@@ -10,13 +10,21 @@ public class Product
     public string? Id { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    [BsonElement("Detail")]
     public string BookId { get; set; } = null!;
 
-    public decimal Cost { get; set; }
+    // public decimal Cost { get; set; }
 
-    public decimal Price { get; set; }
+    public PriceStruct BasePrice { get; set; }
     
-    [BsonRepresentation(BsonType.ObjectId)]
-    public IList<string>? Reviews { get; set; }
+    public PriceStruct CurrentPrice { get; set; }
+
+    public DateTime CreatedDate { get; set; }
+    
+    public DateTime ExpireDate { get; set; }
+
+    // [BsonRepresentation(BsonType.ObjectId)]
+    // public IList<string>? Reviews { get; set; }
+
+    public float AverageScore { get; set; }
+    
 }

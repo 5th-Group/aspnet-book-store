@@ -38,8 +38,21 @@ builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
 builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
-// builder.Services.AddScoped<IPaymentService, VNPPayment>();
-// builder.Services.AddScoped<IPaymentService, MomoPayment>();
+builder.Services.AddScoped<IPaymentStrategy, PaymentStrategy>();
+builder.Services.AddScoped<IPaymentService, VNPPayment>();
+builder.Services.AddScoped<IPaymentService, MomoPayment>();
+// builder.Services.AddTransient<Func<PaymentServiceEnum, IPaymentService>>(provider => key =>
+// {
+//     switch (key)
+//     {
+//         case PaymentServiceEnum.MomoPayment:
+//             return provider.GetService<MomoPayment>()!;
+//         case PaymentServiceEnum.VNPPayment:
+//             return provider.GetService<VNPPayment>()!;
+//         default:
+//             return null;
+//     }
+// });
 // builder.Services.AddScoped<IPaymentService[]>(_ => new []{builder.Services.AddScoped<PaymentService<>>()});
 builder.Services.AddScoped<IHelpers, HelperService>();
 
