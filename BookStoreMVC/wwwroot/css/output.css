@@ -572,6 +572,10 @@ video {
   pointer-events: none;
 }
 
+.fixed{
+  position: fixed;
+}
+
 .absolute{
   position: absolute;
 }
@@ -927,6 +931,34 @@ video {
   width: 1.75rem;
 }
 
+.w-11{
+  width: 2.75rem;
+}
+
+.w-56{
+  width: 14rem;
+}
+
+.w-44{
+  width: 11rem;
+}
+
+.w-2{
+  width: 0.5rem;
+}
+
+.w-12{
+  width: 3rem;
+}
+
+.w-28{
+  width: 7rem;
+}
+
+.min-w-full{
+  min-width: 100%;
+}
+
 .max-w-fit{
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -956,6 +988,36 @@ video {
   max-width: 24rem;
 }
 
+.max-w-max{
+  max-width: -moz-max-content;
+  max-width: max-content;
+}
+
+.max-w-xs{
+  max-width: 20rem;
+}
+
+.max-w-\[20px\]{
+  max-width: 20px;
+}
+
+.max-w-full{
+  max-width: 100%;
+}
+
+.max-w-min{
+  max-width: -moz-min-content;
+  max-width: min-content;
+}
+
+.max-w-\[200px\]{
+  max-width: 200px;
+}
+
+.max-w-\[10rem\]{
+  max-width: 10rem;
+}
+
 .flex-1{
   flex: 1 1 0%;
 }
@@ -980,6 +1042,10 @@ video {
   flex-basis: 50%;
 }
 
+.table-auto{
+  table-layout: auto;
+}
+
 .rotate-\[21deg\]{
   --tw-rotate: 21deg;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -997,6 +1063,11 @@ video {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
+}
+
+.break-after-all{
+  -moz-column-break-after: all;
+       break-after: all;
 }
 
 .grid-cols-2{
@@ -1197,8 +1268,37 @@ video {
   white-space: nowrap;
 }
 
+.text-ellipsis{
+  text-overflow: ellipsis;
+}
+
+.whitespace-normal{
+  white-space: normal;
+}
+
 .whitespace-nowrap{
   white-space: nowrap;
+}
+
+.whitespace-pre-wrap{
+  white-space: pre-wrap;
+}
+
+.break-normal{
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.break-words{
+  overflow-wrap: break-word;
+}
+
+.break-all{
+  word-break: break-all;
+}
+
+.break-keep{
+  word-break: keep-all;
 }
 
 .rounded-md{
@@ -1539,6 +1639,10 @@ video {
 
 .text-center{
   text-align: center;
+}
+
+.align-middle{
+  vertical-align: middle;
 }
 
 .font-glory{
