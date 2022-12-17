@@ -12,6 +12,6 @@ public class ProductViewModel
     // public decimal Cost { get; set; }
     public PriceStruct Price { get; set; }
 
-    public float Rating { get; set; }
+    public int Rating { get; set; }
 
 }

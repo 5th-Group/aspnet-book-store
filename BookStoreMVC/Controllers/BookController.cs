@@ -38,7 +38,7 @@ namespace BookStoreMVC.Controllers
                 bookViewModel.Id = book.Id;
                 bookViewModel.Title = book.Title;
                 bookViewModel.PageCount = book.PageCount;
-                bookViewModel.AuthorDisplay = _authorRepository.GetById(book.Author).Result;
+                bookViewModel.Author = _authorRepository.GetById(book.Author).Result;
                 bookViewModel.Language = book.Language;
                 bookViewModel.Genre = book.Genre;
                 bookViewModel.Type = book.Type.ToArray();
@@ -54,7 +54,7 @@ namespace BookStoreMVC.Controllers
                 {
                     Id = product.Id,
                     Price = product.CurrentPrice,
-                    Rating = product.AverageScore,
+                    Rating = Convert.ToInt32(product.AverageScore),
                     Book = bookViewModel
 
                 };

@@ -13,7 +13,14 @@ public class IndexBookViewModel
 
     public int PageCount { get; set; }
 
-    public Author? AuthorDisplay { get; set; }
+    public Author? Author { get; set; }
+    public string authorDisplay
+    {
+        get
+        {
+            return this.Author.FirstName + " " + this.Author.LastName;
+        }
+    }
 
     public string? Language { get; set; }
 
