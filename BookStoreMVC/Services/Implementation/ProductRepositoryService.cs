@@ -25,7 +25,8 @@ public class ProductRepositoryService : IProductRepository
 
     public Product GetById(string productId)
     {
-        return _collection.Find($"_id: {productId}").FirstOrDefault();
+        // return _collection.Find($"_id: {productId}").FirstOrDefault();
+        return _collection.Find(x => x.Id == productId).FirstOrDefault();
     }
 
     public async Task AddAsync(Product model)

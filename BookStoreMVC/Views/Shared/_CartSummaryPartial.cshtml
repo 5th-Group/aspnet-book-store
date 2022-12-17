@@ -1,11 +1,21 @@
 @using BookStoreMVC.Helpers
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Identity;
 @using BookStoreMVC.Controllers
 @inject IHttpContextAccessor HttpContextAccessor
+@inject UserManager<User> UserManager
+@inject SignInManager<User> SignInManager
 
 
 @{
+
+    string CARTKEY = "";
+    if (SignInManager.IsSignedIn(User))
+    {
+        CARTKEY = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
     var session = HttpContextAccessor.HttpContext.Session;
-    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(session, CartController.CARTKEY);
+    var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(session, CARTKEY);
     if (cart != null && cart.Count() > 0)
     {
 

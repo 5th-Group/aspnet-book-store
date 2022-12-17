@@ -49,7 +49,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [Route("/register")]
+        // [Route("/register")]
         [HttpGet]
         public IActionResult Register()
         {

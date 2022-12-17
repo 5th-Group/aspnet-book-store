@@ -30,6 +30,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Scoped DI Resolver
 builder.Services.AddScoped<IBookRepository, BookServices>();
+builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
 builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();

@@ -1,4 +1,4 @@
-@model PaginatedList<BookStoreMVC.ViewModels.IndexBookViewModel>
+@model PaginatedList<BookStoreMVC.ViewModels.ProductViewModel>
 @{
     ViewData["Title"] = "Books";
     Layout = "_Layout";
@@ -14,18 +14,18 @@
             <div class="relative  items-center">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
+                        xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
-                              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                              clip-rule="evenodd">
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd">
                         </path>
                     </svg>
                 </div>
 
 
                 <input type="text"
-                       class="block w-full p-2 pl-10 h-12 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
-                       placeholder="Search...">
+                    class="block w-full p-2 pl-10 h-12 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+                    placeholder="Search...">
 
             </div>
 
@@ -54,31 +54,29 @@
 
         @* Book Browse *@
         <div class=" basis-3/4 flex flex-wrap gap-10 justify-evenly ">
-            @foreach (var item in Model)
+            @foreach (var product in Model)
             {
                 <div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
-                    <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src=@item.SignedUrl alt="">
+                    <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src=@product.Book.SignedUrl alt="">
                     <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
                         <div class="w-[300px] h-[230px] p-5 pl-[90px] bg-white shadow-lg rounded-lg flex flex-col ">
-                            <h1 class="text-lg  font-bold text-titleText truncate">@item.Title</h1>
+                            <h1 class="text-lg  font-bold text-titleText truncate">@product.Book.Title</h1>
                             <h2 class="font-light text-xs text-normalText mb-1 ">
-                                @item.AuthorDisplay.FirstName
-                                @item.AuthorDisplay.LastName
+                                @product.Book.AuthorDisplay.FirstName
+                                @product.Book.AuthorDisplay.LastName
                             </h2>
                             <h2 class="font-light text-sm text-primary  ">* * * * *</h2>
-                            <h3 class="text-sm line-clamp-2 min-h-[3rem]">@item.Description </h3>
-                            <h2 class="font-bold text-primary mt-1 mb-2">$30.00</h2>
+                            <h3 class="text-sm line-clamp-2 min-h-[3rem]">@product.Book.Description</h3>
+                            <h2 class="font-bold text-primary mt-1 mb-2">@product.Price.Hardcover</h2>
 
-                            <form class="inline-block bgButton py-1" method="post" asp-controller="Cart" asp-action="AddToCart"
-                                  asp-route-id=@item.Id>
+                            <form class="inline-block bgButton py-1" method="post" asp-controller="Cart"
+                            asp-action="AddToCart" asp-route-id=@product.Id>
                                 <button class="" type="submit ">Add to cart</button>
                             </form>
-
-
                         </div>
                     </div>
                 </div>
-        @* End Book Browse *@
+                @* End Book Browse *@
             }
         </div>
     </div>
