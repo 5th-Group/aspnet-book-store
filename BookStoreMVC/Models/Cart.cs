@@ -8,11 +8,11 @@ public class Cart
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
-    
-    public IEnumerable<ProductList> Items { get; set; } = null!;
+
+    public IEnumerable<ProductListItem> Items { get; set; } = null!;
 
     // public TYPE Type { get; set; }
 
     public DateTime CreatedAt { get; set; }
-    
+
 }

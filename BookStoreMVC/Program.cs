@@ -30,6 +30,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Scoped DI Resolver
 builder.Services.AddScoped<IBookRepository, BookServices>();
+builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
+builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();
 builder.Services.AddScoped<IPublisherRepository, PublisherService>();
@@ -69,6 +71,8 @@ builder.Services.AddAuthorization(options =>
 // Inject Httpclient
 builder.Services.AddHttpClient("momo-payment", client => client.BaseAddress = new Uri("https://test-payment.momo.vn"));
 builder.Services.AddHttpClient("vnp-payment", client => client.BaseAddress = new Uri("https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"));
+
+
 
 
 

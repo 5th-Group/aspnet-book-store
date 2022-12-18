@@ -2,7 +2,12 @@ using BookStoreMVC.Helpers;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+
+
+
 
 namespace BookStoreMVC.Controllers
 {
@@ -12,36 +17,90 @@ namespace BookStoreMVC.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IHelpers _helpersRepository;
+        private readonly IProductRepository _productRepository;
+
+        private readonly UserManager<User> _userManager;
 
         private IList<ShoppingCartItem> cartItemList = new List<ShoppingCartItem>();
 
         private const int PAGE_SIZE = 10;
 
-        private IEnumerable<string> Headers;
+        private IEnumerable<string>? Headers;
 
 
-        public const string CARTKEY = "cart";
-        public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository)
+
+
+        public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager)
         {
+
+            _productRepository = productRepository;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _helpersRepository = helpersRepository;
+            _userManager = userManager;
+
+
+
+        }
+
+        public string GetCartKey()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
         public IActionResult Index(int? pageNumber = 1)
         {
-            IEnumerable<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
-            // var shoppingCart = new ShoppingCart
-            // {
-            //     ShoppingCartItems = cart
-            // };
 
-            if (cart != null)
+            IEnumerable<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
+
+
+
+            if (cart == null)
             {
-                foreach (var item in cart)
-                {
-                    cartItemList.Add(item);
-                }
+                return NotFound();
 
+            }
+
+            foreach (var item in cart)
+            {
+
+                var product = _productRepository.GetById(item.ProductDetail);
+                var book = _bookRepository.GetById(product.BookId).Result;
+
+                var bookVM = new IndexBookViewModel
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    PageCount = book.PageCount,
+                    Author = _authorRepository.GetById(book.Author).Result,
+                    Language = book.Language,
+                    Genre = book.Genre,
+                    Type = book.Type.ToArray(),
+                    CreatedAt = book.CreatedAt,
+                    ImageName = book.ImageName,
+                    SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
+                    PublishDate = book.PublishDate,
+                    Publisher = book.Publisher,
+                    Isbn = book.Isbn,
+                    Description = book.Description
+                };
+
+
+
+                ProductViewModel productVM = new ProductViewModel
+                {
+                    Id = product.Id,
+                    Price = product.CurrentPrice,
+                    Rating = Convert.ToInt32(product.AverageScore),
+                    Book = bookVM
+                };
+
+                var cartItem = new ShoppingCartItem
+                {
+                    Product = productVM,
+                    Amount = item.Quantity,
+                    Price = item.TotalPrice
+                };
+                cartItemList.Add(cartItem);
             }
 
             var result = PaginatedList<ShoppingCartItem>.Create(cartItemList, pageNumber ?? 1, PAGE_SIZE, Headers, "CartIndex");
@@ -56,78 +115,55 @@ namespace BookStoreMVC.Controllers
 
         }
 
-
         public async Task<IActionResult> AddToCart(string id, string decs, string incs)
         {
 
-            if (SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY) == null)
+            if (SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey()) == null)
             {
-                List<ShoppingCartItem> cart = new List<ShoppingCartItem>();
-                Book b = _bookRepository.GetById(id).Result;
+                List<ProductListItem> cart = new List<ProductListItem>();
+                Product product = _productRepository.GetById(id);
 
-                var book = new IndexBookViewModel();
-
-                book.Id = b.Id;
-                book.Title = b.Title;
-                book.AuthorDisplay = _authorRepository.GetById(b.Author).Result;
-                book.SignedUrl = _helpersRepository.GenerateSignedUrl(b.ImageName).Result;
-
-                if (book == null)
+                if (product == null)
                 {
                     return NotFound();
 
                 }
-                cart.Add(new ShoppingCartItem { Book = book, Amount = 1 });
-                SessionHelper.SetObjectAsJson(HttpContext.Session, CARTKEY, cart);
+
+                cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1, Price = product.CurrentPrice.Hardcover });
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GetCartKey(), cart);
 
             }
             else
             {
-                var cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
+                var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
                 int index = IsExist(id);
                 if (index != -1)
                 {
                     if (decs == "decs")
                     {
-                        cart[index].Amount--;
-                        SessionHelper.SetObjectAsJson(HttpContext.Session, CARTKEY, cart);
+                        cart[index].Quantity--;
+                        SessionHelper.SetObjectAsJson(HttpContext.Session, GetCartKey(), cart);
                         return RedirectToAction("Index");
                     }
                     else if (incs == "incs")
 
                     {
-                        cart[index].Amount++;
-                        SessionHelper.SetObjectAsJson(HttpContext.Session, CARTKEY, cart);
+                        cart[index].Quantity++;
+                        SessionHelper.SetObjectAsJson(HttpContext.Session, GetCartKey(), cart);
                         return RedirectToAction("Index", cart);
 
                     }
-                    cart[index].Amount++;
+                    cart[index].Quantity++;
 
 
                 }
                 else
                 {
-                    Book b = await _bookRepository.GetById(id);
-                    IndexBookViewModel book = new IndexBookViewModel
-                    {
-                        Id = b.Id,
-                        Title = b.Title,
-                        PageCount = b.PageCount,
-                        AuthorDisplay = _authorRepository.GetById(b.Author).Result,
-                        Language = b.Language,
-                        Genre = b.Genre,
-                        Type = b.Type.ToArray(),
-                        CreatedAt = b.CreatedAt,
-                        ImageName = b.ImageName,
-                        SignedUrl = _helpersRepository.GenerateSignedUrl(b.ImageName).Result,
-                        PublishDate = b.PublishDate,
-                        Publisher = b.Publisher,
-                        Isbn = b.Isbn,
-                        Description = b.Description
-                    };
-                    cart.Add(new ShoppingCartItem { Book = book, Amount = 1 });
+                    Product product = _productRepository.GetById(id);
+
+                    cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1 });
                 }
-                SessionHelper.SetObjectAsJson(HttpContext.Session, CARTKEY, cart);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, GetCartKey(), cart);
             }
             return RedirectToAction("Index", "Book");
         }
@@ -135,24 +171,24 @@ namespace BookStoreMVC.Controllers
         [HttpPost]
         public IActionResult Remove(string id)
         {
-            List<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
+            List<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
             int index = IsExist(id);
             if (index != -1)
             {
                 cart.RemoveAt(index);
             }
 
-            SessionHelper.SetObjectAsJson(HttpContext.Session, CARTKEY, cart);
+            SessionHelper.SetObjectAsJson(HttpContext.Session, GetCartKey(), cart);
             return RedirectToAction("Index");
         }
 
 
         private int IsExist(string id)
         {
-            List<ShoppingCartItem> cart = SessionHelper.GetObjectFromJson<List<ShoppingCartItem>>(HttpContext.Session, CARTKEY);
+            List<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
             for (int i = 0; i < cart.Count; i++)
             {
-                if (cart[i].Book.Id.Equals(id))
+                if (cart[i].ProductDetail.Equals(id))
                 {
                     return i;
                 }

@@ -1,0 +1,97 @@
+@model BookStoreMVC.ViewModels.UserDetailViewModel
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "_Layout";
+    var letter = Model.Lastname.Substring(0, 1);
+}
+
+<section id="hero">
+    <!-- Flex Container -->
+    <div class="container max-w-7xl min-h-screen gap-5 flex items-start px-6 mx-auto space-y-0  mt-10">
+        @* Side Bar *@
+        @Html.Partial("_SideBarPartial")
+        @* Side Bar *@
+
+        <div class=" basis-3/4  flex flex-col gap-10 py-5">
+
+            @* Title *@
+            <h1 class="text-4xl text-titleText font-bold">
+                General
+            </h1>
+            @* Title *@
+
+            @* Avt *@
+            <div class=" w-full flex justify-center">
+                <div class="rounded-full flex justify-center items-center   w-36 h-36 bg-primary ">
+                    <span class="text-7xl text-white ">@letter</span>
+                </div>
+            </div>
+            @* Avt *@
+
+            @* Form *@
+            <form class="grid grid-cols-2 gap-10" action="">
+                <div>
+                    <label asp-for=@Model.Firstname></label>
+                    <input disabled asp-for=@Model.Firstname
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+                <div>
+                    <label asp-for=@Model.Lastname></label>
+                    <input asp-for=@Model.Lastname disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+                <div class="col-span-2">
+                    <label asp-for=@Model.Username></label>
+                    <input asp-for=@Model.Username disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+                <div class="col-span-2">
+                    <label asp-for=@Model.Email></label>
+                    <input asp-for=@Model.Email disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+                <div>
+                    <label asp-for=@Model.Address></label>
+                    <input asp-for=@Model.Address disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+
+
+                <div>
+                    <label asp-for=@Model.Country></label>
+                    <input asp-for=@Model.Country disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+                <div>
+                    <label asp-for=@Model.Gender></label>
+                    <input asp-for=@Model.Gender disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+                <div>
+                    <label asp-for=@Model.PhoneNumber></label>
+                    <input asp-for=@Model.PhoneNumber disabled
+                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
+                        type="text">
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- End Right item -->
+</section>

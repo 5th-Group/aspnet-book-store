@@ -6,7 +6,11 @@ public interface IOrderRepository
 {
     IEnumerable<Order> GetAll();
 
-    Order GetById(string orderId);
+    Task<Order> GetByOrderId(string orderId);
+    IEnumerable<Order> GetByUserId(string userId);
+
+    public Task AddAsync(Order order);
+
 
     Order Add();
 
