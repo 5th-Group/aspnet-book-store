@@ -57,7 +57,7 @@ namespace BookStoreMVC.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 PageCount = book.PageCount,
-                AuthorDisplay = _authorRepository.GetById(book.Author).Result,
+                Author = _authorRepository.GetById(book.Author).Result,
                 Language = book.Language,
                 Genre = book.Genre,
                 Type = book.Type.ToArray(),
@@ -436,7 +436,7 @@ namespace BookStoreMVC.Controllers
 
             return View(userList.ToList());
         }
-        
+
 
         // public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
         // {
@@ -448,9 +448,9 @@ namespace BookStoreMVC.Controllers
         public IActionResult AddUser()
         {
             ViewBag.RolesList = _roleManager.Roles.ToArray();
-            
+
             var model = new AddUserViewModel();
-            
+
             return View(model);
         }
 
@@ -478,7 +478,7 @@ namespace BookStoreMVC.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            
+
             await _userManager.AddToRoleAsync(user, model.Role);
 
             return RedirectToAction("UserIndex");

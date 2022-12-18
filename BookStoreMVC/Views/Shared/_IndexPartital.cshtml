@@ -1,33 +1,43 @@
 @{
     @* Book *@
+
     string[] bookHeaders = { "Language", "Genre", "Type" };
+
     List<string> bookHeadersList = new List<string>(bookHeaders);
 
 
     @* Book *@
 
     @* Author *@
+
     string[] authorHeaders = { "Description" };
+
     List<string> authorHeadersList = new List<string>(authorHeaders);
 
     @* Author *@
 
     @* Language *@
+
     string[] languageHeaders = { "Name", "Code" };
+
     List<string> languageHeadersList = new List<string>(languageHeaders);
 
 
     @* Language *@
 
     @* Book genre *@
+
     string[] bookGenreHeaders = { "Name" };
+
     List<string> bookGenreHeadersList = new List<string>(bookGenreHeaders);
 
 
     @* Book genre *@
 
     @* Publisher *@
+
     string[] publisherHeaders = { "Name", "Contact" };
+
     List<string> publisherHeadersList = new List<string>(publisherHeaders);
 
     @* Publisher *@
@@ -64,81 +74,88 @@
     @* Search bar *@
 
     @if (Model.Type == "BookIndex")
+
     {
         @* Add Btn *@
-        <form asp-action="AddBook">
-            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-            </button>
-        </form>
+        <a asp-action="AddBook" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
         @* Add Btn *@
+
     }
 
     @if (Model.Type == "AuthorIndex")
+
     {
         @* Add Btn *@
-        <form asp-action="AddAuthor">
-            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-
-            </button>
-        </form>
+        <a asp-action="AddAuthor" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
         @* Add Btn *@
+
     }
 
     @if (Model.Type == "LanguageIndex")
+
     {
         @* Add Btn *@
-        <form asp-action="AddLanguage">
-            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-
-            </button>
-        </form>
+        <a asp-action="AddLanguage" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
         @* Add Btn *@
+
+
+
 
 
     }
 
     @if (Model.Type == "BookGenreIndex")
+
     {
         @* Add Btn *@
-        <form asp-action="AddBookGenre">
-            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-
-            </button>
-        </form>
+        <a asp-action="AddBookGenre" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
         @* Add Btn *@
+
+
+
 
 
     }
 
     @if (Model.Type == "PublisherIndex")
+
     {
         @* Add Btn *@
-        <form asp-action="AddPublisher">
-            <button type="submit" class="nonBgButton px-4 py-1 flex gap-4">Add
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-
-            </button>
-        </form>
+        <a asp-action="AddPublisher" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
         @* Add Btn *@
+
+
+
 
 
     }
@@ -156,20 +173,29 @@
                     Book
                 </th>
                 @foreach (var item in Model.Headers)
+
                 {
+
                     foreach (var header in bookHeadersList)
+
                     {
+
                         if (item == header)
+
                         {
                             <th scope="col" class="py-3 px-6">
                                 @item
                             </th>
+
                         }
+
                     }
+
                 }
                 <th scope="col" class="py-3 px-6 text-center">
                     Actions
                 </th>
+
             }
             @* Book Header *@
 
@@ -180,20 +206,29 @@
                     Name
                 </th>
                 @foreach (var item in Model.Headers)
+
                 {
+
                     foreach (var header in authorHeadersList)
+
                     {
+
                         if (item == header)
+
                         {
                             <th scope="col" class="py-3 px-6 ">
                                 @item
                             </th>
+
                         }
+
                     }
+
                 }
                 <th scope="col" class="py-3 px-6 text-center">
                     Actions
                 </th>
+
             }
             @* Author Header *@
 
@@ -201,20 +236,29 @@
             @if (Model.Type == "LanguageIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
+
                 {
+
                     foreach (var header in languageHeadersList)
+
                     {
+
                         if (item == header)
+
                         {
                             <th scope="col" class="py-3 px-6 ">
                                 @item
                             </th>
+
                         }
+
                     }
+
                 }
                 <th scope="col" class="py-3 px-6 text-center">
                     Actions
                 </th>
+
             }
             @* Language Header *@
 
@@ -222,20 +266,29 @@
             @if (Model.Type == "BookGenreIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
+
                 {
+
                     foreach (var header in bookGenreHeadersList)
+
                     {
+
                         if (item == header)
+
                         {
                             <th scope="col" class="py-3 px-6 ">
                                 @item
                             </th>
+
                         }
+
                     }
+
                 }
                 <th scope="col" class="py-3 px-6 text-center">
                     Actions
                 </th>
+
             }
             @* Book Genre Header *@
 
@@ -243,20 +296,29 @@
             @if (Model.Type == "PublisherIndex" && Model.Count > 0)
             {
                 @foreach (var item in Model.Headers)
+
                 {
+
                     foreach (var header in publisherHeadersList)
+
                     {
+
                         if (item == header)
+
                         {
                             <th scope="col" class="py-3 px-6 ">
                                 @item
                             </th>
+
                         }
+
                     }
+
                 }
                 <th scope="col" class="py-3 px-6 text-center">
                     Actions
                 </th>
+
             }
             @* Publisher Header *@
 
@@ -266,9 +328,13 @@
     <tbody>
         @* BookList *@
         @if (Model.Type == "BookIndex" && Model.Count > 0)
+
         {
 
+
+
             foreach (var item in Model)
+
             {
                 <tr
             class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
@@ -305,15 +371,21 @@
 
                     </td>
                 </tr>
+
             }
+
         }
         @* BookList *@
 
         @* Author List *@
         @if (Model.Type == "AuthorIndex" && Model.Count > 0)
+
         {
 
+
+
             foreach (var item in Model)
+
             {
                 <tr
             class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
@@ -340,15 +412,21 @@
 
                     </td>
                 </tr>
+
             }
+
         }
         @* Author List *@
 
         @* Book Genre List *@
         @if (Model.Type == "BookGenreIndex" && Model.Count > 0)
+
         {
 
+
+
             foreach (var item in Model)
+
             {
                 <tr
             class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
@@ -368,16 +446,22 @@
 
                     </td>
                 </tr>
+
             }
+
         }
         @* Book Genre List *@
 
 
         @* Language List *@
         @if (Model.Type == "LanguageIndex" && Model.Count > 0)
+
         {
 
+
+
             foreach (var item in Model)
+
             {
                 <tr
             class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
@@ -402,16 +486,22 @@
 
                     </td>
                 </tr>
+
             }
+
         }
         @* Language List *@
 
 
         @* Publisher List *@
         @if (Model.Type == "PublisherIndex" && Model.Count > 0)
+
         {
 
+
+
             foreach (var item in Model)
+
             {
                 <tr
             class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
@@ -435,7 +525,9 @@
 
                     </td>
                 </tr>
+
             }
+
         }
         @* Publisher List *@
 

@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using BookStoreMVC.Models;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +20,8 @@ namespace BookStoreMVC.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+
 
         #region User Authentication
 
@@ -44,7 +48,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        
+
         // [Route("/register")]
         [HttpGet]
         public IActionResult Register()
@@ -79,7 +83,7 @@ namespace BookStoreMVC.Controllers
 
             // Create user async
             var result = await _userManager.CreateAsync(user, model.Password);
-            
+
             // Error handling
             if (!result.Succeeded)
             {
@@ -89,16 +93,53 @@ namespace BookStoreMVC.Controllers
                 }
 
             }
-            
+
             // Add user to role
             await _userManager.AddToRoleAsync(user, "User");
-            
-            
+
+
             ViewData["Message"] = "Account have been created successfully.";
 
             return RedirectToAction("Index", "Home");
         }
+        [Authorize("RequireUserRole")]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
+
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("User", "ChangePassword");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                TempData["error"] = "Không tìm thấy user";
+                return View();
+            }
+
+
+            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["success"] = "Cập nhật mật khẩu thành công";
+            }
+            else
+            {
+                TempData["error"] = "Cập nhật mật khẩu thất bại";
+            }
+            return RedirectToAction("User", nameof(ChangePassword));
+        }
 
 
         #endregion

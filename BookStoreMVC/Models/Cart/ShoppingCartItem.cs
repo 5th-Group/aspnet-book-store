@@ -1,11 +1,13 @@
+using System.ComponentModel.DataAnnotations;
 using BookStoreMVC.ViewModels;
 
 namespace BookStoreMVC.Models
 {
     public class ShoppingCartItem
     {
-        public int Id { get; set; }
-        public IndexBookViewModel? Book { get; set; }
+        public ProductViewModel Product { get; set; }
         public int Amount { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        public decimal Price { get; set; }
     }
 }

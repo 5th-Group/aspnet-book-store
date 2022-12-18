@@ -11,49 +11,61 @@ namespace BookStoreMVC.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IHelpers _helpersRepository;
+        private readonly IProductRepository _productRepository;
 
 
         int PAGE_SIZE = 6;
 
         private IEnumerable<string>? Headers = null!;
-        public BookController(IBookRepository bookRepository, IHelpers helpersRepository, IAuthorRepository authorRepository)
+        public BookController(IBookRepository bookRepository, IHelpers helpersRepository, IAuthorRepository authorRepository, IProductRepository productRepository)
         {
             _bookRepository = bookRepository;
             _helpersRepository = helpersRepository;
             _authorRepository = authorRepository;
-            
+            _productRepository = productRepository;
         }
 
         [HttpGet("Books")]
         public IActionResult Index(string filter = "_", int? pageNumber = 1)
         {
-            var bookList = _bookRepository.GetAll(filter).Select(book => new IndexBookViewModel
+
+            var productList = _productRepository.GetAll().Select(product =>
             {
-                Id = book.Id,
-                Title = book.Title,
-                PageCount = book.PageCount,
-                AuthorDisplay = _authorRepository.GetById(book.Author).Result,
-                Language = book.Language,
-                Genre = book.Genre,
-                Type = book.Type.ToArray(),
-                CreatedAt = book.CreatedAt,
-                ImageName = book.ImageName,
-                SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
-                PublishDate = book.PublishDate,
-                Publisher = book.Publisher,
-                Isbn = book.Isbn,
-                Description = book.Description
+                var book = _bookRepository.GetById(product.BookId).Result;
+
+                var bookViewModel = new IndexBookViewModel();
+
+                bookViewModel.Id = book.Id;
+                bookViewModel.Title = book.Title;
+                bookViewModel.PageCount = book.PageCount;
+                bookViewModel.Author = _authorRepository.GetById(book.Author).Result;
+                bookViewModel.Language = book.Language;
+                bookViewModel.Genre = book.Genre;
+                bookViewModel.Type = book.Type.ToArray();
+                bookViewModel.CreatedAt = book.CreatedAt;
+                bookViewModel.ImageName = book.ImageName;
+                bookViewModel.SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result;
+                bookViewModel.PublishDate = book.PublishDate;
+                bookViewModel.Publisher = book.Publisher;
+                bookViewModel.Isbn = book.Isbn;
+                bookViewModel.Description = book.Description;
+
+                return new ProductViewModel
+                {
+                    Id = product.Id,
+                    Price = product.CurrentPrice,
+                    Rating = Convert.ToInt32(product.AverageScore),
+                    Book = bookViewModel
+
+                };
             });
 
 
-
-            var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+            var result = PaginatedList<ProductViewModel>.Create(productList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
             }
-
-
 
 
             return View(result);

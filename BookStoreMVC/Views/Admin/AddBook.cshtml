@@ -9,15 +9,18 @@
 <section id="formAddAuthor">
 
     <div class=" mx-20 my-10">
-        <h1 class="mb-7 text-3xl font-bold text-titleText">Add Book</h1>
+        <h1 class="mb-7 text-4xl font-bold text-titleText">@ViewBag.Title</h1>
+
+
+
         <form asp-action="AddBook" class="text-titleText grid  grid-cols-2 grid-rows-6 w-fit gap-x-32"
-              enctype="multipart/form-data" method="post">
+            enctype="multipart/form-data" method="post">
 
             @* Title *@
-            <div class="mb-7 ">
+            <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Title></label>
                 <input asp-for=@Model.Title
-                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
                 <span asp-validation-for=@Model.Title class="text-red-700"></span>
             </div>
             @* Title *@
@@ -26,17 +29,44 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.PageCount></label>
                 <input asp-for=@Model.PageCount
-                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
                 <span asp-validation-for=@Model.PageCount class="text-red-700"></span>
             </div>
             @* Page Count *@
+
+            @* Hardcover Price *@
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.HardcoverPrice></label>
+                <input asp-for=@Model.HardcoverPrice
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.HardcoverPrice class="text-red-700"></span>
+            </div>
+            @* Hardcover Price *@
+
+            @* Paperback Price *@
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.PaperbackPrice></label>
+                <input asp-for=@Model.PaperbackPrice
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.PaperbackPrice class="text-red-700"></span>
+            </div>
+            @* Paperback Price *@
+
+            @* Ebook Price *@
+            <div class="mb-7">
+                <label class="mb-9" asp-for=@Model.EbookPrice></label>
+                <input asp-for=@Model.EbookPrice
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+                <span asp-validation-for=@Model.EbookPrice class="text-red-700"></span>
+            </div>
+            @* Ebook Price *@
 
             @* Author *@
             <div class="mb-7">
 
                 <label class="mb-9" asp-for=@Model.Author></label>
                 <select asp-for=@Model.Author
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
                     @if (Model.AuthorsList != null)
                     {
                         foreach (var item in Model.AuthorsList)
@@ -52,7 +82,7 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Language></label>
                 <select asp-for=@Model.Language
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
                     @if (Model.LanguageList != null)
                     {
                         foreach (var item in Model.LanguageList)
@@ -69,16 +99,95 @@
 
                 <label class="mb-9" asp-for=@Model.PublishDate as></label>
                 <input asp-for=@Model.PublishDate
-                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
                 <span asp-validation-for=@Model.PublishDate class="text-red-700"></span>
             </div>
             @* Publishdate *@
+
+            @* Genre *@
+            <div class="mb-7 space-x-3">
+                <label asp-for=@Model.Genre></label>
+                <button id="dropdownGenreList" data-dropdown-toggle="dropdownGenre"
+                    class="inline-flex items-center py-2 px-4 h-fit text-sm font-medium text-center text-primary  border-2 border-gray-300  rounded-lg   focus:outline-none hover:border-primary focus:border-primary transition-colors duration-300 "
+                    type="button">Genre List
+
+                    @* Icon *@
+
+                    <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        @* Icon *@
+
+                    </svg></button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownGenre" class="hidden z-10 w-60  bg-white rounded shadow ">
+
+                    <ul class="overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent     px-3 pb-3 h-48 text-sm text-gray-700 "
+                        aria-labelledby="dropdownGenreList">
+
+                        @if (Model.GenreList != null)
+                        {
+                            foreach (var item in Model.GenreList)
+                            {
+                                <li>
+                                    <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                        <input name="Genre" type="checkbox" value=@item.Id />
+                                        <label for="Genre">&nbsp; @item.Name</label>
+                                    </div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+            @* Genre *@
+
+            @* Type *@
+            <div class="mb-7 space-x-3">
+                <label asp-for=@Model.Type></label>
+                <button id="dropdownTypeList" data-dropdown-toggle="dropdownType"
+                    class="inline-flex items-center py-2 px-4 h-fit text-sm font-medium text-center text-primary  border-2 border-gray-300  rounded-lg   focus:outline-none hover:border-primary focus:border-primary transition-colors duration-300 "
+                    type="button">Types Book
+
+                    @* Icon *@
+
+                    <svg class="ml-2 w-4 h-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        @* Icon *@
+
+                    </svg></button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownType" class="hidden z-10 w-60  bg-white rounded shadow ">
+
+                    <ul class="overflow-y-auto px-4 h-fit text-sm text-gray-700 " aria-labelledby="dropdownTypeList">
+
+
+                        @foreach (var item in Model.TypeList)
+                        {
+                            <li>
+                                <div class="flex items-center p-2 rounded hover:bg-gray-100 ">
+                                    <input name="Type" type="checkbox" value=@item.Value />
+                                    <label for="Type">&nbsp; @item.Text</label>
+                                </div>
+                            </li>
+                        }
+
+
+                    </ul>
+
+                </div>
+            </div>
+            @* Type *@
+
 
             @* Publisher *@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Publisher></label>
                 <select asp-for=@Model.Publisher
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
                     @if (Model.PublisherList != null)
                     {
                         foreach (var item in Model.PublisherList)
@@ -90,36 +199,10 @@
             </div>
             @* Publisher *@
 
-            @* Type *@
-            <div class="mb-7">
-                <label class="mb-9" asp-for=@Model.Type></label>
-                <select asp-for=@Model.Type asp-items=@Model.TypeList
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-
-                </select>
-
-            </div>
-            @* Type *@
-
-            @* Genre *@
-            <div class="mb-7">
-                <label class="mb-9" asp-for=@Model.Genre></label>
-                <select asp-for=@Model.Genre
-                        class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
-                    @{ if (Model.GenreList != null)
-                          foreach (var item in Model.GenreList)
-                        {
-                            <option value=@item.Id>@item.Name</option>
-                        }
-                    }
-                </select>
-            </div>
-            @* Genre *@
-
 
             @* Description *@
-            <div class="mb-7">
-                <label class="mb-9" asp-for=@Model.Description as></label>
+            <div class="mb-7 ">
+                <label class="mb-9" asp-for=@Model.Description></label>
                 <textarea asp-for=@Model.Description
                     class="block p-2 rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72  focus:outline-none focus:border-primary transition-colors duration-300"></textarea>
                 <span asp-validation-for=@Model.Description class="text-red-700"></span>
@@ -133,19 +216,19 @@
             <div class="mb-7">
                 <label class="mb-9" asp-for=@Model.Isbn as></label>
                 <input asp-for=@Model.Isbn
-                       class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300"/>
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
                 <span asp-validation-for=@Model.Isbn class="text-red-700"></span>
             </div>
             @* ISBN *@
 
 
             @* Image *@
-            <div class="mb-7 relative col-span-2">
+            <div class="mb-7 relative ">
                 <label asp-for=@Model.Img>
                     Image
                 </label>
                 <input
-                    class="p-2 block w-full text-sm text-gray-900 border-2 border-gray-300 rounded-lg cursor-pointer bg-gray-50  focus:outline-none focus:border-primary transition-colors duration-300"
+                    class="p-2 block  text-sm text-gray-900 border-2 border-gray-300 rounded-lg w-72 cursor-pointer bg-gray-50  focus:outline-none focus:border-primary transition-colors duration-300"
                     asp-for=@Model.Img type="file">
 
 
@@ -154,7 +237,7 @@
             @* Image *@
 
 
-            <button type="submit" class="nonBgButton w-full py-4 col-span-2 text-xl  font-bold">Add</button>
+            <button type="submit" class="nonBgButton w-full py-2 col-span-2 text-lg  font-bold">Add</button>
         </form>
 
     </div>

@@ -29,7 +29,9 @@ builder.Services.AddSingleton<ICloudStorage, GoogleStorageServices>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 // Scoped DI Resolver
-builder.Services.AddScoped<IBookRepository, BookRepositoryService>();
+builder.Services.AddScoped<IBookRepository, BookServices>();
+builder.Services.AddScoped<IProductRepository, ProductRepositoryService>();
+builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IAuthorRepository, AuthorServices>();
 builder.Services.AddScoped<IBookGenreRepository, BookGenreServices>();
 builder.Services.AddScoped<IPublisherRepository, PublisherService>();
@@ -40,6 +42,19 @@ builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
 builder.Services.AddScoped<IPaymentStrategy, PaymentStrategy>();
 builder.Services.AddScoped<IPaymentService, VNPPayment>();
 builder.Services.AddScoped<IPaymentService, MomoPayment>();
+// builder.Services.AddTransient<Func<PaymentServiceEnum, IPaymentService>>(provider => key =>
+// {
+//     switch (key)
+//     {
+//         case PaymentServiceEnum.MomoPayment:
+//             return provider.GetService<MomoPayment>()!;
+//         case PaymentServiceEnum.VNPPayment:
+//             return provider.GetService<VNPPayment>()!;
+//         default:
+//             return null;
+//     }
+// });
+// builder.Services.AddScoped<IPaymentService[]>(_ => new []{builder.Services.AddScoped<PaymentService<>>()});
 builder.Services.AddScoped<IHelpers, HelperService>();
 
 
@@ -52,9 +67,12 @@ builder.Services.AddAuthorization(options =>
         policyBuilder => policyBuilder.RequireRole("Admin"));
 });
 
+
 // Inject Httpclient
 builder.Services.AddHttpClient("momo-payment", client => client.BaseAddress = new Uri("https://test-payment.momo.vn"));
 builder.Services.AddHttpClient("vnp-payment", client => client.BaseAddress = new Uri("https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"));
+
+
 
 
 
