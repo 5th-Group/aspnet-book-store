@@ -49,7 +49,7 @@
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
                         <input id="remember_me" name="remember_me" type="checkbox"
-                            class="h-4 w-4 bg-primary focus:ring-primary2-400 border-gray-300 rounded">
+                               class="h-4 w-4 bg-primary focus:ring-primary2-400 border-gray-300 rounded">
                         <label for="remember_me" class="ml-2 block text-sm text-gray-800">
                             Remember me
                         </label>
@@ -60,6 +60,14 @@
                         </a>
                     </div>
                 </div>
+                @{
+                    if (ViewData["Message"] is not null)
+                    {
+                        <div>
+                            <label>@ViewData["Message"]</label>
+                        </div> 
+                    }
+                }
                 <div>
                     <button type="submit"
                         class="w-full flex justify-center bg-primary2-400 hover:bg-primary text-gray-100 p-3  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">

@@ -1,4 +1,5 @@
 using BookStoreMVC.DataAccess;
+using BookStoreMVC.Exceptions;
 using BookStoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -7,12 +8,13 @@ using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
 
-public class BookServices : IBookRepository
+public class BookRepositoryService : IBookRepository
 {
     private readonly IMongoCollection<Book> _bookCollection;
-    public BookServices(IOptions<BookStoreDataAccess> dataAccess)
-    {
+    private readonly IMongoCollection<Product> _productCollection;
 
+    public BookRepositoryService(IOptions<BookStoreDataAccess> dataAccess)
+    {
         var mongoClient = new MongoClient(
             dataAccess.Value.ConnectionString);
 
@@ -21,7 +23,11 @@ public class BookServices : IBookRepository
 
         _bookCollection = mongoDatabase.GetCollection<Book>(
             dataAccess.Value.BookCollectionName);
+        
+        _productCollection = mongoDatabase.GetCollection<Product>(
+            dataAccess.Value.ProductCollectionName);
     }
+
     public IEnumerable<Book> GetAll(string filter)
     {
         return _bookCollection.Find(filter => true).ToEnumerable();
@@ -30,7 +36,6 @@ public class BookServices : IBookRepository
     public async Task<Book> GetById(string bookId)
     {
         return await _bookCollection.Find(x => x.Id == bookId).FirstOrDefaultAsync();
-        
     }
 
     public IActionResult Add(Book book)
@@ -58,6 +63,13 @@ public class BookServices : IBookRepository
         throw new NotImplementedException();
     }
 
-    public async Task DeleteAsync(string id) =>
-       await _bookCollection.DeleteOneAsync(x => x.Id == id);
+    public async Task DeleteAsync(string id)
+    {
+        if (_productCollection.Find(p => p.BookId == id).FirstOrDefault() is null)
+        {
+            await _bookCollection.DeleteOneAsync(b => b.Id == id);
+
+        }
+        else throw new BookIsReferencedByOtherException("The book is being referenced by a product entity", id);
+    }
 }

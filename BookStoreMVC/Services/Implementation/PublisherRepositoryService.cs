@@ -5,10 +5,10 @@ using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
 
-public class PublisherService : IPublisherRepository
+public class PublisherRepositoryService : IPublisherRepository
 {
     private readonly IMongoCollection<Publisher> _publisherCollection;
-    public PublisherService(IOptions<BookStoreDataAccess> dataAccess)
+    public PublisherRepositoryService(IOptions<BookStoreDataAccess> dataAccess)
     {
         var mongoClient = new MongoClient(dataAccess.Value.ConnectionString);
         var database = mongoClient.GetDatabase(dataAccess.Value.DatabaseName);
@@ -21,7 +21,7 @@ public class PublisherService : IPublisherRepository
 
     public Publisher GetById(string publisherId)
     {
-        throw new NotImplementedException();
+        return _publisherCollection.Find(publisher => publisher.Id == publisherId).FirstOrDefault();
     }
 
     public Publisher Add()

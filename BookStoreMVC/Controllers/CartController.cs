@@ -5,8 +5,8 @@ using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-
-
+using BookStoreMVC.Models.Cart;
+using BookStoreMVC.Mapper;
 
 
 namespace BookStoreMVC.Controllers
@@ -18,10 +18,12 @@ namespace BookStoreMVC.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IHelpers _helpersRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IBookGenreRepository _bookGenreRepository;
+        private readonly IPublisherRepository _publisherRepository;
 
         private readonly UserManager<User> _userManager;
 
-        private IList<ShoppingCartItem> cartItemList = new List<ShoppingCartItem>();
+        private IList<ShoppingCartItem> _cartItemList = new List<ShoppingCartItem>();
 
         private const int PAGE_SIZE = 10;
 
@@ -30,7 +32,7 @@ namespace BookStoreMVC.Controllers
 
 
 
-        public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager)
+        public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
         {
 
             _productRepository = productRepository;
@@ -38,9 +40,8 @@ namespace BookStoreMVC.Controllers
             _authorRepository = authorRepository;
             _helpersRepository = helpersRepository;
             _userManager = userManager;
-
-
-
+            _bookGenreRepository = bookGenreRepository;
+            _publisherRepository = publisherRepository;
         }
 
         public string GetCartKey()
@@ -52,58 +53,53 @@ namespace BookStoreMVC.Controllers
 
             IEnumerable<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
 
+            
 
-
-            if (cart == null)
+            if (cart != null && cart.Any())
             {
-                return NotFound();
+                foreach (var item in cart)
+                {
 
+                    var product = _productRepository.GetById(item.ProductDetail);
+                    var book = _bookRepository.GetById(product.BookId).Result;
+                    var author = _authorRepository.GetById(product.BookId).Result;
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var publisher = _publisherRepository.GetById(book.Publisher);
+
+                    var bookViewModel = BookMapper.MapBookViewModel(book, author,  bookGenres, publisher, _helpersRepository);
+
+
+
+                    var productViewModel = new ProductViewModel
+                    {
+                        Id = product.Id,
+                        Price = product.CurrentPrice,
+                        Rating = Convert.ToInt32(product.AverageScore),
+                        Book = bookViewModel
+                    };
+
+                    var cartItem = new ShoppingCartItem
+                    {
+                        Product = productViewModel,
+                        Amount = item.Quantity,
+                        Price = item.TotalPrice
+                    };
+                
+                    _cartItemList.Add(cartItem);
+                }
+            }
+            else
+            {
+                // if (cart is null)
+                // {
+                    // return NotFound();
+                    // Generate Empty cart list so user can still access cart page instead of throwing error
+                    HttpContext.Session.SetString(User.FindFirstValue(ClaimTypes.NameIdentifier), string.Empty);
+                // }
             }
 
-            foreach (var item in cart)
-            {
 
-                var product = _productRepository.GetById(item.ProductDetail);
-                var book = _bookRepository.GetById(product.BookId).Result;
-
-                var bookVM = new IndexBookViewModel
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    PageCount = book.PageCount,
-                    Author = _authorRepository.GetById(book.Author).Result,
-                    Language = book.Language,
-                    Genre = book.Genre,
-                    Type = book.Type.ToArray(),
-                    CreatedAt = book.CreatedAt,
-                    ImageName = book.ImageName,
-                    SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
-                    PublishDate = book.PublishDate,
-                    Publisher = book.Publisher,
-                    Isbn = book.Isbn,
-                    Description = book.Description
-                };
-
-
-
-                ProductViewModel productVM = new ProductViewModel
-                {
-                    Id = product.Id,
-                    Price = product.CurrentPrice,
-                    Rating = Convert.ToInt32(product.AverageScore),
-                    Book = bookVM
-                };
-
-                var cartItem = new ShoppingCartItem
-                {
-                    Product = productVM,
-                    Amount = item.Quantity,
-                    Price = item.TotalPrice
-                };
-                cartItemList.Add(cartItem);
-            }
-
-            var result = PaginatedList<ShoppingCartItem>.Create(cartItemList, pageNumber ?? 1, PAGE_SIZE, Headers, "CartIndex");
+            var result = PaginatedList<ShoppingCartItem>.Create(_cartItemList, pageNumber ?? 1, PAGE_SIZE, Headers, "CartIndex");
             return View(result);
 
 

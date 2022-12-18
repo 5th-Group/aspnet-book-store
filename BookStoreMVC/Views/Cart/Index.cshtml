@@ -1,4 +1,4 @@
-@model PaginatedList<ShoppingCartItem>
+@model PaginatedList<BookStoreMVC.Models.Cart.ShoppingCartItem>
 @{
     ViewBag.Title = "Cart";
 
@@ -96,11 +96,17 @@
 
 
                         <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Cart" asp-action="Remove"
-                    asp-route-id=@item.Product.Book.Id>
+                              asp-route-id=@item.Product.Book.Id>
                             <button class="font-medium text-red-500 hover:underline cursor-pointer" type="submit ">
                                 Remove
                             </button>
                         </form>
+                        <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Checkout" asp-action="Pay">
+                            <button class="font-medium text-cyan-500 hover:underline cursor-pointer" type="submit ">
+                                Pay
+                            </button>
+                            </form>
+                        
                     </div>
                 }
             }
