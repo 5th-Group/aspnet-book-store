@@ -38,9 +38,13 @@ namespace BookStoreMVC.Controllers
 
             if (userByUsername is null && userByEmail is null) ViewData["Message"] = "User does not exist.";
 
-            var result = await _signInManager.PasswordSignInAsync((userByEmail ?? userByUsername)!, model.Password, true, false);
+            var result = await _signInManager.PasswordSignInAsync((userByEmail ?? userByUsername)!, model.Password, false, false);
 
-            if (!result.Succeeded) ViewData["Message"] = "Username or password is incorrect";
+            if (!result.Succeeded)
+            {
+                ViewData["Message"] = "Username or password is incorrect";
+                return View(model);
+            }
 
             _logger.LogInformation($"User {userByEmail?.UserName ?? userByUsername?.UserName} has logged in at {DateTime.Now}");
             ViewData["Message"] = "Logged in successfully";
@@ -102,6 +106,7 @@ namespace BookStoreMVC.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        
         [Authorize("RequireUserRole")]
         [HttpPost]
         public async Task<IActionResult> Logout()
@@ -110,38 +115,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-        [HttpPost]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("User", "ChangePassword");
-            }
-
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                TempData["error"] = "Không tìm thấy user";
-                return View();
-            }
-
-
-            var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
-            {
-                TempData["success"] = "Cập nhật mật khẩu thành công";
-            }
-            else
-            {
-                TempData["error"] = "Cập nhật mật khẩu thất bại";
-            }
-            return RedirectToAction("User", nameof(ChangePassword));
-        }
-
-
+        
         #endregion
     }
 }

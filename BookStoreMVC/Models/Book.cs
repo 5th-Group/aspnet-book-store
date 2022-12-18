@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace BookStoreMVC.Models;
 
@@ -16,13 +15,13 @@ public class Book
     public int PageCount { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? Author { get; set; }
+    public string Author { get; set; } = null!;
 
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Language { get; set; }
 
     [BsonRepresentation(BsonType.ObjectId)]
-    public IList<string> Genre { get; set; }
+    public IEnumerable<string> Genre { get; set; }
 
     // [BsonRepresentation(BsonType.ObjectId)]
     // public IList<string> Type { get; set; }

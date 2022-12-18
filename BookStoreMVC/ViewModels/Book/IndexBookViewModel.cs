@@ -1,6 +1,6 @@
-using BookStoreMVC.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using BookStoreMVC.Models;
 
 namespace BookStoreMVC.ViewModels;
 
@@ -13,20 +13,14 @@ public class IndexBookViewModel
 
     public int PageCount { get; set; }
 
-    public Author? Author { get; set; }
-    public string authorDisplay
-    {
-        get
-        {
-            return this.Author.FirstName + " " + this.Author.LastName;
-        }
-    }
+    public Author Author { get; set; } = null!;
+    public string authorDisplay => Author?.FirstName + " " + Author?.LastName;
 
     public string? Language { get; set; }
 
-    public IList<string> Genre { get; set; } = null!;
-    public string? Publisher { get; set; }
-    public IList<string> Type { get; set; } = null!;
+    public IEnumerable<BookGenreViewModel> Genre { get; set; } = null!;
+    public PublisherViewModel? Publisher { get; set; }
+    public IEnumerable<string> Type { get; set; } = null!;
 
 
     [DisplayName("Created At")]

@@ -19,5 +19,9 @@
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="ViewModels\ShoppingCart" />
+    </ItemGroup>
+
 </Project>
 

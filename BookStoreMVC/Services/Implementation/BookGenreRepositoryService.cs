@@ -6,10 +6,10 @@ using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
 
-public class BookGenreServices : IBookGenreRepository
+public class BookGenreRepositoryService : IBookGenreRepository
 {
     private readonly IMongoCollection<BookGenre> _bookGenreCollection;
-    public BookGenreServices(IConfiguration config, IOptions<BookStoreDataAccess> dataAccess)
+    public BookGenreRepositoryService(IOptions<BookStoreDataAccess> dataAccess)
     {
         var mongoClient = new MongoClient(dataAccess.Value.ConnectionString);
 
@@ -26,7 +26,7 @@ public class BookGenreServices : IBookGenreRepository
 
     public BookGenre GetById(string bookGenreId)
     {
-        throw new NotImplementedException();
+        return _bookGenreCollection.Find($"_id: {bookGenreId}").FirstOrDefault();
     }
 
     public async Task AddAsync(BookGenre model)

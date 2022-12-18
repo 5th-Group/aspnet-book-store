@@ -1,4 +1,4 @@
-@model IEnumerable<Order>
+@model IEnumerable<BookStoreMVC.Models.Payment.Order>
 @{
     ViewData["Title"] = "Order History";
     Layout = "_Layout";
@@ -83,7 +83,7 @@
                                 <td class="py-4 px-6">
                                     @order.CreatedAt.ToString("dd/MM/yyyy")
                                 </td>
-                                @if (order.Status == "Paid")
+                                @if (order.PaymentStatus == "Paid")
                                 {
                                     <td class="text-green-600 font-bold py-4 px-6">
                                         <div
@@ -95,9 +95,8 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M4.5 12.75l6 6 9-13.5" />
                                             </svg>
-
-
-                                            <span class="">@order.Status</span>
+                                            
+                                            <span class="">@order.PaymentStatus</span>
                                         </div>
 
                                     </td>
@@ -111,7 +110,7 @@
                                         stroke-width="2" stroke="currentColor" class="w-5 h-5 ">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                                             </svg>
-                                            <span>@order.Status</span>
+                                            <span>@order.PaymentStatus</span>
                                         </div>
                                     </td>
                                 }

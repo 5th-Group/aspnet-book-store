@@ -1,28 +1,28 @@
 using System.Security.Claims;
 using BookStoreMVC.Helpers;
 using BookStoreMVC.Models;
+using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Stripe;
-using BookStoreMVC.Controllers;
 
 namespace BookStoreMVC.Controllers
 {
     public class PaymentsController : Controller
     {
-        private readonly IConfiguration _configuration;
+        // private readonly IConfiguration _configuration;
         private readonly IOrderRepository _orderRepository;
         private readonly UserManager<User> _userManager;
 
-        public PaymentsController(IConfiguration configuration, IOrderRepository orderRepository, UserManager<User> userManager)
+        public PaymentsController(IConfiguration configuration, IOrderRepository orderRepository,
+            UserManager<User> userManager)
         {
             _userManager = userManager;
             _orderRepository = orderRepository;
-            _configuration = configuration;
-            StripeConfiguration.ApiKey = _configuration.GetValue<string>(
+            // _configuration = configuration;
+            StripeConfiguration.ApiKey = configuration.GetValue<string>(
                 "Stripe:SecretKey");
         }
 
@@ -31,14 +31,15 @@ namespace BookStoreMVC.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 
-        public IActionResult Payment()
-        {
-            return View();
-        }
+        // public IActionResult Payment()
+        // {
+        //     return View();
+        // }
         public IActionResult CheckOut()
         {
             return View();
         }
+
         private int TotalPriceCalc(IList<ProductListItem> list)
         {
             decimal toltal = 0;
@@ -46,6 +47,7 @@ namespace BookStoreMVC.Controllers
             {
                 toltal += item.TotalPrice;
             }
+
             return Convert.ToInt32(toltal);
         }
 
@@ -65,7 +67,6 @@ namespace BookStoreMVC.Controllers
                 {
                     Enabled = true,
                 },
-
             });
 
             return Json(new { clientSecret = paymentIntent.ClientSecret, paymentIntent_id = paymentIntent.Id });
@@ -73,9 +74,9 @@ namespace BookStoreMVC.Controllers
 
         [HttpGet]
         [Authorize("RequireUserRole")]
-        public async Task<IActionResult> Success([FromQuery] string payment_intent)
+        public async Task<IActionResult> Success([FromQuery] string paymentIntent)
         {
-            if (string.IsNullOrEmpty(payment_intent))
+            if (string.IsNullOrEmpty(paymentIntent))
             {
                 return NotFound();
             }
@@ -84,11 +85,11 @@ namespace BookStoreMVC.Controllers
             try
             {
                 var paymentIntentService = new PaymentIntentService();
-                PaymentIntent result = await paymentIntentService.GetAsync(payment_intent);
+                PaymentIntent result = await paymentIntentService.GetAsync(paymentIntent);
 
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
+                var cart = HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(userId);
 
                 var order = new Order
                 {
@@ -100,16 +101,28 @@ namespace BookStoreMVC.Controllers
 
                 if (result.Status == "succeeded")
                 {
-                    order.Status = "Paid";
+                    order.PaymentStatus = "Paid";
+                    order.ShippingStatus = new[]
+                    {
+                        new OrderStatus
+                        {
+                            Name = "Order has been confirmed",
+                            TimeStamp = DateTime.Now
+                        }
+                    };
+                    order.CurrentShippingStatus = 0;
+                    
                     await _orderRepository.AddAsync(order);
                     ViewBag.Result = "Payment succeeded!";
                     // To do : 
                     // - Store ORDER to database 
                     // - Clear cart (session)
+                    HttpContext.Session.Remove(userId);
+                    
                 }
                 else
                 {
-                    order.Status = "Payment failed";
+                    order.PaymentStatus = "Payment failed";
                     await _orderRepository.AddAsync(order);
                     ViewBag.Result = "Payment failed!";
                 }
@@ -118,7 +131,6 @@ namespace BookStoreMVC.Controllers
             }
             catch (Exception ex)
             {
-
                 ViewBag.Result = ex.Message;
 
                 return View();
@@ -126,11 +138,9 @@ namespace BookStoreMVC.Controllers
         }
 
 
-
-
-        public async Task<IActionResult> Failed([FromQuery] string paymentIntent_id)
+        public async Task<IActionResult> Failed([FromQuery] string paymentIntentId)
         {
-            if (string.IsNullOrEmpty(paymentIntent_id))
+            if (string.IsNullOrEmpty(paymentIntentId))
             {
                 ViewBag.Result = "Nothing here, go back!";
                 return View();
@@ -140,7 +150,7 @@ namespace BookStoreMVC.Controllers
             try
             {
                 var paymentIntentService = new PaymentIntentService();
-                PaymentIntent result = await paymentIntentService.GetAsync(paymentIntent_id);
+                PaymentIntent result = await paymentIntentService.GetAsync(paymentIntentId);
 
                 string userId = GetCartKey();
 
@@ -150,7 +160,7 @@ namespace BookStoreMVC.Controllers
                 {
                     Customer = userId,
                     ProductList = cart,
-                    Status = "Failed"
+                    PaymentStatus = "Failed"
                 };
 
                 await _orderRepository.AddAsync(order);
@@ -159,13 +169,10 @@ namespace BookStoreMVC.Controllers
             }
             catch (Exception ex)
             {
-
                 ViewBag.Result = ex.Message;
 
                 return View();
             }
         }
     }
-
-
 }
