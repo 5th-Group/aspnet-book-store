@@ -1,4 +1,3 @@
-using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,10 +35,15 @@ namespace BookStoreMVC.Controllers
             //     lang = null,
             //     signature = null
             // };
-            var momo = new MomoPaymentRequest();
-            _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
-            
-            _paymentStrategy.MakePayment(momo);
+            // var momo = new MomoPaymentRequest();
+            // _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
+            //
+            // var res = _paymentStrategy.MakePayment(momo);
+            // var jobject = JObject.Parse(res);
+            // var qrGenerator = new QRCodeGenerator();
+            // var qrData = qrGenerator.CreateQrCode(jobject.GetValue("qrCodeUrl")!.ToString(), QRCodeGenerator.ECCLevel.Q);
+            // // var qrCode = new QRCode(qrData);
+
             return null;
         }
 

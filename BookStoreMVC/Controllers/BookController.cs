@@ -21,6 +21,7 @@ namespace BookStoreMVC.Controllers
             _bookRepository = bookRepository;
             _helpersRepository = helpersRepository;
             _authorRepository = authorRepository;
+            
         }
 
         [HttpGet("Books")]
