@@ -3,7 +3,7 @@ using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.Services.Implementation;
 using MongoDB.Bson;
-
+using SeoTags;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +57,34 @@ builder.Services.AddScoped<IPaymentService, MomoPayment>();
 // builder.Services.AddScoped<IPaymentService[]>(_ => new []{builder.Services.AddScoped<PaymentService<>>()});
 builder.Services.AddScoped<IHelpers, HelperService>();
 
+builder.Services.AddSeoTags(seoInfo =>
+   {
+       seoInfo.SetSiteInfo(
+           siteTitle: "Swiftlib, place you can buy anybook!",
+           openSearchUrl: "https://site.com/open-search.xml",  //optional
+           robots: "index, follow"  //optional
+       );
+       seoInfo.SetCommonInfo(
+                  pageTitle: "Home",
+                  description: "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...",
+                  url: "https://site.com/url/",
+                  keywordTags: new[] { "SEO", "AspNetCore", "MVC", "RazorPages" },
+                  seeAlsoUrls: new[] { "https://site.com/see-also-1", "https://site.com/see-also-2" });
+
+       seoInfo.SetImageInfo(
+             url: "https://opengraph.githubassets.com/faf6ca93025794067b4f4c0beeff874561fa5b581ac92bd7a6ca1ec7d7e14c42/definux/Seo",
+             width: 1200,
+             height: 600,
+             alt: "Image alt",
+             mimeType: "image/jpeg", //optional: detect from url file extension
+             cardType: SeoTags.TwitterCardType.SummaryLargeImage);
+
+
+       //optional
+       seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
+
+
+   });
 
 // Authorization Policy
 builder.Services.AddAuthorization(options =>

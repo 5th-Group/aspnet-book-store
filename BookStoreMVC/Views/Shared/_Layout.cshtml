@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - BookStoreMVC</title>
+    @Html.SeoTags()
     <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
 
 </head>
@@ -16,8 +14,9 @@
 
     <!--Main Content-->
 
-    <div class="mx-auto  min-h-screen ">
-        @RenderBody()
+    <div class="fb-share-button" data-href="https://localhost:7278/" data-layout="button_count">
+    </div>
+    @RenderBody()
 
     </div>
 
@@ -31,6 +30,24 @@
     <script src="https://js.stripe.com/v3/"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1085574038877738',
+                xfbml: true,
+                version: 'v15.0'
+            });
+            FB.AppEvents.logPageView();
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
 
 
     @await RenderSectionAsync("Scripts", required: false)
