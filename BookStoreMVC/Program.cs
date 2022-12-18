@@ -67,7 +67,7 @@ builder.Services.AddSeoTags(seoInfo =>
        seoInfo.SetCommonInfo(
                   pageTitle: "Home",
                   description: "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...",
-                  url: "https://site.com/url/",
+                  url: "https://aspnet-book-store-production-067c.up.railway.app/Books",
                   keywordTags: new[] { "SEO", "AspNetCore", "MVC", "RazorPages" },
                   seeAlsoUrls: new[] { "https://site.com/see-also-1", "https://site.com/see-also-2" });
 
