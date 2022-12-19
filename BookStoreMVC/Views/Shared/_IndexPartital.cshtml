@@ -159,6 +159,36 @@
 
 
     }
+
+    @if (Model.Type == "UserIndex")
+
+    {
+        @* Add Btn *@
+        <a asp-action="AddUser" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
+        @* Add Btn *@
+
+    }
+
+    @if (Model.Type == "OrderIndex")
+
+    {
+        @* Add Btn *@
+        <a asp-action="AddOrder" class="nonBgButton px-4 py-1 flex gap-4">
+            Add
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+        </a>
+        @* Add Btn *@
+
+    }
 </div>
 @* End Search bar *@
 
@@ -321,6 +351,47 @@
 
             }
             @* Publisher Header *@
+
+            @* User Header *@
+            @if (Model.Type == "UserIndex" && Model.Count > 0)
+            {
+                <th scope="col" class="py-3 px-6 ">
+                    Id
+                </th>
+                <th scope="col" class="py-3 px-6 ">
+                    name
+                </th>
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+
+            }
+            @* User Header *@
+
+            @* Order Header *@
+            @if (Model.Type == "OrderIndex" && Model.Count > 0)
+            {
+                <th scope="col" class="py-3 px-6 ">
+                    Order ID
+                </th>
+                <th scope="col" class="py-3 px-6 ">
+                    Customer
+                </th>
+                <th scope="col" class="py-3 px-6 ">
+                    Date
+                </th>
+                <th scope="col" class="py-3 px-6 ">
+                    Toltal Price
+                </th>
+                <th scope="col" class="py-3 px-6 ">
+                    Status
+                </th>
+                <th scope="col" class="py-3 px-6 text-center">
+                    Actions
+                </th>
+
+            }
+            @* Order Header *@
 
         </tr>
     </thead>
@@ -530,6 +601,86 @@
 
         }
         @* Publisher List *@
+
+        @* User List *@
+        @if (Model.Type == "UserIndex" && Model.Count > 0)
+
+        {
+
+            foreach (var item in Model)
+
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Id
+                    </td>
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.LastName @item.FirstName
+                    </td>
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-action="DeleteUser" asp-route-publisherId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+
+            }
+
+        }
+        @* User List *@
+
+        @* Order List *@
+        @if (Model.Type == "OrderIndex" && Model.Count > 0)
+
+        {
+
+            foreach (var item in Model)
+
+            {
+                <tr
+            class="bg-white border-gray-700 hover:bg-gray-300 text-normalText transition-colors duration-300 cursor-default">
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Id
+                    </td>
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Customer.Firstname @item.Customer.Lastname
+                    </td>
+
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.CreatedAt
+                    </td>
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.TotalPrice.ToString("#,##")đ
+                    </td>
+                    <td class="py-4 px-6 whitespace-nowrap">
+                        @item.Status
+                    </td>
+
+                    <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
+
+                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+                        <form class="inline-block" method="post" asp-action="DeleteUser" asp-route-publisherId=@item.Id>
+                            <button class="font-medium text-red-600 hover:underline cursor-pointer"
+                        type="submit ">Delete</button>
+                        </form>
+
+                    </td>
+                </tr>
+
+            }
+
+        }
+        @* Order List *@
 
     </tbody>
 </table>

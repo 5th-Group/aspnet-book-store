@@ -24,6 +24,7 @@
         <!-- Menu Items and Search bar-->
         <div
             class="basis-2/4  w-full flex justify-between items-center @(ViewBag.Title == "Books" ? "pr-[294px]" : "")">
+
             <!-- Menu Items -->
             <a asp-controller="Home" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
                 Home
@@ -31,9 +32,11 @@
             <a asp-controller="Book" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
                 Book
             </a>
-            <a href="#" class="hover:text-primary hover:font-bold transition-all">Community</a>
+            <a asp-action="CheckOrder" asp-controller="Home"
+                class="hover:text-primary hover:font-bold transition-all">Check Order</a>
             <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
             <!-- End Menu Items -->
+
             <!-- Search bar-->
             @if (ViewBag.Title != "Books")
             {

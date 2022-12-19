@@ -49,14 +49,14 @@ builder.Services.AddSeoTags(seoInfo =>
        seoInfo.SetSiteInfo(
            siteTitle: "Swiftlib, place you can buy anybook!",
            openSearchUrl: "https://site.com/open-search.xml",  //optional
-           robots: "index, follow"  //optional
+           robots: "index, follow"
+       //optional
        );
        seoInfo.SetCommonInfo(
                   pageTitle: "Home",
                   description: "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...",
-                  url: "https://aspnet-book-store-production-067c.up.railway.app/Books",
-                  keywordTags: new[] { "SEO", "AspNetCore", "MVC", "RazorPages" },
-                  seeAlsoUrls: new[] { "https://site.com/see-also-1", "https://site.com/see-also-2" });
+                  url: "https://aspnet-book-store-production-067c.up.railway.app/",
+                  keywordTags: new[] { "Book", "Books", "Bookstore", "Switflib", "Ebook", "HardCover", "Paperback", });
 
        seoInfo.SetImageInfo(
              url: "https://opengraph.githubassets.com/faf6ca93025794067b4f4c0beeff874561fa5b581ac92bd7a6ca1ec7d7e14c42/definux/Seo",
@@ -67,7 +67,6 @@ builder.Services.AddSeoTags(seoInfo =>
              cardType: SeoTags.TwitterCardType.SummaryLargeImage);
 
 
-       //optional
        seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
 
 
