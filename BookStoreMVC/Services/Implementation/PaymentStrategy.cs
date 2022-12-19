@@ -9,9 +9,9 @@ public class PaymentStrategy : IPaymentStrategy
         _paymentServices = paymentServices ?? throw new ArgumentNullException();
     }
 
-    public void MakePayment<T>(T model) where T : IPaymentModel
+    public string MakePayment<T>(T model) where T : IPaymentModel
     {
-        GetPaymentService(model).MakePayment(model);
+        return GetPaymentService(model).MakePayment(model);
     }
 
     private IPaymentService GetPaymentService<T>(T model) where T : IPaymentModel

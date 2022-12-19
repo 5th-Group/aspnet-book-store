@@ -1,8 +1,7 @@
-using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace BookStoreMVC.Models;
+namespace BookStoreMVC.Models.Payment;
 
 public class Order
 {
@@ -13,8 +12,12 @@ public class Order
     public IList<ProductListItem> ProductList { get; set; } = null!;
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+    
+    public string? PaymentStatus { get; set; }
 
-    public string Status { get; set; } = null!;
+    public IEnumerable<OrderStatus> ShippingStatus { get; set; } = null!;
+
+    public int CurrentShippingStatus { get; set; }
 
     [BsonRepresentation(BsonType.String)]
     public string Customer { get; set; } = null!;

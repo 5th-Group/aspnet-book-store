@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BookStoreMVC.Models.Payment;
 
 namespace BookStoreMVC.Controllers;
 
@@ -61,19 +62,55 @@ public class UserController : Controller
         var model = new ChangePasswordViewModel();
         return View(model);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            TempData["error"] = "Không tìm thấy user";
+            return NotFound();
+        }
+
+
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (result.Succeeded)
+        {
+            TempData["success"] = "Cập nhật mật khẩu thành công";
+        }
+        else
+        {
+            TempData["error"] = "Cập nhật mật khẩu thất bại";
+        }
+        return RedirectToAction("ChangePassword", "User");
+    }
+    
+    
+
+    #endregion
+
+
+    #region Order History
+    
     [Authorize("RequireUserRole")]
     [HttpGet]
     public IActionResult OrderHistory()
     {
-        IEnumerable<Order> orderList = _orderRepository.GetByUserId(GetCartKey());
-
+        var orderList = _orderRepository.GetByUserId(GetCartKey());
+    
         return View(orderList);
     }
 
-
-
-
-
+    // public IActionResult OrderHistoryTest()
+    // {
+    //     var orderList = _orderRepository.GetAll();
+    //
+    //     return View(orderList);
+    // }
 
     #endregion
 

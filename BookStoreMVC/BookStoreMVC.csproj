@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
     
     <ItemGroup>
@@ -18,6 +19,10 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ViewModels\ShoppingCart" />
     </ItemGroup>
 
 </Project>

@@ -14,9 +14,9 @@ public class Product
 
     // public decimal Cost { get; set; }
 
-    public PriceStruct BasePrice { get; set; }
-    
-    public PriceStruct CurrentPrice { get; set; }
+    public PriceStruct BasePrice { get; set; } = null!;
+
+    public PriceStruct CurrentPrice { get; set; } = null!;
 
     public DateTime CreatedDate { get; set; }
     

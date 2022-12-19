@@ -1,3 +1,4 @@
+using BookStoreMVC.Mapper;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
@@ -52,23 +53,31 @@ namespace BookStoreMVC.Controllers
         [HttpGet("Admin/Books/")]
         public IActionResult BookIndex(string filter = "_", int? pageNumber = 1)
         {
-            var bookList = _bookRepository.GetAll(filter).Select(book => new IndexBookViewModel
-            {
-                Id = book.Id,
-                Title = book.Title,
-                PageCount = book.PageCount,
-                Author = _authorRepository.GetById(book.Author).Result,
-                Language = book.Language,
-                Genre = book.Genre,
-                Type = book.Type.ToArray(),
-                CreatedAt = book.CreatedAt,
-                ImageName = book.ImageName,
-                SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
-                PublishDate = book.PublishDate,
-                Publisher = book.Publisher,
-                Isbn = book.Isbn,
-                Description = book.Description
-            });
+            // var bookList = _bookRepository.GetAll(filter).Select(book => new IndexBookViewModel
+            // {
+            //     Id = book.Id,
+            //     Title = book.Title,
+            //     PageCount = book.PageCount,
+            //     Author = _authorRepository.GetById(book.Author).Result,
+            //     Language = book.Language,
+            //     Genre = book.Genre,
+            //     Type = book.Type.ToArray(),
+            //     CreatedAt = book.CreatedAt,
+            //     ImageName = book.ImageName,
+            //     SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
+            //     PublishDate = book.PublishDate,
+            //     Publisher = ,
+            //     Isbn = book.Isbn,
+            //     Description = book.Description
+            // });
+
+            var bookList = BookMapper.MapManyBookViewModels(
+                _bookRepository.GetAll(filter),
+                _authorRepository,
+                _bookGenreRepository,
+                _publisherRepository,
+                _helpersRepository);
+            
 
             if (bookList != null && bookList.Any())
             {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using BookStoreMVC.ViewModels;
 
-namespace BookStoreMVC.Models
+namespace BookStoreMVC.Models.Cart
 {
     public class ShoppingCartItem
     {

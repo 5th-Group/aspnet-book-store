@@ -1,6 +1,11 @@
+using System.Security.Claims;
+using System.Text;
+using BookStoreMVC.Helpers;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace BookStoreMVC.Controllers
 {
@@ -19,30 +24,38 @@ namespace BookStoreMVC.Controllers
             // _momoPayment = serviceResolver(PaymentServiceEnum.MomoPayment);
         }
 
-
+        
+        [Authorize("RequireUserRole")]
+        [HttpPost]
         public IActionResult Pay()
         {
-            // var momo = new MomoPaymentRequest
-            // {
-            //     partnerCode = null,
-            //     requestId = null,
-            //     amount = 0,
-            //     orderId = null,
-            //     orderInfo = null,
-            //     redirectUrl = null,
-            //     ipnUrl = null,
-            //     requestType = null,
-            //     extraData = null,
-            //     lang = null,
-            //     signature = null
-            // };
-            var momo = new MomoPaymentRequest();
+
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
+
+
+            MomoPaymentRequest momo = new MomoPaymentRequest
+            {
+                requestId = DateTime.Now.Ticks.ToString(),
+                amount = cart.Select(item => Convert.ToInt64((item.Price * item.Quantity))).Sum(),
+                orderId = DateTime.Now.Ticks.ToString(),
+            };
             _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
-            
-            _paymentStrategy.MakePayment(momo);
+            momo.orderInfo += momo.orderId; 
+            momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
+            momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
+            momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(cart.ToString()));
+
+            var result = _paymentStrategy.MakePayment(momo);
+            var jRes = JObject.Parse(result);
+            if (jRes != null && jRes.Value<int>("resultCode") == 0) return Redirect(jRes.GetValue("payUrl")!.ToString());
+
             return null;
         }
 
         public IActionResult Index() => View();
+        
+        
+        
     }
 }
