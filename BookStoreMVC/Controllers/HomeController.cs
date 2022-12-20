@@ -35,31 +35,31 @@ public class HomeController : Controller
         return View();
     }
 
-    [Route("/sitemap.xml")]
-    public void SitemapXml()
-    {
-        string host = Request.Scheme + "://" + Request.Host;
+    // [Route("/sitemap.xml")]
+    // public void SitemapXml()
+    // {
+    //     string host = Request.Scheme + "://" + Request.Host;
 
-        var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
-        if (syncIOFeature != null)
-        {
-            syncIOFeature.AllowSynchronousIO = true;
-        }
+    //     var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
+    //     if (syncIOFeature != null)
+    //     {
+    //         syncIOFeature.AllowSynchronousIO = true;
+    //     }
 
-        Response.ContentType = "application/xml";
+    //     Response.ContentType = "application/xml";
 
-        using (var xml = XmlWriter.Create(Response.Body, new XmlWriterSettings { Indent = true }))
-        {
-            xml.WriteStartDocument();
-            xml.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+    //     using (var xml = XmlWriter.Create(Response.Body, new XmlWriterSettings { Indent = true }))
+    //     {
+    //         xml.WriteStartDocument();
+    //         xml.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
 
-            xml.WriteStartElement("url");
-            xml.WriteElementString("loc", host);
-            xml.WriteEndElement();
+    //         xml.WriteStartElement("url");
+    //         xml.WriteElementString("loc", host);
+    //         xml.WriteEndElement();
 
-            xml.WriteEndElement();
-        }
-    }
+    //         xml.WriteEndElement();
+    //     }
+    // }
 
     public IActionResult Privacy()
     {
