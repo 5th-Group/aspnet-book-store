@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Check Order";
+    Layout = "_Layout";
+}
+
+<section id="hero">
+    <!-- Flex Container -->
+    <div class="container max-w-7xl px-6 mx-auto space-y-0 mt-10">
+        <!-- Title-->
+        <div class="text-center mb-10">
+            <h1 class="font-glory  font-bold text-6xl text-titleText w-full ">
+                Check Your Order Easily
+            </h1>
+            <h2>
+                Just enter your Order ID and it's done.
+            </h2>
+        </div>
+        <!-- Title -->
+
+
+        <div class="flex gap-5 justify-center  ">
+            <div class="basis-1/2">
+                <img class="" src="~/img/Ilustrations/CheckOrder.svg" alt="">
+            </div>
+            <div class="  basis-1/2 p-14">
+                <div class="min-h-full bg-white font-medium p-10 rounded-lg shadow-lg">
+                    <h2 class="text-titleText">Enter Order ID</h2>
+                    <form asp-controller="Home" asp-action="OrderDetail" method="get" class=" mt-2">
+                        <input type="text" name="orderId"
+                            class="text-normalText rounded-lg py-3 px-2 bg-slate-100 border-2 focus:outline-none focus:border-primary duration-300 transition-colors border-gray-300 w-full ">
+                        <button class="bgButton w-full py-2 mt-5">Check Now</button>
+                    </form>
+                    <div class="mt-6">
+                        <h1 class="text-titleText">Can't find your Order details?</h1>
+                        <h3 class="text-sm font-normal text-normalText">We sent your Order ID via Email & SMS upon order
+                            confirmation.
+                        </h3>
+                        <button class="bgButton p-2 px-3 mt-3"><- Back</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Right item -->
+</section>

@@ -24,13 +24,15 @@ namespace BookStoreMVC.Controllers
         private readonly IHelpers _helpersRepository;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly IOrderRepository _orderRepository;
 
         private const int PAGE_SIZE = 10;
         private IEnumerable<string>? Headers = null!;
 
 
-        public AdminController(IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager, IProductRepository productRepository)
+        public AdminController(IOrderRepository orderRepository, IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager, IProductRepository productRepository)
         {
+            _orderRepository = orderRepository;
             _languageRepository = languageRepository;
             _authorRepository = authorRepository;
             _bookRepository = bookRepository;
@@ -77,7 +79,7 @@ namespace BookStoreMVC.Controllers
                 _bookGenreRepository,
                 _publisherRepository,
                 _helpersRepository);
-            
+
 
             if (bookList != null && bookList.Any())
             {
@@ -435,15 +437,61 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("LanguageIndex");
         }
         #endregion
+        #region Order
+        [HttpGet]
+        public IActionResult OrderIndex(int? pageNumber = 1)
+        {
+            var orderList = _orderRepository.GetAll().Select(order =>
+            {
+
+                var user = _userManager.FindByIdAsync(order.Customer).Result;
+                var userVM = new UserDetailViewModel();
+
+                userVM.Address = user.Address.ToString();
+                userVM.Country = user.Country;
+                userVM.Email = user.Email;
+                userVM.Firstname = user.FirstName;
+                userVM.Lastname = user.LastName;
+                userVM.Gender = user.Gender;
+                userVM.PhoneNumber = user.PhoneNumber;
+                userVM.Username = user.UserName;
+
+
+                return new OrderIndexViewModel
+                {
+                    Id = order.Id,
+                    CreatedAt = order.CreatedAt,
+                    PaymentStatus = order.PaymentStatus,
+                    TotalPrice = order.TotalPrice,
+                    Customer = userVM
+                };
+            });
+
+
+            var result = PaginatedList<OrderIndexViewModel>.Create(orderList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "OrderIndex");
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+            return View(result);
+
+
+        }
+        #endregion
 
         #region User Management
 
         [HttpGet]
-        public IActionResult UserIndex()
+        public IActionResult UserIndex(int? pageNumber = 1)
         {
-            var userList = _userManager.Users;
+            var userList = _userManager.Users.ToList();
 
-            return View(userList.ToList());
+            var result = PaginatedList<User>.Create(userList, pageNumber ?? 1, PAGE_SIZE, Headers, "UserIndex");
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+            return View(result);
         }
 
 

@@ -1,0 +1,86 @@
+@model BookStoreMVC.ViewModels.OrderIndexViewModel
+@{
+    ViewData["Title"] = "Order Detail";
+    Layout = "_Layout";
+}
+
+<section id="hero">
+    <!-- Flex Container -->
+    <div class="container max-w-7xl  px-6 flex justify-center   mx-auto space-y-0 mt-20">
+
+        <div class=" container max-w-3xl   bg-white rounded-lg shadow-lg py-8 px-12">
+            <div class="flex justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-titleText">Order Detail</h2>
+                    <h3 class="text-titleText">Due Dec 31, 2022</h3>
+                </div>
+                <div class="self-center ">
+                    @if (Model.PaymentStatus == "Paid")
+                    {
+
+                        <div
+                        class="px-4 py-2 w-32  text-emerald-500 flex content-end justify-center gap-1 bg-emerald-100 font-bold rounded-lg">
+                            <span class="">@Model.PaymentStatus</span>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="w-5 h-5 align-bottom">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                    }
+                    else
+                    {
+                        <div
+                        class="px-4 py-2 w-32  text-emerald-500 flex content-end justify-center gap-1 bg-emerald-100 font-bold rounded-lg">
+                            <span class="">@Model.PaymentStatus</span>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                            stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+
+                        </div>
+                    }
+                </div>
+            </div>
+            <p class="h-[0.1rem] w-full bg-titleText">
+            <div class="flex gap-4 ">
+                <div class="w-full  flex flex-col basis-1/2">
+                    <div class="text-center">
+                        <img src="~/img/Ilustrations/Order.svg" alt="">
+                        <p class="mb-10 text-lg font-medium text-titleText">Thanks again for chosing <span
+                                class="font-bold text-primary">Switflib</span>! Here's your
+                            Order and a few more little
+                            infomation. </p>
+                    </div>
+                </div>
+                <div class="w-full flex flex-col gap-4 items-center justify-center  basis-1/2">
+                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
+                        <h1 class="text-normalText text-sm flex items-center">ID</h1>
+                        <h1 class="font-medium text-titleText ">@Model.Id</h1>
+                    </div>
+                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
+                        <h1 class="text-normalText text-sm flex items-center">Name</h1>
+                        <h1 class="font-medium text-titleText ">@Model.Customer.Firstname @Model.Customer.Lastname </h1>
+                    </div>
+                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
+                        <h1 class="text-normalText text-sm flex items-center">Created At</h1>
+                        <h1 class="font-medium text-titleText ">@Model.CreatedAt</h1>
+                    </div>
+                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
+                        <h1 class="text-normalText text-sm flex items-center">Toltal</h1>
+                        <h1 class="font-bold  text-titleText text-primary">@Model.TotalPrice.ToString("#,##")đ</h1>
+                    </div>
+                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
+                        <h1 class="text-normalText text-sm flex items-center">Shipping</h1>
+                        <h1 class="font-bold  text-titleText text-primary">State</h1>
+                    </div>
+
+                    <a asp-action="Index" class="bgButton w-full py-2 font-medium">Go Back</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Right item -->
+</section>
