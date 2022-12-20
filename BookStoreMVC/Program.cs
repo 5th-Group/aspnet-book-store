@@ -301,6 +301,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+
 app.UseSession();
 
 app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");

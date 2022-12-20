@@ -1,8 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Net;
+using System.Xml;
+using AspNetCore.SEOHelper.Sitemap;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +31,34 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+
         return View();
+    }
+
+    [Route("/sitemap.xml")]
+    public void SitemapXml()
+    {
+        string host = Request.Scheme + "://" + Request.Host;
+
+        var syncIOFeature = HttpContext.Features.Get<IHttpBodyControlFeature>();
+        if (syncIOFeature != null)
+        {
+            syncIOFeature.AllowSynchronousIO = true;
+        }
+
+        Response.ContentType = "application/xml";
+
+        using (var xml = XmlWriter.Create(Response.Body, new XmlWriterSettings { Indent = true }))
+        {
+            xml.WriteStartDocument();
+            xml.WriteStartElement("urlset", "http://www.sitemaps.org/schemas/sitemap/0.9");
+
+            xml.WriteStartElement("url");
+            xml.WriteElementString("loc", host);
+            xml.WriteEndElement();
+
+            xml.WriteEndElement();
+        }
     }
 
     public IActionResult Privacy()
