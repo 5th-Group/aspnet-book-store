@@ -14,10 +14,7 @@
 
     <!--Main Content-->
 
-    @* FB share button *@
-    <div class="fb-share-button" data-href="https://localhost:7278/" data-layout="button_count">
-    </div>
-    @* FB share button *@
+
 
     @* Sharethis Button *@
     <div class="sharethis-inline-share-buttons"></div>
@@ -41,6 +38,8 @@
     <div id="fb-customer-chat" class="fb-customerchat">
     </div>
 
+    <!-- Messenger Chat Plugin Code -->
+
     <script>
         var chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "107380592227881");
@@ -53,48 +52,15 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    @* Facebook *@
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v15.0'
-            });
-        };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                appId: '1085574038877738',
-                xfbml: true,
-                version: 'v15.0'
-            });
-            FB.AppEvents.logPageView();
-        };
-
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
-    @* Facebook *@
 
     @* Sharethis*@
     <script type="text/javascript"
         src="https://platform-api.sharethis.com/js/sharethis.js#property=639ecabe4b058f001938ca18&product=inline-share-buttons&source=platform"
         async="async"></script>
     @* Sharethis*@
+
+
 
 
     @await RenderSectionAsync("Scripts", required: false)

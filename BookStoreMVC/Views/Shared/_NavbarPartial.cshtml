@@ -27,14 +27,17 @@
 
             <!-- Menu Items -->
             <a asp-controller="Home" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
-                Home
+                <h2>Home</h2>
             </a>
             <a asp-controller="Book" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
                 Book
             </a>
-            <a asp-action="CheckOrder" asp-controller="Home"
-                class="hover:text-primary hover:font-bold transition-all">Check Order</a>
-            <a href="#" class="hover:text-primary hover:font-bold transition-all">About Us</a>
+            <a asp-action="CheckOrder" asp-controller="Home" class="hover:text-primary hover:font-bold transition-all">
+                <h3>Check Order</h3>
+            </a>
+            <a href="#" class="hover:text-primary hover:font-bold transition-all">
+                <h4>About us</h4>
+            </a>
             <!-- End Menu Items -->
 
             <!-- Search bar-->
@@ -82,12 +85,16 @@
 
                 <div>
                     <button onclick="location.href='@Url.Action("Login", "Authentication")'" type="button"
-                    class="nonBgButton py-2 w-24">Login</button>
+                    class="nonBgButton py-2 w-24">
+                        <h5>Login</h5>
+                    </button>
 
 
 
                     <button onclick="location.href='@Url.Action("Register", "Authentication")'" type="button"
-                    class="bgButton  py-2 w-24">Sign Up</button>
+                    class="bgButton  py-2 w-24">
+                        <h6>Sign Up</h6>
+                    </button>
                 </div>
 
             }
@@ -95,7 +102,7 @@
             {
                 <div class="flex items-center gap-2">
                     <span>
-                        Hello,
+                        <h3>Hello</h3>,
                         <a asp-controller="User" asp-action="Index" class="hover:text-primary">@User.Identity.Name</a>
 
                     </span>

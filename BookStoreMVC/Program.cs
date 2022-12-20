@@ -47,25 +47,25 @@ builder.Services.AddScoped<IHelpers, HelperService>();
 builder.Services.AddSeoTags(seoInfo =>
    {
        seoInfo.SetSiteInfo(
-           siteTitle: "Swiftlib, place you can buy anybook!",
-           openSearchUrl: "https://site.com/open-search.xml",  //optional
-           robots: "index, follow"
 
+           siteTitle: "Swiftlib, place you can buy anybook!",
+
+           robots: "https://swiftlib.site/robots.txt"
        );
 
        seoInfo.SetCommonInfo(
                   pageTitle: "Home",
                   description: "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...",
-                  url: "swiftlib.site",
+                  url: "https://swiftlib.site/",
                   keywordTags: new[] { "Book", "Books", "Bookstore", "Switflib", "Ebook", "HardCover", "Paperback", });
 
        seoInfo.SetImageInfo(
-             url: "https://site.com/uploads/image.jpg",
+             url: "https://swiftlib.site/img/BoldDime.png",
              width: 1200,
              height: 600,
              alt: "Image alt",
              mimeType: "image/jpeg", //optional: detect from url file extension
-             cardType: SeoTags.TwitterCardType.SummaryLargeImage);
+             cardType: TwitterCardType.SummaryLargeImage);
 
 
        seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
@@ -107,6 +107,53 @@ builder.Services.AddSeoTags(seoInfo =>
            }
        };
 
+
+
+
+
+       var author = new PersonInfo
+       {
+           Url = "https://site.com/author",
+           Name = "Author Name",
+           Description = "Author Description",
+           SocialMediaUrls = new[]
+             {
+       "https://twitter.com/AuthorId",
+       "https://www.linkedin.com/company/AuthorId/"
+       },
+           Image = new()
+           {
+               Url = "https://site.com/uploads/author-image.jpg",
+               Caption = "Author Name",
+               InLanguage = "en-US",
+               Width = 400,
+               Height = 400
+           }
+       };
+
+
+       var image = new ImageInfo()
+       {
+           Url = "https://swiftlib.site/img/BoldDime.png",
+           Caption = "Image Name",
+           InLanguage = "en-US",
+           Width = 1280,
+           Height = 720
+       };
+
+       List<PersonInfo> listAuthor = new List<PersonInfo>();
+       listAuthor.Add(author);
+       List<ImageInfo> listImg = new List<ImageInfo>();
+       listImg.Add(image);
+
+       IEnumerable<PersonInfo> authorList = listAuthor;
+       IEnumerable<ImageInfo> imgList = listImg;
+
+
+
+
+
+
        var website = new WebSiteInfo
        {
            Url = "https://swiftlib.site/",
@@ -122,6 +169,26 @@ builder.Services.AddSeoTags(seoInfo =>
                                         //    }
        };
 
+       //    var article = new ArticleInfo
+       //    {
+
+       //        Id = "298dfdd8f6a",
+       //        Url = "https://swiftlib.site/",
+       //        Description = "Desctiponnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
+       //        Images = imgList,
+       //        Author = "Neo Nguyen",
+       //        DateModified = DateTime.Now,
+       //        DatePublished = DateTime.Now,
+       //        CommentCount = 34,
+       //        Keywords = new[] { "Swift", "Swiftlib", "Book", "Books", "book", "books", "Bookstore", "bookstore", "ebook", "Ebook", },
+       //        Title = "Swiftlib title holder",
+       //        WebSite = website.Id,
+       //        Publisher = organization.Id,
+
+
+
+       //    };
+
        //        var breadcrumb = new BreadcrumbInfo
        //        {
        //            Url = "https://site.com/posts/post-url",
@@ -133,14 +200,7 @@ builder.Services.AddSeoTags(seoInfo =>
        // }
        //        };
 
-       var image = new ImageInfo()
-       {
-           Url = "https://swiftlib.site/img/BoldDime.png",
-           Caption = "Image Name",
-           InLanguage = "en-US",
-           Width = 1280,
-           Height = 720
-       };
+
 
        //        var author = new PersonInfo
        //        {
@@ -185,6 +245,8 @@ builder.Services.AddSeoTags(seoInfo =>
        seoInfo.JsonLd.AddImage(image);
        //    seoInfo.JsonLd.AddPerson(author);
        seoInfo.JsonLd.AddPage(webpage);
+       //    seoInfo.JsonLd.AddArticle(article);
+
 
 
    });
