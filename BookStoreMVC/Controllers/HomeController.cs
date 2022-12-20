@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using System.Xml;
-using AspNetCore.SEOHelper.Sitemap;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
