@@ -49,7 +49,6 @@ builder.Services.AddSeoTags(seoInfo =>
        seoInfo.SetSiteInfo(
 
            siteTitle: "Swiftlib, place you can buy anybook!",
-
            robots: "https://swiftlib.site/robots.txt"
        );
 
@@ -60,7 +59,7 @@ builder.Services.AddSeoTags(seoInfo =>
                   keywordTags: new[] { "Book", "Books", "Bookstore", "Switflib", "Ebook", "HardCover", "Paperback", });
 
        seoInfo.SetImageInfo(
-             url: "https://swiftlib.site/img/BoldDime.png",
+             url: "https://swiftlib.site/img/Home.png",
              width: 1200,
              height: 600,
              alt: "Image alt",
@@ -141,19 +140,6 @@ builder.Services.AddSeoTags(seoInfo =>
            Height = 720
        };
 
-       List<PersonInfo> listAuthor = new List<PersonInfo>();
-       listAuthor.Add(author);
-       List<ImageInfo> listImg = new List<ImageInfo>();
-       listImg.Add(image);
-
-       IEnumerable<PersonInfo> authorList = listAuthor;
-       IEnumerable<ImageInfo> imgList = listImg;
-
-
-
-
-
-
        var website = new WebSiteInfo
        {
            Url = "https://swiftlib.site/",
@@ -169,58 +155,7 @@ builder.Services.AddSeoTags(seoInfo =>
                                         //    }
        };
 
-       //    var article = new ArticleInfo
-       //    {
 
-       //        Id = "298dfdd8f6a",
-       //        Url = "https://swiftlib.site/",
-       //        Description = "Desctiponnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn",
-       //        Images = imgList,
-       //        Author = "Neo Nguyen",
-       //        DateModified = DateTime.Now,
-       //        DatePublished = DateTime.Now,
-       //        CommentCount = 34,
-       //        Keywords = new[] { "Swift", "Swiftlib", "Book", "Books", "book", "books", "Bookstore", "bookstore", "ebook", "Ebook", },
-       //        Title = "Swiftlib title holder",
-       //        WebSite = website.Id,
-       //        Publisher = organization.Id,
-
-
-
-       //    };
-
-       //        var breadcrumb = new BreadcrumbInfo
-       //        {
-       //            Url = "https://site.com/posts/post-url",
-       //            Items = new[]
-       //        {
-       // ("https://site.com/", "Home"),
-       // ("https://site.com/posts/", "Post List"),
-       // ("https://site.com/posts/post-url", "Current Post"),
-       // }
-       //        };
-
-
-
-       //        var author = new PersonInfo
-       //        {
-       //            Url = "https://site.com/author",
-       //            Name = "Author Name",
-       //            Description = "Author Description",
-       //            SocialMediaUrls = new[]
-       //        {
-       // "https://twitter.com/AuthorId",
-       // "https://www.linkedin.com/company/AuthorId/"
-       // },
-       //            Image = new()
-       //            {
-       //                Url = "https://site.com/uploads/author-image.jpg",
-       //                Caption = "Author Name",
-       //                InLanguage = "en-US",
-       //                Width = 400,
-       //                Height = 400
-       //            }
-       //        };
 
        var webpage = new SeoTags.PageInfo
        {
