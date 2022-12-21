@@ -89,7 +89,7 @@
                             <h3 class="text-sm line-clamp-2 min-h-[3rem]">@product.Book.Description</h3>
                             <h2 class="font-bold text-primary mt-1 mb-2">@product.Price.Hardcover.ToString("#,##")đ</h2>
 
-                            <form class="inline-block bgButton py-1" method="post" asp-controller="Cart"
+                            <form class="inline-block bgButton py-1 z-10" method="post" asp-controller="Cart"
                             asp-action="AddToCart" asp-route-id=@product.Id>
                                 <button class="" type="submit ">Add to cart</button>
                             </form>
