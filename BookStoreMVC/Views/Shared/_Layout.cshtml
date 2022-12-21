@@ -2,13 +2,16 @@
 <html lang="en">
 
 <head>
-    <!-- Google tag (gtag.js) -->
 
 
 
     @Html.SeoTags()
+
+    @* Main css *@
     <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
-    <!-- Google tag (gtag.js) -->
+    @* Main css *@
+
+    <!-- Google Analystics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YREDV0DEMV"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -17,23 +20,29 @@
 
         gtag('config', 'G-YREDV0DEMV');
     </script>
+    <!-- Google Analystics -->
+
+
 </head>
 
 <body class="font-inter bg-backGr">
+
+
     <!-- Navbar -->
     @Html.Partial("_NavbarPartial")
     <!-- End Nav -->
 
-    <!--Main Content-->
+
 
 
 
     @* Sharethis Button *@
     <div class="sharethis-inline-share-buttons"></div>
     @* Sharethis Button *@
+
+    <!--Main Content-->
     <div class="mx-auto  min-h-screen ">
         @RenderBody()
-
     </div>
 
     <!--End Main Content-->
@@ -46,11 +55,11 @@
     <!-- Messenger Chat Plugin Code -->
     <div id="fb-root"></div>
 
-    <!-- Your Chat Plugin code -->
+    <!--  Chat Plugin code -->
     <div id="fb-customer-chat" class="fb-customerchat">
     </div>
 
-    <!-- Messenger Chat Plugin Cod -->
+
 
     <script>
         var chatbox = document.getElementById('fb-customer-chat');
@@ -58,7 +67,8 @@
         chatbox.setAttribute("attribution", "biz_inbox");
     </script>
 
-    <!-- Your SDK code -->
+    <!-- Messenger Chat Plugin Code -->
+
 
     <script src="https://js.stripe.com/v3/"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -72,6 +82,20 @@
         src="https://platform-api.sharethis.com/js/sharethis.js#property=639ecabe4b058f001938ca18&product=inline-share-buttons&source=platform"
         async="async"></script>
     @* Sharethis*@
+
+    <!--Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/63a26301b0d6371309d56806/1gkp55g53';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--Tawk.to Script-->
 
 
 
