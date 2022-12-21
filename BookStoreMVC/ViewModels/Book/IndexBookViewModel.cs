@@ -16,7 +16,7 @@ public class IndexBookViewModel
     public Author Author { get; set; } = null!;
     public string authorDisplay => Author?.FirstName + " " + Author?.LastName;
 
-    public string? Language { get; set; }
+    public LanguageViewModel? Language { get; set; }
 
     public IEnumerable<BookGenreViewModel> Genre { get; set; } = null!;
     public PublisherViewModel? Publisher { get; set; }

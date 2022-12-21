@@ -25,7 +25,7 @@ public class LanguageServices : ILanguageRepository
 
     public Language GetById(string languageId)
     {
-        throw new NotImplementedException();
+        return _languageCollection.Find(x => x.Id == languageId).FirstOrDefaultAsync().Result;
     }
 
 

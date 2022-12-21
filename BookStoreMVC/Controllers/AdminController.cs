@@ -77,6 +77,7 @@ namespace BookStoreMVC.Controllers
                 _bookRepository.GetAll(filter),
                 _authorRepository,
                 _bookGenreRepository,
+                _languageRepository,
                 _publisherRepository,
                 _helpersRepository);
 

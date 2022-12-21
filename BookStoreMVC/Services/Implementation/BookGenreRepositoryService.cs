@@ -26,7 +26,8 @@ public class BookGenreRepositoryService : IBookGenreRepository
 
     public BookGenre GetById(string bookGenreId)
     {
-        return _bookGenreCollection.Find($"_id: {bookGenreId}").FirstOrDefault();
+        var resutl = _bookGenreCollection.Find(x => x.Id == bookGenreId).FirstOrDefaultAsync().Result;
+        return resutl;
     }
 
     public async Task AddAsync(BookGenre model)

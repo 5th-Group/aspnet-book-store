@@ -6,7 +6,7 @@ namespace BookStoreMVC.Mapper;
 
 public static class BookMapper
 {
-    public static IndexBookViewModel MapBookViewModel(Book book, Author author, IEnumerable<BookGenre> bookGenres, Publisher publisher, IHelpers helpers)
+    public static IndexBookViewModel MapBookViewModel(Book book, Author author, IEnumerable<BookGenre> bookGenres, Publisher publisher, Language language, IHelpers helpers)
     {
         var viewModel = new IndexBookViewModel
         {
@@ -14,7 +14,7 @@ public static class BookMapper
             Title = book.Title,
             PageCount = book.PageCount,
             Author = author,
-            Language = book.Language,
+            Language = MapBookLanguageViewModel(language),
             Genre = MapBookGenreViewModels(bookGenres),
             Publisher = MapPublisherViewModel(publisher),
             Type = book.Type,
@@ -29,9 +29,9 @@ public static class BookMapper
         return viewModel;
     }
 
-    public static IEnumerable<IndexBookViewModel> MapManyBookViewModels(IEnumerable<Book> books, IAuthorRepository authorRepository, IBookGenreRepository genreRepository, IPublisherRepository publisherRepository, IHelpers helpers)
+    public static IEnumerable<IndexBookViewModel> MapManyBookViewModels(IEnumerable<Book> books, IAuthorRepository authorRepository, IBookGenreRepository genreRepository, ILanguageRepository languageRepository, IPublisherRepository publisherRepository, IHelpers helpers)
     {
-        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(genre => genreRepository.GetById(genre)) let publisher = publisherRepository.GetById(book.Publisher) select MapBookViewModel(book, author, bookGenres, publisher, helpers)).ToList();
+        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(genre => genreRepository.GetById(genre)) let language = languageRepository.GetById(book.Language) let publisher = publisherRepository.GetById(book.Publisher) select MapBookViewModel(book, author, bookGenres, publisher, language, helpers)).ToList();
     }
 
 
@@ -45,7 +45,16 @@ public static class BookMapper
     {
         return bookGenres.Select(genre => new BookGenreViewModel { Id = genre.Id, Name = genre.Name });
     }
-    
+    public static LanguageViewModel MapBookLanguageViewModel(Language language)
+    {
+        return new LanguageViewModel
+        {
+            Code = language.Code,
+            Id = language.Id,
+            Name = language.Name
+        };
+    }
+
     public static PublisherViewModel MapPublisherViewModel(Publisher publisher)
     {
         return new PublisherViewModel

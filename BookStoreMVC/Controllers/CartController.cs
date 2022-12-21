@@ -20,6 +20,7 @@ namespace BookStoreMVC.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
+        private readonly ILanguageRepository _languageRepository;
 
         private readonly UserManager<User> _userManager;
 
@@ -32,9 +33,9 @@ namespace BookStoreMVC.Controllers
 
 
 
-        public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
+        public CartController(ILanguageRepository languageRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
         {
-
+            _languageRepository = languageRepository;
             _productRepository = productRepository;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -53,7 +54,7 @@ namespace BookStoreMVC.Controllers
 
             IEnumerable<ProductListItem> cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, GetCartKey());
 
-            
+
 
             if (cart != null && cart.Any())
             {
@@ -65,8 +66,9 @@ namespace BookStoreMVC.Controllers
                     var author = _authorRepository.GetById(product.BookId).Result;
                     var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
                     var publisher = _publisherRepository.GetById(book.Publisher);
+                    var language = _languageRepository.GetById(book.Language);
 
-                    var bookViewModel = BookMapper.MapBookViewModel(book, author,  bookGenres, publisher, _helpersRepository);
+                    var bookViewModel = BookMapper.MapBookViewModel(book, author, bookGenres, publisher, language, _helpersRepository);
 
 
 
@@ -84,7 +86,7 @@ namespace BookStoreMVC.Controllers
                         Amount = item.Quantity,
                         Price = item.TotalPrice
                     };
-                
+
                     _cartItemList.Add(cartItem);
                 }
             }
@@ -92,9 +94,9 @@ namespace BookStoreMVC.Controllers
             {
                 // if (cart is null)
                 // {
-                    // return NotFound();
-                    // Generate Empty cart list so user can still access cart page instead of throwing error
-                    HttpContext.Session.SetString(User.FindFirstValue(ClaimTypes.NameIdentifier), string.Empty);
+                // return NotFound();
+                // Generate Empty cart list so user can still access cart page instead of throwing error
+                HttpContext.Session.SetString(User.FindFirstValue(ClaimTypes.NameIdentifier), string.Empty);
                 // }
             }
 

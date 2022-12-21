@@ -14,12 +14,14 @@ namespace BookStoreMVC.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly IHelpers _helpersRepository;
         private readonly IProductRepository _productRepository;
-        
+        private readonly ILanguageRepository _languageRepository;
+
         int PAGE_SIZE = 6;
 
         private IEnumerable<string>? Headers = null!;
-        public BookController(IBookRepository bookRepository, IHelpers helpersRepository, IAuthorRepository authorRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
+        public BookController(ILanguageRepository languageRepository, IBookRepository bookRepository, IHelpers helpersRepository, IAuthorRepository authorRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
         {
+            _languageRepository = languageRepository;
             _bookRepository = bookRepository;
             _helpersRepository = helpersRepository;
             _authorRepository = authorRepository;
@@ -38,6 +40,7 @@ namespace BookStoreMVC.Controllers
                 var author = _authorRepository.GetById(book.Id).Result;
                 var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
                 var publisher = _publisherRepository.GetById(book.Publisher);
+                var language = _languageRepository.GetById(book.Language);
 
                 // var bookViewModel = new IndexBookViewModel();
                 //
@@ -56,7 +59,7 @@ namespace BookStoreMVC.Controllers
                 // bookViewModel.Isbn = book.Isbn;
                 // bookViewModel.Description = book.Description;
 
-                var bookViewModel = BookMapper.MapBookViewModel(book, author, bookGenres, publisher, _helpersRepository);
+                var bookViewModel = BookMapper.MapBookViewModel(book, author, bookGenres, publisher, language, _helpersRepository);
 
                 return new ProductViewModel
                 {
@@ -79,14 +82,28 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
 
-        [HttpGet("Book/{productId}/{productName}")]
+        // [HttpGet("Book/{productId}/{productName}")]
         public async Task<IActionResult> Detail(string productId, string productName)
         {
             var product = _productRepository.GetById(productId);
             var book = await _bookRepository.GetById(product.BookId);
-            
-            
-            return View(book);
+            var author = _authorRepository.GetById(book.Author).Result;
+            var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+            var publisher = _publisherRepository.GetById(book.Publisher);
+            var language = _languageRepository.GetById(book.Language);
+
+            var bookViewModel = BookMapper.MapBookViewModel(book, author, bookGenres, publisher, language, _helpersRepository);
+
+            var productViewModel = new ProductViewModel
+            {
+                Id = product.Id,
+                Price = product.CurrentPrice,
+                Rating = Convert.ToInt32(product.AverageScore),
+                Book = bookViewModel
+
+            };
+
+            return View(productViewModel);
         }
 
         [HttpGet("Book/Cart")]

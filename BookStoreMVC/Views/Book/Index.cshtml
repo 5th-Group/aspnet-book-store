@@ -56,7 +56,8 @@
         <div class=" basis-3/4 flex flex-wrap gap-10 justify-evenly ">
             @foreach (var product in Model)
             {
-                <div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
+                <a asp-action="Detail" asp-route-productId=@product.Id
+                class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
                     <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src=@product.Book.SignedUrl alt="">
                     <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
                         <div
@@ -94,7 +95,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </a>
                 @* End Book Browse *@
             }
         </div>
