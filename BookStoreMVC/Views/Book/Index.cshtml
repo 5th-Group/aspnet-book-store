@@ -59,7 +59,7 @@
                 {
                     <a
                         class="text-md  text-titleText font-light px-5 py-3   rounded-lg  hover:bg-primary2-200 transition-colors duration-300 cursor-pointer"
-                        onclick="filterBooks(`@Url.ActionContext.HttpContext.Request.Scheme://@Url.ActionContext.HttpContext.Request.Host`, `genre`, `@cat.Name`)">
+                        onclick="filterBooks(`https://@Url.ActionContext.HttpContext.Request.Host`, `genre`, `@cat.Name`)">
                         @cat.Name
                     </a>
                 }
