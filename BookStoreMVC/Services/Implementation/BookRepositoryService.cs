@@ -3,7 +3,7 @@ using BookStoreMVC.Exceptions;
 using BookStoreMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
@@ -12,6 +12,9 @@ public class BookRepositoryService : IBookRepository
 {
     private readonly IMongoCollection<Book> _bookCollection;
     private readonly IMongoCollection<Product> _productCollection;
+    private ProjectionDefinition<Book> _projectionDefinition = Builders<Book>.Projection.Combine();
+    private FilterDefinition<Book> _filterDefinition = Builders<Book>.Filter.Empty;
+
 
     public BookRepositoryService(IOptions<BookStoreDataAccess> dataAccess)
     {
@@ -28,14 +31,20 @@ public class BookRepositoryService : IBookRepository
             dataAccess.Value.ProductCollectionName);
     }
 
-    public IEnumerable<Book> GetAll(string filter)
+    public IEnumerable<Book> GetAll(FilterDefinition<Book>? filterDefinition = null, ProjectionDefinition<Book>? projectionDefinition = null)
     {
-        return _bookCollection.Find(filter => true).ToEnumerable();
+        _filterDefinition = filterDefinition ?? Builders<Book>.Filter.Empty;
+        _projectionDefinition = projectionDefinition ?? Builders<Book>.Projection.Combine();
+
+        return _bookCollection.Find(_filterDefinition).Project(_projectionDefinition).ToList().Select(b => BsonSerializer.Deserialize<Book>(b));
     }
 
-    public async Task<Book> GetById(string bookId)
+    public async Task<Book> GetById(string bookId, ProjectionDefinition<Book>? projectionDefinition = null)
     {
-        return await _bookCollection.Find(x => x.Id == bookId).FirstOrDefaultAsync();
+        _projectionDefinition = projectionDefinition ?? Builders<Book>.Projection.Combine();
+        
+        var item = await _bookCollection.Find(b => b.Id == bookId).Project(_projectionDefinition).FirstOrDefaultAsync();
+        return BsonSerializer.Deserialize<Book>(item);
     }
 
     public IActionResult Add(Book book)

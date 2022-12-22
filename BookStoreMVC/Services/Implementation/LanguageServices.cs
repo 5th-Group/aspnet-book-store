@@ -1,7 +1,7 @@
 using BookStoreMVC.DataAccess;
 using BookStoreMVC.Models;
 using Microsoft.Extensions.Options;
-
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 
 namespace BookStoreMVC.Services.Implementation;
@@ -9,7 +9,10 @@ namespace BookStoreMVC.Services.Implementation;
 public class LanguageServices : ILanguageRepository
 {
     private readonly IMongoCollection<Language> _languageCollection;
-    public LanguageServices(IConfiguration config, IOptions<BookStoreDataAccess> dataAccess)
+    private ProjectionDefinition<Language> _projectionDefinition = Builders<Language>.Projection.Include(doc => true);
+    private FilterDefinition<Language> _filterDefinition = Builders<Language>.Filter.Empty; 
+    
+    public LanguageServices(IOptions<BookStoreDataAccess> dataAccess)
     {
         var mongoClient = new MongoClient(dataAccess.Value.ConnectionString);
 
@@ -18,14 +21,22 @@ public class LanguageServices : ILanguageRepository
         _languageCollection = mongoDatabase.GetCollection<Language>(dataAccess.Value.LanguageCollectionName);
 
     }
-    public IEnumerable<Language> GetAll()
+    public IEnumerable<Language> GetAll(FilterDefinition<Language>? filterDefinition = null, ProjectionDefinition<Language>? projectionDefinition = null)
     {
-        return _languageCollection.Find(_ => true).ToEnumerable();
+        _filterDefinition = filterDefinition ?? Builders<Language>.Filter.Empty;
+        _projectionDefinition = projectionDefinition ?? Builders<Language>.Projection.Combine();
+
+        return _languageCollection.Find(_filterDefinition).Project(_projectionDefinition).ToList().Select(l => BsonSerializer.Deserialize<Language>(l));
     }
 
-    public Language GetById(string languageId)
+    public async Task<Language> GetByIdAsync(string languageId, ProjectionDefinition<Language>? projectionDefinition = null)
     {
-        throw new NotImplementedException();
+        _projectionDefinition = projectionDefinition ?? Builders<Language>.Projection.Combine();
+
+        var lang = await _languageCollection.Find(l => l.Id == languageId).Project(_projectionDefinition)
+            .FirstOrDefaultAsync();
+        
+        return BsonSerializer.Deserialize<Language>(lang);
     }
 
 

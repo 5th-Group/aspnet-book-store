@@ -9,7 +9,7 @@
     @* <div class="overflow-x-auto relative shadow-md rounded-lg"> *@
     <div class=" mx-auto text-sm  max-w-7xl container text-left mt-10">
 
-        @if (Model != null && Model.Count() > 0)
+        @if (Model != null && Model.Count > 0)
         {
             <div class=" flex justify-between mb-6 w-full">
                 <h2 class="text-base text-titleText font-bold   basis-1/5"></h2>
@@ -22,7 +22,7 @@
 
         <div class="space-y-4 flex flex-col  ">
 
-            @if (Model != null && Model.Count() > 0)
+            @if (Model != null && Model.Count > 0)
             {
                 @foreach (var item in Model)
                 {
@@ -38,7 +38,7 @@
                         @* Title *@
                         <div class="text-left basis-1/5 text-titleText  font-bold text-base">
                             <h1>@item.Product.Book.Title</h1>
-                            <h2 class="text-sm font-light text-normalText">@item.Product.Book.authorDisplay</h2>
+                            <h2 class="text-sm font-light text-normalText">@item.Product.Book.Author.DisplayName</h2>
                         </div>
                         @* Title *@
 
@@ -101,11 +101,11 @@
                                 Remove
                             </button>
                         </form>
-                        <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Checkout" asp-action="Pay">
-                            <button class="font-medium text-cyan-500 hover:underline cursor-pointer" type="submit ">
-                                Pay
-                            </button>
-                            </form>
+                        @* <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Checkout" asp-action="Pay"> *@
+                        @*     <button class="font-medium text-cyan-500 hover:underline cursor-pointer" type="submit "> *@
+                        @*         Pay *@
+                        @*     </button> *@
+                        @*     </form> *@
                         
                     </div>
                 }
@@ -115,9 +115,9 @@
                 <h1 class=" text-3xl font-bold self-center block">No item in Cart!</h1>
             }
 
-
-
-
+        @* <img src="" alt="" id="momoQr"/> *@
+        @* <button onclick="getMomoTransaction(`@Url.ActionContext.HttpContext.Request.Scheme://@Url.ActionContext.HttpContext.Request.Host`)">Pay</button> *@
+        <button onclick="location.href='@Url.Action("Pay", "Checkout")'">Pay</button>
 
 
         </div>

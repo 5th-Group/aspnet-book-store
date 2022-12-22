@@ -1,14 +1,13 @@
 using BookStoreMVC.Models;
-using BookStoreMVC.ViewModels;
-using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace BookStoreMVC.Services;
 
 public interface IBookRepository
 {
-    IEnumerable<Book> GetAll(string filter);
+    IEnumerable<Book> GetAll(FilterDefinition<Book>? filterDefinition = null, ProjectionDefinition<Book>? projectionDefinition = null);
 
-    Task<Book> GetById(string bookId);
+    Task<Book> GetById(string bookId, ProjectionDefinition<Book>? projectionDefinition = null);
 
     // IActionResult Add(Book book);
 

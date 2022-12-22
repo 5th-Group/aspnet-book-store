@@ -26,5 +26,6 @@ public class Product
     // public IList<string>? Reviews { get; set; }
 
     public float AverageScore { get; set; }
-    
+
+    public IEnumerable<string>? Reviews { get; set; }
 }

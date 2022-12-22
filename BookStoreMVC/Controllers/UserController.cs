@@ -6,24 +6,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using BookStoreMVC.Models.Payment;
+
 
 namespace BookStoreMVC.Controllers;
 
 public class UserController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
     private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
     private readonly IOrderRepository _orderRepository;
 
 
     public UserController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager, IOrderRepository orderRepository)
     {
         _userManager = userManager;
-        _signInManager = signInManager;
-        _logger = logger;
         _orderRepository = orderRepository;
     }
 
@@ -34,7 +29,7 @@ public class UserController : Controller
 
     #region Basic
     [Authorize("RequireUserRole")]
-    [HttpGet]
+    [HttpGet("user/settings")]
     public async Task<IActionResult> Index()
     {
 
@@ -56,14 +51,14 @@ public class UserController : Controller
     }
 
     [Authorize("RequireUserRole")]
-    [HttpGet]
+    [HttpGet("user/change-password")]
     public IActionResult ChangePassword()
     {
         var model = new ChangePasswordViewModel();
         return View(model);
     }
     
-    [HttpPost]
+    [HttpPost("user/change-password")]
     public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
         if (!ModelState.IsValid) return View(model);
@@ -76,7 +71,6 @@ public class UserController : Controller
             return NotFound();
         }
 
-
         var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
         if (result.Succeeded)
         {
@@ -88,8 +82,6 @@ public class UserController : Controller
         }
         return RedirectToAction("ChangePassword", "User");
     }
-    
-    
 
     #endregion
 
@@ -97,21 +89,14 @@ public class UserController : Controller
     #region Order History
     
     [Authorize("RequireUserRole")]
-    [HttpGet]
+    [HttpGet("user/order-history")]
     public IActionResult OrderHistory()
     {
         var orderList = _orderRepository.GetByUserId(GetCartKey());
     
         return View(orderList);
     }
-
-    // public IActionResult OrderHistoryTest()
-    // {
-    //     var orderList = _orderRepository.GetAll();
-    //
-    //     return View(orderList);
-    // }
-
+    
     #endregion
 
 }

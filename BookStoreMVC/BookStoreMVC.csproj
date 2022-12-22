@@ -10,6 +10,7 @@
     
     <ItemGroup>
       <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="3.1.2" />
+      <PackageReference Include="BarCode" Version="2022.11.10702" />
       <PackageReference Include="Google.Cloud.Storage.V1" Version="4.1.0" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
       <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
@@ -19,10 +20,6 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ViewModels\ShoppingCart" />
     </ItemGroup>
 
 </Project>

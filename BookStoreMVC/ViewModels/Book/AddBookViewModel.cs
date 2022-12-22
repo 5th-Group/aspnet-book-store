@@ -13,7 +13,7 @@ public class AddBookViewModel
 
     public int PageCount { get; set; }
 
-    public string? Author { get; set; }
+    public string Author { get; set; } = null!;
 
     public Author? AuthorDisplay { get; set; }
 

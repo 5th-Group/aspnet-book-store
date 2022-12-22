@@ -3,57 +3,56 @@
 
 <head>
     @Html.SeoTags()
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
-
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
+    <title>SwiftLib - @ViewData["Title"]</title>
 </head>
 
 <body class="font-inter bg-backGr">
-    <!-- Navbar -->
-    @Html.Partial("_NavbarPartial")
-    <!-- End Nav -->
+<!-- Navbar -->
+@await Html.PartialAsync("_NavbarPartial")
+<!-- End Nav -->
 
-    <!--Main Content-->
-
-
-
-    @* Sharethis Button *@
-    <div class="sharethis-inline-share-buttons"></div>
-    @* Sharethis Button *@
-    <div class="mx-auto  min-h-screen ">
-        @RenderBody()
-
-    </div>
-
-    <!--End Main Content-->
+<!--Main Content-->
 
 
-    <!--Footer-->
-    @Html.Partial("_FooterPartial")
-    <!--Footer-->
+@* Sharethis Button *@
+<div class="sharethis-inline-share-buttons"></div>
+@* Sharethis Button *@
+<div class="mx-auto  min-h-screen ">
+    @RenderBody()
 
-    <!-- Messenger Chat Plugin Code -->
-    <div id="fb-root"></div>
+</div>
 
-    <!-- Your Chat Plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
+<!--End Main Content-->
 
-    <!-- Messenger Chat Plugin Cod -->
 
-    <script>
-        var chatbox = document.getElementById('fb-customer-chat');
+<!--Footer-->
+@await Html.PartialAsync("_FooterPartial")
+<!--Footer-->
+
+<!-- Messenger Chat Plugin Code -->
+<div id="fb-root"></div>
+
+<!-- Your Chat Plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
+
+<!-- Messenger Chat Plugin Cod -->
+
+<script>
+        let chatbox = document.getElementById('fb-customer-chat');
         chatbox.setAttribute("page_id", "107380592227881");
         chatbox.setAttribute("attribution", "biz_inbox");
     </script>
 
-    <!-- Your SDK code -->
+<!-- Your SDK code -->
 
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-252424466-1"></script>
-    <script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-252424466-1"></script>
+<script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
@@ -62,20 +61,16 @@
     </script>
 
 
-
-
-
-
-    @* Sharethis*@
-    <script type="text/javascript"
+@* Sharethis*@
+<script type="text/javascript"
         src="https://platform-api.sharethis.com/js/sharethis.js#property=639ecabe4b058f001938ca18&product=inline-share-buttons&source=platform"
         async="async"></script>
-    @* Sharethis*@
+@* Sharethis*@
 
 
 
 
-    @await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

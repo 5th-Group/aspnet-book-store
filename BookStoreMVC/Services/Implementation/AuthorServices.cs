@@ -25,12 +25,11 @@ public class AuthorServices : IAuthorRepository
         return _authorCollection.Find(_ => true).ToEnumerable();
     }
 
-    public async Task<Author> GetById(string authorId)
+    public Task<Author> GetById(string authorId)
     {
-        var resutl = await _authorCollection.Find(x => x.Id == authorId).FirstOrDefaultAsync();
-
-
-        return resutl;
+        var result = _authorCollection.Find(x => x.Id == authorId).FirstOrDefaultAsync();
+        
+        return result;
     }
     //
     // public Author Add()

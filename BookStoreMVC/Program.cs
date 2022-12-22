@@ -13,13 +13,16 @@ builder.Services.Configure<BookStoreDataAccess>(
 builder.Services.Configure<BookStoreCloudStorage>(
     builder.Configuration.GetSection("GoogleCloudStorage"));
 
+builder.Services.AddCors();
+// builder.Services.AddMvc();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddSession(options =>
 {
-    options.Cookie.Name = "SwiftLib";
+    options.Cookie.Name = ".SwiftLib.Session";
     options.IdleTimeout = new TimeSpan(0, 30, 0);
 });
 
@@ -39,152 +42,146 @@ builder.Services.AddScoped<IOrderRepository, OrderService>();
 builder.Services.AddScoped<IBookTypeRepository, BookTypeService>();
 builder.Services.AddScoped<ICountryRepository, CountryServices>();
 builder.Services.AddScoped<ILanguageRepository, LanguageServices>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepositoryService>();
 builder.Services.AddScoped<IPaymentStrategy, PaymentStrategy>();
 builder.Services.AddScoped<IPaymentService, VNPPayment>();
 builder.Services.AddScoped<IPaymentService, MomoPayment>();
 builder.Services.AddScoped<IHelpers, HelperService>();
 
 builder.Services.AddSeoTags(seoInfo =>
-   {
-       seoInfo.SetSiteInfo(
+{
+    seoInfo.SetSiteInfo(
+        siteTitle: "Swiftlib, place you can buy any book!",
+        robots: "https://swiftlib.site/robots.txt"
+    );
 
-           siteTitle: "Swiftlib, place you can buy anybook!",
-           robots: "https://swiftlib.site/robots.txt"
-       );
+    seoInfo.SetCommonInfo(
+        pageTitle: "Home",
+        description:
+        "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...",
+        url: "https://swiftlib.site/",
+        keywordTags: new[] { "Book", "Books", "Bookstore", "Swiftlib", "Ebook", "HardCover", "Paperback", });
 
-       seoInfo.SetCommonInfo(
-                  pageTitle: "Home",
-                  description: "Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...Create all SEO tags you need such as meta, Create all SEO tags you need such as meta, link, twitter card (twitter:), open graph (og:), and ...link, twitter card (twitter:), open graph (og:), and ...",
-                  url: "https://swiftlib.site/",
-                  keywordTags: new[] { "Book", "Books", "Bookstore", "Switflib", "Ebook", "HardCover", "Paperback", });
-
-       seoInfo.SetImageInfo(
-             url: "https://swiftlib.site/img/Home.png",
-             width: 1200,
-             height: 600,
-             alt: "Image alt",
-             mimeType: "image/jpeg", //optional: detect from url file extension
-             cardType: TwitterCardType.SummaryLargeImage);
-
-
-       seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
+    seoInfo.SetImageInfo(
+        url: "https://swiftlib.site/img/Home.png",
+        width: 1200,
+        height: 600,
+        alt: "Image alt",
+        mimeType: "image/jpeg", //optional: detect from url file extension
+        cardType: TwitterCardType.SummaryLargeImage);
 
 
-       var organization = new OrganizationInfo
-       {
-           Url = "https://swiftlib.site/",
-           Name = "Swiftlib",
-           AlternateName = "Swiftlib Boostore",
-           SocialMediaUrls = new[]
-                          {
-           "https://www.linkedin.com/company/MyCompanyId/"
-           },
-           Logo = new ImageInfo()
-           {
-               Url = "https://swiftlib.site/img/BoldDime.png",
-               Caption = "Image Caption",
-               InLanguage = "en-US",
-               Width = 400,
-               Height = 400
-           },
-           ContactPoints = new[]
-                          {
-           new ContactPointInfo()
-           {
-           Telephone = "+0123456789",
-           ContactType = "sales",
-           AvailableLanguage = new[] { "English" },
-           AreaServed = new[] { "US" }
-           },
-           new ContactPointInfo()
-           {
-           Telephone = "+0123456789",
-           ContactType = "customer service",
-           AvailableLanguage = new[] { "English" },
-           AreaServed = new[] { "US" }
-           }
-           }
-       };
+    seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
 
 
+    var organization = new OrganizationInfo
+    {
+        Url = "https://swiftlib.site/",
+        Name = "Swiftlib",
+        AlternateName = "Swiftlib Bookstore",
+        SocialMediaUrls = new[]
+        {
+            "https://www.linkedin.com/company/MyCompanyId/"
+        },
+        Logo = new ImageInfo()
+        {
+            Url = "https://swiftlib.site/img/BoldDime.png",
+            Caption = "Image Caption",
+            InLanguage = "en-US",
+            Width = 400,
+            Height = 400
+        },
+        ContactPoints = new[]
+        {
+            new ContactPointInfo()
+            {
+                Telephone = "+0123456789",
+                ContactType = "sales",
+                AvailableLanguage = new[] { "English" },
+                AreaServed = new[] { "US" }
+            },
+            new ContactPointInfo()
+            {
+                Telephone = "+0123456789",
+                ContactType = "customer service",
+                AvailableLanguage = new[] { "English" },
+                AreaServed = new[] { "US" }
+            }
+        }
+    };
+
+    var author = new PersonInfo
+    {
+        Url = "https://site.com/author",
+        Name = "Author Name",
+        Description = "Author Description",
+        SocialMediaUrls = new[]
+        {
+            "https://twitter.com/AuthorId",
+            "https://www.linkedin.com/company/AuthorId/"
+        },
+        Image = new ImageInfo
+        {
+            Url = "https://site.com/uploads/author-image.jpg",
+            Caption = "Author Name",
+            InLanguage = "en-US",
+            Width = 400,
+            Height = 400
+        }
+    };
 
 
+    var image = new ImageInfo()
+    {
+        Url = "https://swiftlib.site/img/BoldDime.png",
+        Caption = "Image Name",
+        InLanguage = "en-US",
+        Width = 1280,
+        Height = 720
+    };
 
-       var author = new PersonInfo
-       {
-           Url = "https://site.com/author",
-           Name = "Author Name",
-           Description = "Author Description",
-           SocialMediaUrls = new[]
-             {
-       "https://twitter.com/AuthorId",
-       "https://www.linkedin.com/company/AuthorId/"
-       },
-           Image = new()
-           {
-               Url = "https://site.com/uploads/author-image.jpg",
-               Caption = "Author Name",
-               InLanguage = "en-US",
-               Width = 400,
-               Height = 400
-           }
-       };
-
-
-       var image = new ImageInfo()
-       {
-           Url = "https://swiftlib.site/img/BoldDime.png",
-           Caption = "Image Name",
-           InLanguage = "en-US",
-           Width = 1280,
-           Height = 720
-       };
-
-       var website = new WebSiteInfo
-       {
-           Url = "https://swiftlib.site/",
-           Name = "Swiftlib",
-           //    AlternateName = "WebSite AlternateName",
-           Description = "lorem",
-           InLanguage = "en-US",
-           Publisher = organization.Id, //or OrganizationInfo.ReferTo(organization.Id) or OrganizationInfo.ReferTo(organization)
-                                        //    SearchAction = new()
-                                        //    {
-                                        //        Target = "https://site.com/?s={search_term_string}",
-                                        //        QueryInput = "required name=search_term_string"
-                                        //    }
-       };
+    var website = new WebSiteInfo
+    {
+        Url = "https://swiftlib.site/",
+        Name = "Swiftlib",
+        //    AlternateName = "WebSite AlternateName",
+        Description = "lorem",
+        InLanguage = "en-US",
+        Publisher = organization
+            .Id, //or OrganizationInfo.ReferTo(organization.Id) or OrganizationInfo.ReferTo(organization)
+        //    SearchAction = new()
+        //    {
+        //        Target = "https://site.com/?s={search_term_string}",
+        //        QueryInput = "required name=search_term_string"
+        //    }
+    };
 
 
-
-       var webpage = new SeoTags.PageInfo
-       {
-           Url = "https://swiftlib.site/",
-           Title = "Swiftlib",
-           Description = "Page Description",
-           Keywords = new[] { "Swift", "Swiftlib", "Book", "Books", "book", "books", "Bookstore", "bookstore", "ebook", "Ebook", },
-           Images = new[] { ImageInfo.ReferTo(image) },
-           DatePublished = DateTimeOffset.Now,
-           DateModified = DateTimeOffset.Now,
-           InLanguage = "en-US",
-           //    Author = author.Id, //or PersonInfo.ReferTo(author.Id) or PersonInfo.ReferTo(author)
-           WebSite = website.Id, //or WebSiteInfo.ReferTo(website.Id) or WebSiteInfo.ReferTo(website)
-                                 //    Breadcrumb = breadcrumb.Id //or BreadcrumbInfo.ReferTo(breadcrumb.Id) or BreadcrumbInfo.ReferTo(breadcrumb)
-       };
-
-
-
-       seoInfo.JsonLd.AddOrganization(organization);
-       seoInfo.JsonLd.AddWebiste(website);
-       //    seoInfo.JsonLd.AddBreadcrumb(breadcrumb);
-       seoInfo.JsonLd.AddImage(image);
-       //    seoInfo.JsonLd.AddPerson(author);
-       seoInfo.JsonLd.AddPage(webpage);
-       //    seoInfo.JsonLd.AddArticle(article);
+    var webpage = new PageInfo
+    {
+        Url = "https://swiftlib.site/",
+        Title = "Swiftlib",
+        Description = "Page Description",
+        Keywords = new[]
+            { "Swift", "Swiftlib", "Book", "Books", "book", "books", "Bookstore", "bookstore", "ebook", "Ebook", },
+        Images = new[] { ImageInfo.ReferTo(image) },
+        DatePublished = DateTimeOffset.Now,
+        DateModified = DateTimeOffset.Now,
+        InLanguage = "en-US",
+        //    Author = author.Id, //or PersonInfo.ReferTo(author.Id) or PersonInfo.ReferTo(author)
+        WebSite = website.Id, //or WebSiteInfo.ReferTo(website.Id) or WebSiteInfo.ReferTo(website)
+        //    Breadcrumb = breadcrumb.Id //or BreadcrumbInfo.ReferTo(breadcrumb.Id) or BreadcrumbInfo.ReferTo(breadcrumb)
+    };
 
 
-
-   });
+    seoInfo.JsonLd.AddOrganization(organization);
+    seoInfo.JsonLd.AddWebiste(website);
+    //    seoInfo.JsonLd.AddBreadcrumb(breadcrumb);
+    seoInfo.JsonLd.AddImage(image);
+    //    seoInfo.JsonLd.AddPerson(author);
+    seoInfo.JsonLd.AddPage(webpage);
+    //    seoInfo.JsonLd.AddArticle(article);
+});
 
 // Authorization Policy
 builder.Services.AddAuthorization(options =>
@@ -193,15 +190,17 @@ builder.Services.AddAuthorization(options =>
         policyBuilder => policyBuilder.RequireRole("User"));
     options.AddPolicy("RequireAdminRole",
         policyBuilder => policyBuilder.RequireRole("Admin"));
+    options.AddPolicy("RequireAuthenticated",
+        policyBuilder => policyBuilder.RequireAuthenticatedUser());
+    // options.AddPolicy("RequireAuthenticated",
+    //     policyBuilder => policyBuilder.AddRequirements(new ));
 });
 
 
 // Inject Httpclient
-builder.Services.AddHttpClient("momo-payment", client => client.BaseAddress = new Uri("https://test-payment.momo.vn"));
-builder.Services.AddHttpClient("vnp-payment", client => client.BaseAddress = new Uri("https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"));
-
-
-
+builder.Services.AddHttpClient("momo-payment", client => client.BaseAddress = new Uri("https://test-payment.momo.vn/v2/gateway/api/create"));
+builder.Services.AddHttpClient("vnp-payment",
+    client => client.BaseAddress = new Uri("https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"));
 
 
 builder.Services.AddIdentity<User, Role>(opts =>
@@ -213,7 +212,6 @@ builder.Services.AddIdentity<User, Role>(opts =>
     .AddMongoDbStores<User, Role, ObjectId>(
         builder.Configuration.GetValue<string>("BookStoreDatabase:ConnectionString"),
         builder.Configuration.GetValue<string>("BookStoreDatabase:DatabaseName"));
-
 
 
 var app = builder.Build();
@@ -236,6 +234,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseCors(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseSession();
 

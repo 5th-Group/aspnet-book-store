@@ -12,7 +12,7 @@ namespace BookStoreMVC.Models
         public string Type { get; set; }
 
 
-        public PaginatedList(IList<T> items, int count, int pageIndex, int pageSize, IEnumerable<string> headers, string type)
+        public PaginatedList(IEnumerable<T> items, int count, int pageIndex, int pageSize, IEnumerable<string> headers, string type)
         {
             PageIndex = pageIndex;
             TotalPage = (int)Math.Ceiling(count / (double)pageSize);
@@ -35,15 +35,15 @@ namespace BookStoreMVC.Models
                     StartPage = EndPage - 9;
                 }
             }
-            this.AddRange(items);
+            AddRange(items);
         }
 
-        public static PaginatedList<T> Create(IList<T> source, int pageIndex, int pageSize, IEnumerable<string> Headers, string type)
+        public static PaginatedList<T> Create(IList<T> source, int pageIndex, int pageSize, IEnumerable<string> headers, string type)
         {
-            var count = source.Count();
+            var count = source.Count;
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
-            return new PaginatedList<T>(items, count, pageIndex, pageSize, Headers, type);
+            return new PaginatedList<T>(items, count, pageIndex, pageSize, headers, type);
         }
 
         public bool HasPreviousPage => PageIndex > 1;

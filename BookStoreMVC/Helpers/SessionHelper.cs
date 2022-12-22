@@ -1,4 +1,3 @@
-using Microsoft.CodeAnalysis.Options;
 using Newtonsoft.Json;
 
 namespace BookStoreMVC.Helpers
@@ -13,6 +12,7 @@ namespace BookStoreMVC.Helpers
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
+
             return string.IsNullOrEmpty(value) ? default : JsonConvert.DeserializeObject<T>(value)!;
         }
     }

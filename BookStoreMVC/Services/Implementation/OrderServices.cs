@@ -1,5 +1,4 @@
 using BookStoreMVC.DataAccess;
-using BookStoreMVC.Models;
 using BookStoreMVC.Models.Payment;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

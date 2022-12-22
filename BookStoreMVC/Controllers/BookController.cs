@@ -2,7 +2,9 @@ using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.Mapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace BookStoreMVC.Controllers
 {
@@ -12,13 +14,30 @@ namespace BookStoreMVC.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
-        private readonly IHelpers _helpersRepository;
         private readonly IProductRepository _productRepository;
-        
+        private readonly IReviewRepository _reviewRepository;
+        private readonly ILanguageRepository _languageRepository;
+        private readonly UserManager<User> _userManager;
+        private readonly IHelpers _helpersRepository;
+
+
+        private readonly ProjectionDefinition<Product> _productProjectionDefinition = Builders<Product>.Projection
+            .Exclude(doc => doc.Reviews);
+
+        private readonly ProjectionDefinition<Book> _bookProjectionDef = Builders<Book>.Projection
+            .Exclude(doc => doc.Isbn)
+            .Exclude(doc => doc.ImageUri)
+            .Exclude(doc => doc.PageCount)
+            .Exclude(doc => doc.PublishDate);
+
         int PAGE_SIZE = 6;
 
         private IEnumerable<string>? Headers = null!;
-        public BookController(IBookRepository bookRepository, IHelpers helpersRepository, IAuthorRepository authorRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
+
+        public BookController(IBookRepository bookRepository, IHelpers helpersRepository,
+            IAuthorRepository authorRepository, IProductRepository productRepository,
+            IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository,
+            UserManager<User> userManager, IReviewRepository reviewRepository, ILanguageRepository languageRepository)
         {
             _bookRepository = bookRepository;
             _helpersRepository = helpersRepository;
@@ -26,73 +45,187 @@ namespace BookStoreMVC.Controllers
             _productRepository = productRepository;
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
+            _userManager = userManager;
+            _reviewRepository = reviewRepository;
+            _languageRepository = languageRepository;
         }
 
-        [HttpGet("Books")]
-        public IActionResult Index(string filter = "_", int? pageNumber = 1)
+        [HttpGet("books")]
+        public IActionResult Index(string filterBy = "", string filterValue = "", string filterOrder = "asc",
+            int? pageNumber = 1)
         {
+            List<ProductViewModel> productList;
 
-            var productList = _productRepository.GetAll().Select(product =>
+            ViewBag.Category = _bookGenreRepository.GetAll();
+
+
+            if (string.IsNullOrEmpty(filterBy) || string.IsNullOrEmpty(filterValue))
             {
-                var book = _bookRepository.GetById(product.BookId).Result;
-                var author = _authorRepository.GetById(book.Id).Result;
-                var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
-                var publisher = _publisherRepository.GetById(book.Publisher);
-
-                // var bookViewModel = new IndexBookViewModel();
-                //
-                // bookViewModel.Id = book.Id;
-                // bookViewModel.Title = book.Title;
-                // bookViewModel.PageCount = book.PageCount;
-                // bookViewModel.Author = _authorRepository.GetById(book.Author).Result;
-                // bookViewModel.Language = book.Language;
-                // bookViewModel.Genre = book.Genre;
-                // bookViewModel.Type = book.Type.ToArray();
-                // bookViewModel.CreatedAt = book.CreatedAt;
-                // bookViewModel.ImageName = book.ImageName;
-                // bookViewModel.SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result;
-                // bookViewModel.PublishDate = book.PublishDate;
-                // bookViewModel.Publisher = book.Publisher;
-                // bookViewModel.Isbn = book.Isbn;
-                // bookViewModel.Description = book.Description;
-
-                var bookViewModel = BookMapper.MapBookViewModel(book, author, bookGenres, publisher, _helpersRepository);
-
-                return new ProductViewModel
+                productList = _productRepository.GetAll(_productProjectionDefinition).Select(product =>
                 {
-                    Id = product.Id,
-                    Price = product.CurrentPrice,
-                    Rating = Convert.ToInt32(product.AverageScore),
-                    Book = bookViewModel
+                    var book = _bookRepository.GetById(product.BookId, _bookProjectionDef).Result;
+                    var author = _authorRepository.GetById(book.Author).Result;
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var publisher = _publisherRepository.GetById(book.Publisher);
+                    var lang = _languageRepository.GetByIdAsync(book.Language).Result;
 
-                };
-            });
+                    var bookViewModel =
+                        MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, lang, _helpersRepository);
+
+                    return new ProductViewModel
+                    {
+                        Id = product.Id,
+                        Price = product.CurrentPrice,
+                        Rating = Convert.ToInt32(product.AverageScore),
+                        Book = bookViewModel
+                    };
+                }).ToList();
+            }
+            else
+            {
+                productList = _productRepository.GetAll(_productProjectionDefinition).Select(product =>
+                {
+                    var book = _bookRepository.GetById(product.BookId).Result;
+                    var author = _authorRepository.GetById(book.Author).Result;
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var publisher = _publisherRepository.GetById(book.Publisher);
+                    var lang = _languageRepository.GetByIdAsync(book.Language).Result;
+
+                    var bookViewModel = MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, lang,
+                        _helpersRepository);
+
+                    return new ProductViewModel
+                    {
+                        Id = product.Id,
+                        Price = product.CurrentPrice,
+                        Rating = Convert.ToInt32(product.AverageScore),
+                        Book = bookViewModel
+                    };
+                }).Where(product =>
+                {
+                    return filterBy switch
+                    {
+                        "genre" => product.Book.Genre.Any(genre => genre.Name.Equals(filterValue)),
+                        "title" => product.Book.Title.Equals(filterValue),
+                        _ => true
+                    };
+                }).ToList();
+            }
 
 
-            var result = PaginatedList<ProductViewModel>.Create(productList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+            var result =
+                PaginatedList<ProductViewModel>.Create(productList, pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";
             }
 
-
             return View(result);
         }
 
-        [HttpGet("Book/{productId}/{productName}")]
+        [HttpGet("book/{productId}/{productName}")]
         public async Task<IActionResult> Detail(string productId, string productName)
         {
             var product = _productRepository.GetById(productId);
             var book = await _bookRepository.GetById(product.BookId);
-            
-            
-            return View(book);
+            var author = _authorRepository.GetById(book.Author).Result;
+            var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+            var publisher = _publisherRepository.GetById(book.Publisher!);
+            var lang = _languageRepository.GetByIdAsync(book.Language).Result;
+            var reviews = product.Reviews?.Select(r => _reviewRepository.GetById(r));
+
+            var productDetail = new ProductDetailViewModel
+            {
+                Id = product.Id,
+                Book = MapBook.MapDetailBookViewModel(book, author, bookGenres, publisher, lang, _helpersRepository),
+                Price = product.CurrentPrice,
+                Rating = Convert.ToInt32(product.AverageScore),
+                Reviews = reviews is null
+                    ? new List<ReviewViewModel>()
+                    : MapReview.MapReviewViewModels(reviews, _userManager)
+            };
+
+            return View(productDetail);
         }
 
-        [HttpGet("Book/Cart")]
+        [HttpGet("book/cart")]
         public IActionResult Cart()
         {
             return View();
+        }
+        
+        
+        [HttpGet("books/api")]
+        public JsonResult Api(string filterBy = "", string filterValue = "", string filterOrder = "asc",
+            int? pageNumber = 1)
+        {
+            List<ProductViewModel> productList;
+
+            ViewBag.Category = _bookGenreRepository.GetAll();
+
+
+            if (string.IsNullOrEmpty(filterBy) || string.IsNullOrEmpty(filterValue))
+            {
+                productList = _productRepository.GetAll(_productProjectionDefinition).Select(product =>
+                {
+                    var book = _bookRepository.GetById(product.BookId, _bookProjectionDef).Result;
+                    var author = _authorRepository.GetById(book.Author).Result;
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var publisher = _publisherRepository.GetById(book.Publisher);
+                    var lang = _languageRepository.GetByIdAsync(book.Language).Result;
+
+                    var bookViewModel =
+                        MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, lang, _helpersRepository);
+
+                    return new ProductViewModel
+                    {
+                        Id = product.Id,
+                        Price = product.CurrentPrice,
+                        Rating = Convert.ToInt32(product.AverageScore),
+                        Book = bookViewModel
+                    };
+                }).ToList();
+            }
+            else
+            {
+                productList = _productRepository.GetAll(_productProjectionDefinition).Select(product =>
+                {
+                    var book = _bookRepository.GetById(product.BookId).Result;
+                    var author = _authorRepository.GetById(book.Author).Result;
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var publisher = _publisherRepository.GetById(book.Publisher);
+                    var lang = _languageRepository.GetByIdAsync(book.Language).Result;
+
+                    var bookViewModel = MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, lang,
+                        _helpersRepository);
+
+                    return new ProductViewModel
+                    {
+                        Id = product.Id,
+                        Price = product.CurrentPrice,
+                        Rating = Convert.ToInt32(product.AverageScore),
+                        Book = bookViewModel
+                    };
+                }).Where(product =>
+                {
+                    return filterBy switch
+                    {
+                        "genre" => product.Book.Genre.Any(genre => genre.Name.Equals(filterValue)),
+                        "title" => product.Book.Title.Equals(filterValue),
+                        _ => true
+                    };
+                }).ToList();
+            }
+
+
+            var result =
+                PaginatedList<ProductViewModel>.Create(productList, pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+            if (!result.Any())
+            {
+                ViewBag.Temp = "Not found";
+            }
+
+            return Json(result);
         }
     }
 }

@@ -12,6 +12,7 @@ using MongoDbGenericRepository.Utils;
 
 namespace BookStoreMVC.Controllers
 {
+    [Authorize("RequireAdminRole")]
     public class AdminController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
@@ -27,7 +28,7 @@ namespace BookStoreMVC.Controllers
         private readonly IOrderRepository _orderRepository;
 
         private const int PAGE_SIZE = 10;
-        private IEnumerable<string>? Headers = null!;
+        private IEnumerable<string>? Headers;
 
 
         public AdminController(IOrderRepository orderRepository, IHelpers helpersRepository, ILanguageRepository languageRepository, IAuthorRepository authorRepository, IBookRepository bookRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ICloudStorage cloudStorage, UserManager<User> userManager, RoleManager<Role> roleManager, IProductRepository productRepository)
@@ -44,7 +45,8 @@ namespace BookStoreMVC.Controllers
             _productRepository = productRepository;
             _helpersRepository = helpersRepository;
         }
-
+        
+        [HttpGet("admin")]
         public IActionResult Index()
         {
             return View();
@@ -52,42 +54,26 @@ namespace BookStoreMVC.Controllers
 
         #region Book
 
-        [HttpGet("Admin/Books/")]
+        [HttpGet("admin/books/")]
         public IActionResult BookIndex(string filter = "_", int? pageNumber = 1)
         {
-            // var bookList = _bookRepository.GetAll(filter).Select(book => new IndexBookViewModel
-            // {
-            //     Id = book.Id,
-            //     Title = book.Title,
-            //     PageCount = book.PageCount,
-            //     Author = _authorRepository.GetById(book.Author).Result,
-            //     Language = book.Language,
-            //     Genre = book.Genre,
-            //     Type = book.Type.ToArray(),
-            //     CreatedAt = book.CreatedAt,
-            //     ImageName = book.ImageName,
-            //     SignedUrl = _helpersRepository.GenerateSignedUrl(book.ImageName).Result,
-            //     PublishDate = book.PublishDate,
-            //     Publisher = ,
-            //     Isbn = book.Isbn,
-            //     Description = book.Description
-            // });
-
-            var bookList = BookMapper.MapManyBookViewModels(
-                _bookRepository.GetAll(filter),
+            var bookList = MapBook.MapIndexBookViewModels(
+                _bookRepository.GetAll(),
                 _authorRepository,
                 _bookGenreRepository,
                 _publisherRepository,
-                _helpersRepository);
+                _languageRepository,
+                _helpersRepository).ToList();
 
 
-            if (bookList != null && bookList.Any())
+            if (!bookList.Any())
             {
-                Headers = PropertiesFromType(bookList);
+                ViewBag.Temp = "Not found";
+                return View();
             }
 
-
-
+            Headers = PropertiesFromType(bookList);
+            
             var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookIndex");
             if (!result.Any())
             {
@@ -96,8 +82,8 @@ namespace BookStoreMVC.Controllers
 
             return View(result);
         }
-
-        [HttpGet]
+        
+        [HttpGet("admin/add-book")]
         public IActionResult AddBook()
         {
             var authors = _authorRepository.GetAll();
@@ -116,7 +102,7 @@ namespace BookStoreMVC.Controllers
             return View(bookModel);
         }
 
-        [HttpPost]
+        [HttpPost("admin/add-book")]
         public async Task<IActionResult> AddBook(AddBookViewModel model)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
@@ -175,21 +161,22 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("admin/book/delete")]
         public async Task<IActionResult> DeleteBook(string bookId)
         {
             await _bookRepository.DeleteAsync(bookId);
             return RedirectToAction("BookIndex");
         }
-        private string GenerateFileName(string imgFileName)
+        
+        private static string GenerateFileName(string imgFileName)
         {
             var fileName = Path.GetFileNameWithoutExtension(imgFileName);
             var fileExtension = Path.GetExtension(imgFileName);
 
-            return $"{fileName}-{DateTime.Now.ToUniversalTime().ToString("yyyyMMddHHmmss")}{fileExtension}";
+            return $"{fileName}-{DateTime.Now.ToUniversalTime():yyyyMMddHHmmss}{fileExtension}";
         }
 
-        public IEnumerable<string> PropertiesFromType<T>(IEnumerable<T> input)
+        private IEnumerable<string> PropertiesFromType<T>(IEnumerable<T> input)
         {
             var item = input.First();
             var properties = new List<string>();
@@ -203,11 +190,11 @@ namespace BookStoreMVC.Controllers
         }
 
 
-
         #endregion
 
         #region Author
 
+        [HttpGet("admin/authors")]
         public IActionResult AuthorIndex(int? pageNumber = 1)
         {
             var authorList = _authorRepository.GetAll().Select(author => new AuthorViewModel
@@ -232,14 +219,14 @@ namespace BookStoreMVC.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("admin/author/add")]
         public IActionResult AddAuthor()
         {
             var model = new AuthorViewModel();
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("admin/author/add")]
         public async Task<IActionResult> AddAuthor(AuthorViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -256,6 +243,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
+        [HttpPost("admin/author/delete")]
         public async Task<IActionResult> DeleteAuthor(string authorId)
         {
             await _authorRepository.DeleteAsync(authorId);
@@ -265,8 +253,8 @@ namespace BookStoreMVC.Controllers
         #endregion
 
         #region BookGenre
-
-
+        
+        [HttpGet("admin/book-genres")]
         public IActionResult BookGenreIndex(int? pageNumber = 1)
         {
             var bookGenreList = _bookGenreRepository.GetAll().Select(bookGenre => new BookGenreViewModel
@@ -287,14 +275,14 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
 
-        [HttpGet]
+        [HttpGet("admin/book-genre/add")]
         public IActionResult AddBookGenre()
         {
             var model = new BookGenreViewModel();
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost("admin/book-genre/add")]
         public async Task<IActionResult> AddBookGenre(BookGenreViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -311,7 +299,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("admin/book-genre/delete")]
         public async Task<IActionResult> DeleteBookGenre(string bookGenreID)
         {
             await _bookGenreRepository.DeleteAsync(bookGenreID);
@@ -321,7 +309,7 @@ namespace BookStoreMVC.Controllers
 
         #region Publisher
 
-        [HttpGet]
+        [HttpGet("admin/publishers")]
         public IActionResult PublisherIndex(int? pageNumber, string filter)
         {
             var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
@@ -332,25 +320,21 @@ namespace BookStoreMVC.Controllers
                 Origin = publisher.Origin
             });
 
-
             if (publishers.Any() && publishers != null)
             {
                 Headers = PropertiesFromType(publishers);
 
             }
-
-
-
-
+            
             var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "PublisherIndex");
-            if (!result.Any() || result == null)
+            if (!result.Any() || result is null)
             {
                 ViewBag.Temp = "Not found";
             }
             return View(result);
         }
 
-        [HttpGet]
+        [HttpGet("admin/publisher/add")]
         public IActionResult AddPublisher()
         {
             var model = new PublisherViewModel();
@@ -358,7 +342,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("admin/publisher/add")]
         public async Task<IActionResult> AddPublisher(PublisherViewModel publisher)
 
         {
@@ -374,6 +358,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
+        [HttpPost("admin/publisher/delete")]
         public async Task<IActionResult> DeletePublisher(string publisherId)
         {
             await _publisherRepository.DeleteAsync(publisherId);
@@ -382,7 +367,7 @@ namespace BookStoreMVC.Controllers
         #endregion
 
         #region Language
-        [HttpGet]
+        [HttpGet("admin/languages")]
         public IActionResult LanguageIndex(int? pageNumber = 1)
         {
             var languageList = _languageRepository.GetAll().Select(language => new LanguageViewModel
@@ -406,7 +391,7 @@ namespace BookStoreMVC.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("admin/language/add")]
         public IActionResult AddLanguage()
         {
             var model = new LanguageViewModel();
@@ -414,7 +399,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("admin/language/add")]
         public async Task<IActionResult> AddLanguage(LanguageViewModel language)
         {
             if (!ModelState.IsValid) return View(language);
@@ -430,15 +415,17 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
-
-        public async Task<IActionResult> DeleteLanguage(string languageID)
+        [HttpPost("admin/language/delete")]
+        public async Task<IActionResult> DeleteLanguage(string languageId)
         {
-            await _languageRepository.DeleteAsync(languageID);
+            await _languageRepository.DeleteAsync(languageId);
             return RedirectToAction("LanguageIndex");
         }
         #endregion
+        
+        
         #region Order
-        [HttpGet]
+        [HttpGet("admin/orders")]
         public IActionResult OrderIndex(int? pageNumber = 1)
         {
             var orderList = _orderRepository.GetAll().Select(order =>
@@ -481,7 +468,7 @@ namespace BookStoreMVC.Controllers
 
         #region User Management
 
-        [HttpGet]
+        [HttpGet("admin/security/users")]
         public IActionResult UserIndex(int? pageNumber = 1)
         {
             var userList = _userManager.Users.ToList();
@@ -494,14 +481,8 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
 
-
-        // public async Task<IActionResult> AddIdentity(AdminAddIdentityViewModel model)
-        // {
-        //     return RedirectToAction();
-        // }
-
-        [Authorize()]
-        [HttpGet]
+        [Authorize("RequireAdmin")]
+        [HttpGet("admin/security/add-user")]
         public IActionResult AddUser()
         {
             ViewBag.RolesList = _roleManager.Roles.ToArray();
@@ -511,7 +492,8 @@ namespace BookStoreMVC.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [Authorize("RequireAdmin")]
+        [HttpPost("admin/security/add-user")]
         public async Task<IActionResult> AddUser(AddUserViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -546,17 +528,17 @@ namespace BookStoreMVC.Controllers
 
         #region Role Management
 
-        [HttpGet]
+        [HttpGet("admin/security/roles")]
         public IActionResult RoleIndex()
         {
             var rolesList = _roleManager.Roles;
             return View(rolesList.ToList());
         }
 
-        [HttpGet]
+        [HttpGet("admin/security/add-role")]
         public IActionResult AddRole() => View();
 
-        [HttpPost]
+        [HttpPost("admin/security/add-role")]
         public async Task<IActionResult> AddRole(AddRoleViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
