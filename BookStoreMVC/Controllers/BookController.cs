@@ -1,7 +1,7 @@
+using BookStoreMVC.Mapper;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
-using BookStoreMVC.Mapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
@@ -14,11 +14,11 @@ namespace BookStoreMVC.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IBookGenreRepository _bookGenreRepository;
         private readonly IPublisherRepository _publisherRepository;
+        private readonly IHelpers _helpersRepository;
         private readonly IProductRepository _productRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly ILanguageRepository _languageRepository;
         private readonly UserManager<User> _userManager;
-        private readonly IHelpers _helpersRepository;
 
 
         private readonly ProjectionDefinition<Product> _productProjectionDefinition = Builders<Product>.Projection

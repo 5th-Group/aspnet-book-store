@@ -2,7 +2,7 @@
     var prevDisabled = !Model.HasPreviousPage ? true : false;
     var nextDisabled = !Model.HasNextPage ? true : false;
 }
-<div class="flex justify-center -space-x-px py-4 bg-white text-normalText ">
+<div class="flex justify-center -space-x-px py-4  text-normalText ">
 
     <!-- Next Button -->
     <a asp-action=@Model.Type asp-route-pageNumber="@(Model.PageIndex - 1)"
@@ -21,7 +21,7 @@
         if (@Model.PageIndex == i)
         {
             <a aria-current="page"
-        class="z-10 px-3 py-2 leading-tight text-primary2-700 border border-primary2-100 bg-primary2-100 hover:bg-primary2-200 hover:text-primary2-900 transition-colors duration-200 ">@i</a>
+        class="z-10 px-3 py-2 leading-tight text-gray-500 border border-gray-300 bg-gray-200   cursor-default ">@i</a>
         }
         else
         {

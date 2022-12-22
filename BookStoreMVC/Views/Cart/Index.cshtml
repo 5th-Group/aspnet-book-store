@@ -11,23 +11,25 @@
 
         @if (Model != null && Model.Count > 0)
         {
-            <div class=" flex justify-between mb-6 w-full">
+            <div class=" flex justify-between mb-6 w-full items-center">
                 <h2 class="text-base text-titleText font-bold   basis-1/5"></h2>
                 <h2 class="text-base text-titleText font-bold   basis-1/5">Product</h2>
                 <h2 class="text-base text-titleText font-bold  pl-10  basis-1/5">QTY</h2>
                 <h2 class="text-base text-titleText font-bold  basis-1/5">Price</h2>
-                <h2 class="text-base text-titleText font-bold  basis-1/5">Action</h2>
+                <h2 class="text-base text-titleText font-bold  basis-1/5 flex items-center justify-between">Action
+                    <div>@await Html.PartialAsync("_ControlBtnPartial", Model)</div>
+                </h2>
             </div>
         }
 
-        <div class="space-y-4 flex flex-col  ">
+        <div class=" flex flex-col  gap-5">
 
             @if (Model != null && Model.Count > 0)
             {
                 @foreach (var item in Model)
                 {
                     var decsDisabled = item.Amount > 1 ? "" : "pointer-events-none bg-gray-200";
-                    <div class="flex  items-center bg-white shadow-md  rounded-lg">
+                    <div class="flex items-center bg-white shadow-md  rounded-lg">
 
                         @* Img *@
                         <div class="text-left basis-1/5">
@@ -91,24 +93,29 @@
                         @* Quantity Button *@
 
                         @* Price *@
-                        <h1 class="text-left basis-1/5 font-bold text-primary text-base">@item.Price.ToString("#,##")đ</h1>
+                        <h1 class="text-left basis-1/5 font-bold text-primary text-base">@item.Price.ToString("#,##")</h1>
                         @* Price *@
 
 
-                        <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Cart" asp-action="Remove"
-                              asp-route-id=@item.Product.Book.Id>
-                            <button class="font-medium text-red-500 hover:underline cursor-pointer" type="submit ">
-                                Remove
-                            </button>
-                        </form>
-                        @* <form class="inline-block basis-1/5  py-1" method="post" asp-controller="Checkout" asp-action="Pay"> *@
-                        @*     <button class="font-medium text-cyan-500 hover:underline cursor-pointer" type="submit "> *@
-                        @*         Pay *@
-                        @*     </button> *@
-                        @*     </form> *@
-                        
+                        <div>
+                            <form class="inline-block basis-1/5  py-1" asp-controller="Cart" asp-action="Remove"
+                        asp-route-id=@item.Product.Id method="post">
+                                <button class="font-medium text-red-500 hover:underline cursor-pointer" type="submit ">
+                                    Remove
+                                </button>
+
+                            </form>
+                            @* <form class="inline-block basis-1/5 py-1" method="post" asp-controller="Checkout" asp-action="Pay"> *@
+                            @*     <button class="font-medium text-cyan-500 hover:underline cursor-pointer" type="submit "> *@
+                            @*         Pay *@
+                            @*     </button> *@
+                            @* </form> *@
+                        </div>
                     </div>
                 }
+                <div class="self-center">
+                    <a asp-controller="Home" asp-action="payment" class="bgButton py-2 px-4 font-medium mt-3">Check Out</a>
+                </div>
             }
             else
             {

@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-
 namespace BookStoreMVC.ViewModels.Book;
 
 public class IndexBookViewModel
@@ -10,8 +9,8 @@ public class IndexBookViewModel
     public string Title { get; set; } = null!;
     
     public AuthorViewModel Author { get; set; } = null!;
-    
-    public string? Language { get; set; }
+
+    public LanguageViewModel? Language { get; set; }
 
     public IEnumerable<BookGenreViewModel> Genre { get; set; } = null!;
     

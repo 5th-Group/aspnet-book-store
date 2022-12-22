@@ -1,5 +1,6 @@
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
+using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Book;
 
 namespace BookStoreMVC.Mapper;
@@ -14,7 +15,12 @@ public class MapBook
             Id = book.Id,
             Title = book.Title,
             Author = MapAuthor.MapAuthorViewModel(author),
-            Language = language.Name,
+            Language = new LanguageViewModel
+            {
+                Id = language.Id,
+                Name = language.Name,
+                Code = language.Code
+            },
             Genre = MapBookGenre.MapManyBookGenreViewModels(bookGenres),
             Publisher = MapPublisher.MapPublisherViewModel(publisher),
             Type = book.Type,
