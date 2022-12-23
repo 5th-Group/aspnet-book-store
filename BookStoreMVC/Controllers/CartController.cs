@@ -120,19 +120,25 @@ namespace BookStoreMVC.Controllers
             //     HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
             // }
             
-            if (HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(GetCartKey()) == null)
+            if (HttpContext.Session.GetObjectFromJson<IEnumerable<ProductListItem>>(GetCartKey()) == null)
             {
                 var cart = new List<ProductListItem>();
                 var product = _productRepository.GetById(id);
-            
+                
                 if (product is null)
                 {
                     return NotFound();
-            
+                
                 }
-            
+                
                 cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1, Price = product.CurrentPrice.Hardcover });
                 HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
+
+                // var cart = new List<ShoppingCartItem>();
+                // var product = _productRepository.GetById(id);
+                //
+                // cart.Add();
+
             }
             else
             {
