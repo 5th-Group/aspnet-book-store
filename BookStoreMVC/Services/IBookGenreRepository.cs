@@ -5,7 +5,7 @@ namespace BookStoreMVC.Services;
 public interface IBookGenreRepository
 {
     IEnumerable<BookGenre> GetAll();
-    BookGenre GetById(string bookGenreId);
+    Task<BookGenre> GetById(string bookGenreId);
 
     Task AddAsync(BookGenre model);
 

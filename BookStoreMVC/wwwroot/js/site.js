@@ -30,10 +30,13 @@ filterBooks = (url, filterBy, filterValue) => {
     
     $.getJSON(url+`/books/api?filterBy=${filterBy}&filterValue=${filterValue}`, function (data){
         $("#spinner").hide();
+        
+        
+        
         $.each(data, function (key, obj){
             $("#bookList").append(`<div class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer">
                     <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src=${Object.byString(obj, 'book.signedUrl')} alt="">
-                    <a href="${url}/book/${Object.byString(obj, 'book.id')}/${Object.byString(obj, 'book.title')}">
+                    <a href="${url}/book/${Object.byString(obj, 'id')}/${process(Object.byString(obj, 'book.title'))}">
                         <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
                             <div
                                 class="w-[300px] h-[230px] p-5 pl-[90px] bg-white hover:shadow-lg transition-shadow duration-200 rounded-lg flex flex-col ">
@@ -60,6 +63,8 @@ filterBooks = (url, filterBy, filterValue) => {
 <!--                                    }-->
 
 <!--                                </h2>-->
+                                    <h2 class="font-light text-sm text-primary flex items-center" id="rating-${key}">
+                                    </h2>
                                 <h3 class="text-sm line-clamp-2 min-h-[3rem]">${Object.byString(obj, 'book.description')}</h3>
                                 <h2 class="font-bold text-primary mt-1 mb-2">${new Intl.NumberFormat('he-HE', { style: 'currency', currency: 'VND' ,maximumFractionDigits: 2 }).format(Object.byString(obj, 'price.hardcover'))}</h2>
                                 <form class="inline-block bgButton py-1" method="post" action="/cart/add?id=${Object.byString(obj, 'id')}">
@@ -68,6 +73,32 @@ filterBooks = (url, filterBy, filterValue) => {
                             </div>
                         </div>
                     </a>`)
+            // for (let i = 0; i < Object.byString(obj, 'rating'); i++) {
+            //     $(`#rating-${key}`).append(`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 fill-primary">
+            //                                     <path stroke-linecap="round" stroke-linejoin="round"
+            //                                     d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+            //                                 </svg>`);
+            // }
+            // for (let i = Object.byString(obj, 'rating'); i < 5; i++) {
+            //     $(`#rating-${key}`).append(`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            //                                  stroke="currentColor" class="w-5 h-5">
+            //                                     <path stroke-linecap="round" stroke-linejoin="round"
+            //                                     d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+            //                                 </svg>`);
+            for (let i = 0; i < 5; i++) {
+                if (i <= Object.byString(obj, 'rating') && Object.byString(obj, 'rating') > 0) {
+                    $(`#rating-${key}`).append(`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 fill-primary">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                                            </svg>`);
+                } else {
+                    $(`#rating-${key}`).append(`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                             stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/>
+                                            </svg>`);
+                }
+            }
         })
     });
 }
@@ -101,4 +132,8 @@ Object.byString = function(o, s) {
         }
     }
     return o;
+}
+
+function process(value) {
+    return value === undefined ? '' : value.replace(/[^a-z0-9_]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
 }

@@ -3,27 +3,28 @@ using System.Text;
 using BookStoreMVC.Helpers;
 using BookStoreMVC.Mapper;
 using BookStoreMVC.Models;
+using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Models.Cart;
 using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
-using IronBarCode;
-using IronSoftware.Drawing;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stripe;
 
 namespace BookStoreMVC.Controllers
 {
+    [Route("checkout")]
     public class CheckoutController : Controller
     {
         private readonly IPaymentStrategy _paymentStrategy;
         private readonly IConfiguration _configuration;
+        private readonly SignInManager<User> _signInManager;
         private readonly IOrderRepository _orderRepository;
-        private readonly UserManager<User> _userManager;
-
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly IHelpers _helpersRepository;
@@ -32,22 +33,20 @@ namespace BookStoreMVC.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
 
-
-        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, IOrderRepository orderRepository, ILanguageRepository languageRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository)
-        {
-            _paymentStrategy = paymentStrategy;
+        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository){
+        _paymentStrategy = paymentStrategy;
             _configuration = configuration;
-            _userManager = userManager;
+            _signInManager = signInManager;
             _orderRepository = orderRepository;
-            _languageRepository = languageRepository;
-            _productRepository = productRepository;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _helpersRepository = helpersRepository;
+            _productRepository = productRepository;
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
+            _languageRepository = languageRepository;
             StripeConfiguration.ApiKey = configuration.GetValue<string>(
-               "Stripe:SecretKey");
+                "Stripe:SecretKey");
         }
 
         public string GetCartKey()
@@ -59,32 +58,56 @@ namespace BookStoreMVC.Controllers
         public IActionResult Index()
         {
             var key = GetCartKey();
+            
             if (key != "GHOST_USR" && HttpContext.Session.Keys.Contains("GHOST_USR"))
             {
                 HttpContext.Session.SetObjectAsJson(key,
                     HttpContext.Session.GetObjectFromJson<List<ProductListItem>>("GHOST_USR"));
                 HttpContext.Session.Remove("GHOST_USR");
             }
+            var cart = HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(key);
 
-            var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, key);
+            IList<ShoppingCartItem> cartItemList = new List<ShoppingCartItem>();
 
-            IList<ShoppingCartItem> _cartItemList = new List<ShoppingCartItem>();
+            var projectionDef = Builders<Book>.Projection
+                .Exclude(d => d.PageCount)
+                .Exclude(d => d.CreatedAt)
+                .Exclude(d => d.ImageUri)
+                .Exclude(d => d.PublishDate)
+                .Exclude(d => d.Description);
 
             if (cart != null && cart.Any())
             {
                 foreach (var item in cart)
                 {
-
+                    var taskList = new List<Task>();
+                    
                     var product = _productRepository.GetById(item.ProductDetail);
-                    var book = _bookRepository.GetById(product.BookId).Result;
-                    var author = _authorRepository.GetById(book.Author).Result;
-                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
-                    var publisher = _publisherRepository.GetById(book.Publisher);
-                    var language = _languageRepository.GetByIdAsync(book.Language).Result;
+                    
+                    var book = _bookRepository.GetById(product.BookId, projectionDef).Result;
 
-                    var bookViewModel = MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, language, _helpersRepository);
+                    var author =
+                        _authorRepository.GetWithFilterAsync(
+                            Builders<Author>.Filter.Where(a => a.Id == book.Author));
+                    
+                    taskList.Add(author);
+
+                    var publisher =
+                        _publisherRepository.GetWithFilterAsync(
+                            Builders<Publisher>.Filter.Where(p => p.Id == book.Publisher));
+                    taskList.Add(publisher);
+
+                    var lang = _languageRepository.GetWithFilterAsync(
+                        Builders<Language>.Filter.Where(l => l.Id == book.Language));
+                    taskList.Add(lang);
+                    
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre).Result);
+
+                    var t1 = Task.WhenAll(taskList);
+                    t1.Wait();
 
 
+                    var bookViewModel = MapBook.MapCartBookViewModel(book, author.Result, bookGenres, publisher.Result, lang.Result, _helpersRepository);
 
                     var productViewModel = new ProductViewModel
                     {
@@ -102,7 +125,7 @@ namespace BookStoreMVC.Controllers
                     };
 
 
-                    _cartItemList.Add(cartItem);
+                    cartItemList.Add(cartItem);
                 }
             }
             else
@@ -114,12 +137,12 @@ namespace BookStoreMVC.Controllers
                 // HttpContext.Session.SetString(User.FindFirstValue(ClaimTypes.NameIdentifier), string.Empty); 
                 // }
             }
-            return View(_cartItemList);
+            return View(cartItemList);
         }
 
         #region Momo
         [Authorize("RequireUserRole")]
-        [HttpGet("checkout/pay")]
+        [HttpGet("pay")]
         public IActionResult Pay()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -133,9 +156,9 @@ namespace BookStoreMVC.Controllers
                 orderId = DateTime.Now.Ticks.ToString(),
             };
             _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
-            momo.orderInfo += momo.orderId;
-            momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
-            momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.ipnUrl;
+            momo.orderInfo += userId;
+            // momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
+            // momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.ipnUrl;
             momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(cart.ToString()));
 
 
@@ -157,15 +180,22 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet("")]
+        public IActionResult Payment()
+        {
+            if (!_signInManager.IsSignedIn(User))
+            {
+                return Unauthorized();
+            }
+            
+            return View();
+        }
 
 
         #endregion
 
         #region Stripe
-
-
-
-
+        
         private int TotalPriceCalc(IList<ProductListItem> list)
         {
             decimal toltal = 0;
@@ -317,6 +347,52 @@ namespace BookStoreMVC.Controllers
         #endregion
 
 
+        [HttpGet("momo-redirect")]
+        public IActionResult MomoResult([FromQuery] MomoNotification momoNotification)
+        {
+            return RedirectToAction(momoNotification.resultCode == 0 ? "Success" : "Failure");
+        }
+        
+        [HttpPost("momo-ipn")]
+        public IActionResult MomoIpn([FromBody]MomoNotification? momoNotification)
+        {
+            if (momoNotification is null || momoNotification.resultCode != 0) return NoContent();
 
+            var model = Encoding.UTF8.GetString(Convert.FromBase64String(momoNotification.extraData));
+            var items = JsonConvert.DeserializeObject<IList<ProductListItem>>(model);
+
+            var order = new Order
+            {
+                ProductList = items!,
+                PaymentStatus = "Paid",
+                ShippingStatus = new []
+                {
+                    new OrderStatus
+                    {
+                        Name = "Order has been confirmed",
+                        TimeStamp = DateTime.Now
+                    }
+                },
+                CurrentShippingStatus = 0,
+                Customer = momoNotification.orderInfo.Split("#")[1],
+                TotalPrice = momoNotification.amount
+            };
+
+            _orderRepository.AddAsync(order);
+
+            return NoContent();
+        }
+
+        [HttpGet("success")]
+        public IActionResult Success()
+        {
+            return View();
+        }
+        
+        [HttpGet("failure")]
+        public IActionResult Failure()
+        {
+            return View();
+        }
     }
 }

@@ -31,11 +31,12 @@ public class AuthorServices : IAuthorRepository
         
         return result;
     }
-    //
-    // public Author Add()
-    // {
-    //     throw new NotImplementedException();
-    // }
+
+    public Task<Author> GetWithFilterAsync(FilterDefinition<Author> filterDefinition,
+        ProjectionDefinition<Author>? projectionDefinition = null)
+    {
+        return _authorCollection.Find(filterDefinition).FirstOrDefaultAsync();
+    }
 
     public async Task AddAsync(Author author)
     {

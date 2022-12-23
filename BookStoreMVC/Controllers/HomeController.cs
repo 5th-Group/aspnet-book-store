@@ -87,10 +87,9 @@ public class HomeController : Controller
             TotalPrice = order.TotalPrice,
             ShippingStatus = order.CurrentShippingStatus
         };
-
+        
         return View(orderVM);
     }
-
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -35,7 +35,7 @@ public class MapBook
         IAuthorRepository authorRepository, IBookGenreRepository genreRepository,
         IPublisherRepository publisherRepository, ILanguageRepository languageRepository, IHelpers helpers)
     {
-        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(genreRepository.GetById) let publisher = publisherRepository.GetById(book.Publisher) let lang = languageRepository.GetByIdAsync(book.Language).Result select MapIndexBookViewModel(book, author, bookGenres, publisher, lang, helpers)).ToList();
+        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(g => genreRepository.GetById(g).Result) let publisher = publisherRepository.GetById(book.Publisher) let lang = languageRepository.GetByIdAsync(book.Language).Result select MapIndexBookViewModel(book, author, bookGenres, publisher, lang, helpers)).ToList();
     }
 
 
@@ -58,6 +58,29 @@ public class MapBook
             PublishDate = book.PublishDate,
             Isbn = book.Isbn,
             Description = book.Description
+        };
+    }
+    
+    
+    public static IndexBookViewModel MapCartBookViewModel(Book book, Author author, IEnumerable<BookGenre> bookGenres,
+        Publisher publisher, Language language, IHelpers helpers)
+    {
+        return new IndexBookViewModel
+        {
+            Id = book.Id,
+            Title = book.Title,
+            Author = MapAuthor.MapAuthorViewModel(author),
+            Language = new LanguageViewModel
+            {
+                Id = language.Id,
+                Name = language.Name,
+                Code = language.Code
+            },
+            Genre = MapBookGenre.MapManyBookGenreViewModels(bookGenres),
+            Publisher = MapPublisher.MapPublisherViewModel(publisher),
+            Type = book.Type,
+            ImageName = book.ImageName,
+            SignedUrl = helpers.GenerateSignedUrl(book.ImageName).Result,
         };
     }
 }

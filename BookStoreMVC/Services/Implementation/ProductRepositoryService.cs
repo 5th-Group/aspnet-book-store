@@ -8,7 +8,7 @@ namespace BookStoreMVC.Services.Implementation;
 
 public class ProductRepositoryService : IProductRepository
 {
-    private IMongoCollection<Product> _collection;
+    private readonly IMongoCollection<Product> _collection;
     private ProjectionDefinition<Product> _projectionDefinition = Builders<Product>.Projection.Combine();
 
     public ProductRepositoryService(IOptions<BookStoreDataAccess> dataAccess)
@@ -35,6 +35,12 @@ public class ProductRepositoryService : IProductRepository
     public Product GetByFilter(FilterDefinition<Product> filterDefinition)
     {
         return _collection.Find(filterDefinition).FirstOrDefault();
+    }
+
+    public Task<Product> GetByFilterAsync(FilterDefinition<Product> filterDefinition,
+        ProjectionDefinition<Product>? projectionDefinition = null)
+    {
+        return _collection.Find(filterDefinition).FirstOrDefaultAsync();
     }
 
     public async Task AddAsync(Product model)
