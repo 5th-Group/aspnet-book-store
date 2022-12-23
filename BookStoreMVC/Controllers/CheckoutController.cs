@@ -5,7 +5,6 @@ using BookStoreMVC.Mapper;
 using BookStoreMVC.Models;
 using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Models.Cart;
-using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -33,8 +32,9 @@ namespace BookStoreMVC.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
 
-        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository){
-        _paymentStrategy = paymentStrategy;
+        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository)
+        {
+            _paymentStrategy = paymentStrategy;
             _configuration = configuration;
             _signInManager = signInManager;
             _orderRepository = orderRepository;
@@ -54,11 +54,11 @@ namespace BookStoreMVC.Controllers
             return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "GHOST_USR";
         }
 
-
+        [HttpGet("/summary")]
         public IActionResult Index()
         {
             var key = GetCartKey();
-            
+
             if (key != "GHOST_USR" && HttpContext.Session.Keys.Contains("GHOST_USR"))
             {
                 HttpContext.Session.SetObjectAsJson(key,
@@ -81,15 +81,15 @@ namespace BookStoreMVC.Controllers
                 foreach (var item in cart)
                 {
                     var taskList = new List<Task>();
-                    
+
                     var product = _productRepository.GetById(item.ProductDetail);
-                    
+
                     var book = _bookRepository.GetById(product.BookId, projectionDef).Result;
 
                     var author =
                         _authorRepository.GetWithFilterAsync(
                             Builders<Author>.Filter.Where(a => a.Id == book.Author));
-                    
+
                     taskList.Add(author);
 
                     var publisher =
@@ -100,7 +100,7 @@ namespace BookStoreMVC.Controllers
                     var lang = _languageRepository.GetWithFilterAsync(
                         Builders<Language>.Filter.Where(l => l.Id == book.Language));
                     taskList.Add(lang);
-                    
+
                     var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre).Result);
 
                     var t1 = Task.WhenAll(taskList);
@@ -187,7 +187,7 @@ namespace BookStoreMVC.Controllers
             {
                 return Unauthorized();
             }
-            
+
             return View();
         }
 
@@ -195,7 +195,7 @@ namespace BookStoreMVC.Controllers
         #endregion
 
         #region Stripe
-        
+
         private int TotalPriceCalc(IList<ProductListItem> list)
         {
             decimal toltal = 0;
@@ -352,9 +352,9 @@ namespace BookStoreMVC.Controllers
         {
             return RedirectToAction(momoNotification.resultCode == 0 ? "Success" : "Failure");
         }
-        
+
         [HttpPost("momo-ipn")]
-        public IActionResult MomoIpn([FromBody]MomoNotification? momoNotification)
+        public IActionResult MomoIpn([FromBody] MomoNotification? momoNotification)
         {
             if (momoNotification is null || momoNotification.resultCode != 0) return NoContent();
 
@@ -365,7 +365,7 @@ namespace BookStoreMVC.Controllers
             {
                 ProductList = items!,
                 PaymentStatus = "Paid",
-                ShippingStatus = new []
+                ShippingStatus = new[]
                 {
                     new OrderStatus
                     {
@@ -388,7 +388,7 @@ namespace BookStoreMVC.Controllers
         {
             return View();
         }
-        
+
         [HttpGet("failure")]
         public IActionResult Failure()
         {

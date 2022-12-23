@@ -29,7 +29,7 @@ namespace BookStoreMVC.Controllers
         private const int PAGE_SIZE = 10;
 
         private IEnumerable<string>? Headers;
-        
+
         public CartController(IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, UserManager<User> userManager, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository)
         {
 
@@ -47,7 +47,7 @@ namespace BookStoreMVC.Controllers
         {
             return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "GHOST_USR";
         }
-        
+
         [HttpGet("cart")]
         public IActionResult Index(int? pageNumber = 1)
         {
@@ -58,7 +58,7 @@ namespace BookStoreMVC.Controllers
                     HttpContext.Session.GetObjectFromJson<List<ProductListItem>>("GHOST_USR"));
                 HttpContext.Session.Remove("GHOST_USR");
             }
-            
+
             IEnumerable<ProductListItem> cart = HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(key);
 
             if (cart != null && cart.Any())
@@ -73,7 +73,7 @@ namespace BookStoreMVC.Controllers
                     var publisher = _publisherRepository.GetById(book.Publisher);
                     var lang = _languageRepository.GetByIdAsync(book.Language).Result;
 
-                    var bookViewModel = MapBook.MapIndexBookViewModel(book, author,  bookGenres, publisher, lang, _helpersRepository);
+                    var bookViewModel = MapBook.MapIndexBookViewModel(book, author, bookGenres, publisher, lang, _helpersRepository);
 
 
 
@@ -91,7 +91,7 @@ namespace BookStoreMVC.Controllers
                         Amount = item.Quantity,
                         Price = item.TotalPrice
                     };
-                
+
                     _cartItemList.Add(cartItem);
                 }
             }
@@ -99,15 +99,15 @@ namespace BookStoreMVC.Controllers
             {
                 // if (cart is null)
                 // {
-                    // return NotFound();
-                    // Generate Empty cart list so user can still access cart page instead of throwing error
-                    HttpContext.Session.SetString(GetCartKey(), string.Empty);
+                // return NotFound();
+                // Generate Empty cart list so user can still access cart page instead of throwing error
+                HttpContext.Session.SetString(GetCartKey(), string.Empty);
             }
 
             var result = PaginatedList<ShoppingCartItem>.Create(_cartItemList, pageNumber ?? 1, PAGE_SIZE, Headers, "CartIndex");
             return View(result);
         }
-        
+
         [HttpPost("cart/add")]
         public IActionResult AddToCart(string id, string decs, string incs)
         {
@@ -119,18 +119,18 @@ namespace BookStoreMVC.Controllers
             //     cart.Add(new ProductListItem { ProductDetail = product.Id!, Quantity = 1, Price = product.CurrentPrice.Hardcover });
             //     HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
             // }
-            
+
             if (HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(GetCartKey()) == null)
             {
                 var cart = new List<ProductListItem>();
                 var product = _productRepository.GetById(id);
-            
+
                 if (product is null)
                 {
                     return NotFound();
-            
+
                 }
-            
+
                 cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1, Price = product.CurrentPrice.Hardcover });
                 HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
             }
@@ -163,7 +163,7 @@ namespace BookStoreMVC.Controllers
                 {
                     Product product = _productRepository.GetById(id);
 
-                    cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1 });
+                    cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1, Price = product.CurrentPrice.Hardcover });
                 }
                 HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
             }
