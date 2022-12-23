@@ -35,7 +35,7 @@ public class MapBook
         IAuthorRepository authorRepository, IBookGenreRepository genreRepository,
         IPublisherRepository publisherRepository, ILanguageRepository languageRepository, IHelpers helpers)
     {
-        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(genreRepository.GetById) let publisher = publisherRepository.GetById(book.Publisher) let lang = languageRepository.GetByIdAsync(book.Language).Result select MapIndexBookViewModel(book, author, bookGenres, publisher, lang, helpers)).ToList();
+        return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(g => genreRepository.GetById(g).Result) let publisher = publisherRepository.GetById(book.Publisher) let lang = languageRepository.GetByIdAsync(book.Language).Result select MapIndexBookViewModel(book, author, bookGenres, publisher, lang, helpers)).ToList();
     }
 
 

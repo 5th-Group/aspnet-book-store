@@ -8,16 +8,15 @@ public interface IBookRepository
     IEnumerable<Book> GetAll(FilterDefinition<Book>? filterDefinition = null, ProjectionDefinition<Book>? projectionDefinition = null);
 
     Task<Book> GetById(string bookId, ProjectionDefinition<Book>? projectionDefinition = null);
-
-    // IActionResult Add(Book book);
+    
+    Task<Book> GetByFilterAsync(FilterDefinition<Book> filterDefinition, ProjectionDefinition<Book>? projectionDefinition = null);
+    
 
     Task AddAsync(Book book);
-
-    // IActionResult Update(Book book);
+    
 
     Task UpdateAsync(Book book);
-
-    // IActionResult Delete(string bookId);
+    
 
     Task DeleteAsync(string bookId);
 

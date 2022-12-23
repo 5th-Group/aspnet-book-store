@@ -1,6 +1,56 @@
+@model BookStoreMVC.ViewModels.Admin.AddUserViewModel
 @{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
+    ViewBag.Title = "Add User";
+    Layout = "_LayoutAdmin";
 }
 
-<h2>title</h2>
+<h2>Add user</h2>
+<form method="post" asp-action="AddUser" asp-controller="Admin">
+    <div>
+        <label asp-for="@Model.FirstName">Firstname</label>
+        <input type="text" asp-for="@Model.FirstName"/>
+    </div>
+    <div>
+        <label asp-for="@Model.LastName">LastName</label>
+        <input type="text" asp-for="@Model.LastName"/>
+    </div>
+    <div>
+        <label asp-for="@Model.Username">Username</label>
+        <input type="text" asp-for="@Model.Username"/>
+    </div>
+    <div>
+        <label asp-for="@Model.Password">Password</label>
+        <input type="text" asp-for="@Model.Password"/>
+    </div>
+    <div class="mb-7">
+        <label class="mb-9" asp-for="@Model.Gender"></label>
+        <select asp-for="@Model.Gender"
+                class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+            @if (true)
+            {
+                foreach (var item in Model.GenderList)
+                {
+                    <option value=@item.Value>@item.Text</option>
+                }
+            }
+        </select>
+    </div>
+    <div>
+        <label asp-for="@Model.Email">Email</label>
+        <input type="email" asp-for="@Model.Email"/>
+    </div>
+    <div>
+        <label class="mb-9" asp-for="@Model.Role"></label>
+        <select asp-for="@Model.Role"
+                class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300">
+            @if (true)
+            {
+                foreach (var item in ViewBag.RolesList)
+                {
+                    <option value=@item.Name>@item.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <button type="submit">Add</button>
+</form>

@@ -69,7 +69,7 @@ namespace BookStoreMVC.Controllers
                     var product = _productRepository.GetById(item.ProductDetail);
                     var book = _bookRepository.GetById(product.BookId).Result;
                     var author = _authorRepository.GetById(book.Author).Result;
-                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre));
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre).Result);
                     var publisher = _publisherRepository.GetById(book.Publisher);
                     var lang = _languageRepository.GetByIdAsync(book.Language).Result;
 

@@ -9,6 +9,8 @@ public interface IProductRepository
 
     Product GetById(string productId);
     
+    Task<Product> GetByFilterAsync(FilterDefinition<Product> filterDefinition, ProjectionDefinition<Product>? projection = null);
+    
     Product GetByFilter(FilterDefinition<Product> filterDefinition);
 
     Task AddAsync(Product model);

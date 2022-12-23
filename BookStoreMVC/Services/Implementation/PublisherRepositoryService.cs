@@ -24,6 +24,11 @@ public class PublisherRepositoryService : IPublisherRepository
         return _publisherCollection.Find(publisher => publisher.Id == publisherId).FirstOrDefault();
     }
 
+    public Task<Publisher> GetWithFilterAsync(FilterDefinition<Publisher> filterDefinition)
+    {
+        return _publisherCollection.Find(filterDefinition).FirstOrDefaultAsync();
+    }
+
     public Publisher Add()
     {
         throw new NotImplementedException();

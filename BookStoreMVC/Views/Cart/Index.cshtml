@@ -114,7 +114,7 @@
                     </div>
                 }
                 <div class="self-center">
-                    <a asp-controller="Home" asp-action="payment" class="bgButton py-2 px-4 font-medium mt-3">Check Out</a>
+                    <a asp-controller="Checkout" asp-action="Payment" class="bgButton py-2 px-4 font-medium mt-3">Check Out</a>
                 </div>
             }
             else
@@ -124,7 +124,7 @@
 
         @* <img src="" alt="" id="momoQr"/> *@
         @* <button onclick="getMomoTransaction(`@Url.ActionContext.HttpContext.Request.Scheme://@Url.ActionContext.HttpContext.Request.Host`)">Pay</button> *@
-        <button onclick="location.href='@Url.Action("Pay", "Checkout")'">Pay</button>
+        @* <button onclick="location.href='@Url.Action("Pay", "Checkout")'">Pay</button> *@
 
 
         </div>

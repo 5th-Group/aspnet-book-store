@@ -12,7 +12,8 @@ using MongoDbGenericRepository.Utils;
 
 namespace BookStoreMVC.Controllers
 {
-    [Authorize("RequireAdminRole")]
+    // [Authorize("RequireAdminRole")]
+    [Route("admin")]
     public class AdminController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
@@ -46,7 +47,7 @@ namespace BookStoreMVC.Controllers
             _helpersRepository = helpersRepository;
         }
         
-        [HttpGet("admin")]
+        [HttpGet("")]
         public IActionResult Index()
         {
             return View();
@@ -54,7 +55,7 @@ namespace BookStoreMVC.Controllers
 
         #region Book
 
-        [HttpGet("admin/books/")]
+        [HttpGet("books/")]
         public IActionResult BookIndex(string filter = "_", int? pageNumber = 1)
         {
             var bookList = MapBook.MapIndexBookViewModels(
@@ -83,7 +84,7 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
         
-        [HttpGet("admin/add-book")]
+        [HttpGet("add-book")]
         public IActionResult AddBook()
         {
             var authors = _authorRepository.GetAll();
@@ -102,7 +103,7 @@ namespace BookStoreMVC.Controllers
             return View(bookModel);
         }
 
-        [HttpPost("admin/add-book")]
+        [HttpPost("add-book")]
         public async Task<IActionResult> AddBook(AddBookViewModel model)
         {
             var errors = ModelState.Values.SelectMany(v => v.Errors);
@@ -161,7 +162,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost("admin/book/delete")]
+        [HttpPost("book/delete")]
         public async Task<IActionResult> DeleteBook(string bookId)
         {
             await _bookRepository.DeleteAsync(bookId);
@@ -194,7 +195,7 @@ namespace BookStoreMVC.Controllers
 
         #region Author
 
-        [HttpGet("admin/authors")]
+        [HttpGet("authors")]
         public IActionResult AuthorIndex(int? pageNumber = 1)
         {
             var authorList = _authorRepository.GetAll().Select(author => new AuthorViewModel
@@ -219,14 +220,14 @@ namespace BookStoreMVC.Controllers
 
         }
 
-        [HttpGet("admin/author/add")]
+        [HttpGet("author/add")]
         public IActionResult AddAuthor()
         {
             var model = new AuthorViewModel();
             return View(model);
         }
 
-        [HttpPost("admin/author/add")]
+        [HttpPost("author/add")]
         public async Task<IActionResult> AddAuthor(AuthorViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -243,7 +244,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Admin");
         }
 
-        [HttpPost("admin/author/delete")]
+        [HttpPost("author/delete")]
         public async Task<IActionResult> DeleteAuthor(string authorId)
         {
             await _authorRepository.DeleteAsync(authorId);
@@ -254,7 +255,7 @@ namespace BookStoreMVC.Controllers
 
         #region BookGenre
         
-        [HttpGet("admin/book-genres")]
+        [HttpGet("book-genres")]
         public IActionResult BookGenreIndex(int? pageNumber = 1)
         {
             var bookGenreList = _bookGenreRepository.GetAll().Select(bookGenre => new BookGenreViewModel
@@ -275,14 +276,14 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
 
-        [HttpGet("admin/book-genre/add")]
+        [HttpGet("book-genre/add")]
         public IActionResult AddBookGenre()
         {
             var model = new BookGenreViewModel();
             return View(model);
         }
 
-        [HttpPost("admin/book-genre/add")]
+        [HttpPost("book-genre/add")]
         public async Task<IActionResult> AddBookGenre(BookGenreViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -299,7 +300,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost("admin/book-genre/delete")]
+        [HttpPost("book-genre/delete")]
         public async Task<IActionResult> DeleteBookGenre(string bookGenreID)
         {
             await _bookGenreRepository.DeleteAsync(bookGenreID);
@@ -309,7 +310,7 @@ namespace BookStoreMVC.Controllers
 
         #region Publisher
 
-        [HttpGet("admin/publishers")]
+        [HttpGet("publishers")]
         public IActionResult PublisherIndex(int? pageNumber, string filter)
         {
             var publishers = _publisherRepository.GetAll().Select(publisher => new PublisherViewModel
@@ -334,7 +335,7 @@ namespace BookStoreMVC.Controllers
             return View(result);
         }
 
-        [HttpGet("admin/publisher/add")]
+        [HttpGet("publisher/add")]
         public IActionResult AddPublisher()
         {
             var model = new PublisherViewModel();
@@ -342,7 +343,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost("admin/publisher/add")]
+        [HttpPost("publisher/add")]
         public async Task<IActionResult> AddPublisher(PublisherViewModel publisher)
 
         {
@@ -358,7 +359,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
-        [HttpPost("admin/publisher/delete")]
+        [HttpPost("publisher/delete")]
         public async Task<IActionResult> DeletePublisher(string publisherId)
         {
             await _publisherRepository.DeleteAsync(publisherId);
@@ -367,7 +368,7 @@ namespace BookStoreMVC.Controllers
         #endregion
 
         #region Language
-        [HttpGet("admin/languages")]
+        [HttpGet("languages")]
         public IActionResult LanguageIndex(int? pageNumber = 1)
         {
             var languageList = _languageRepository.GetAll().Select(language => new LanguageViewModel
@@ -391,7 +392,7 @@ namespace BookStoreMVC.Controllers
 
         }
 
-        [HttpGet("admin/language/add")]
+        [HttpGet("language/add")]
         public IActionResult AddLanguage()
         {
             var model = new LanguageViewModel();
@@ -399,7 +400,7 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [HttpPost("admin/language/add")]
+        [HttpPost("language/add")]
         public async Task<IActionResult> AddLanguage(LanguageViewModel language)
         {
             if (!ModelState.IsValid) return View(language);
@@ -415,7 +416,7 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("PublisherIndex");
         }
 
-        [HttpPost("admin/language/delete")]
+        [HttpPost("language/delete")]
         public async Task<IActionResult> DeleteLanguage(string languageId)
         {
             await _languageRepository.DeleteAsync(languageId);
@@ -425,7 +426,7 @@ namespace BookStoreMVC.Controllers
         
         
         #region Order
-        [HttpGet("admin/orders")]
+        [HttpGet("orders")]
         public IActionResult OrderIndex(int? pageNumber = 1)
         {
             var orderList = _orderRepository.GetAll().Select(order =>
@@ -468,7 +469,7 @@ namespace BookStoreMVC.Controllers
 
         #region User Management
 
-        [HttpGet("admin/security/users")]
+        [HttpGet("security/users")]
         public IActionResult UserIndex(int? pageNumber = 1)
         {
             var userList = _userManager.Users.ToList();
@@ -480,9 +481,20 @@ namespace BookStoreMVC.Controllers
             }
             return View(result);
         }
+        
+        // [HttpGet("security/edit-user")]
+        // public async Task<IActionResult> EditUser(string username)
+        // {
+        //     var user = await _userManager.FindByNameAsync(username);
+        //
+        //     await _userManager.AddToRoleAsync(user, "ADMIN");
+        //
+        //     return RedirectToAction("Index");
+        // }
+        //
 
-        [Authorize("RequireAdmin")]
-        [HttpGet("admin/security/add-user")]
+        // [Authorize("RequireAdminRole")]
+        [HttpGet("security/add-user")]
         public IActionResult AddUser()
         {
             ViewBag.RolesList = _roleManager.Roles.ToArray();
@@ -492,8 +504,8 @@ namespace BookStoreMVC.Controllers
             return View(model);
         }
 
-        [Authorize("RequireAdmin")]
-        [HttpPost("admin/security/add-user")]
+        // [Authorize("RequireAdminRole")]
+        [HttpPost("security/add-user")]
         public async Task<IActionResult> AddUser(AddUserViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -528,17 +540,18 @@ namespace BookStoreMVC.Controllers
 
         #region Role Management
 
-        [HttpGet("admin/security/roles")]
+        [HttpGet("security/roles")]
         public IActionResult RoleIndex()
         {
             var rolesList = _roleManager.Roles;
             return View(rolesList.ToList());
         }
 
-        [HttpGet("admin/security/add-role")]
+
+        [HttpGet("security/add-role")]
         public IActionResult AddRole() => View();
 
-        [HttpPost("admin/security/add-role")]
+        [HttpPost("security/add-role")]
         public async Task<IActionResult> AddRole(AddRoleViewModel model)
         {
             if (!ModelState.IsValid) return View(model);

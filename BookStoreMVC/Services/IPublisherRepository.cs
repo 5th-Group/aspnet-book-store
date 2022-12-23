@@ -1,4 +1,5 @@
 using BookStoreMVC.Models;
+using MongoDB.Driver;
 
 namespace BookStoreMVC.Services;
 
@@ -7,6 +8,8 @@ public interface IPublisherRepository
     IEnumerable<Publisher> GetAll();
 
     Publisher GetById(string publisherId);
+
+    Task<Publisher> GetWithFilterAsync(FilterDefinition<Publisher> filterDefinition);
 
     Publisher Add();
 

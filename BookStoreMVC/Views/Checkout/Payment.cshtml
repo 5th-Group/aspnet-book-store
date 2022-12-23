@@ -1,0 +1,148 @@
+@{
+    ViewData["Title"] = "Payment";
+    Layout = "_Layout";
+}
+
+<section id="payment">
+
+    <!-- Flex Container -->
+    <div class="container grid grid-cols-2 grid-rows-6  min-h-[700px]  max-w-7xl  mx-auto  mt-10 gap-10  ">
+
+        @* Address *@
+        <div class="bg-white rounded-lg shadow-lg row-span-2 p-7">
+            <form id="payment-form">
+                <div id="payment-element">
+                    <!--Stripe.js injects the Payment Element-->
+                </div>
+                <button id="submit" class="bgButton w-full py-2">
+                    <div class="spinner hidden" id="spinner"></div>
+                    <span id="button-text">Pay now</span>
+                </button>
+                <div id="payment-message" class="hidden"></div>
+            </form>
+        </div>
+        @* End Address *@
+
+        @* Cart *@
+        <div class=" rounded-lg shadow-lg  row-span-4 p-7  gap-y-2 grid grid-cols-1 grid-rows-6">
+
+            @* Cart items *@
+            <div class="flex flex-col gap-y-4 rounded-lg   row-span-4  overflow-y-scroll max-h-96 ">
+
+                @* Item *@
+                <div class="h-24 flex gap-x-2 ">
+                    <div class="w-1/3  rounded-lg">
+                        <img src="~/img/BoldDime.png" class="w-36 h-24  object-cover rounded-lg" alt="">
+                    </div>
+                    <div class="w-1/3 flex flex-col justify-center  ">
+                        <h1 class="font-bold">Brave New World</h1>
+                        <h1 class="font-light text-sm">Harley T.H.</h1>
+                        <h1 class="text-primary font-bold">$30.0</h1>
+                    </div>
+                    <div class="w-1/3 text-lg text-primary text-center self-center font-bold     ">x2</div>
+                </div>
+                @* Item *@
+
+                @* Item *@
+                <div class="h-24 flex gap-x-2 ">
+                    <div class="w-1/3  rounded-lg">
+                        <img src="~/img/BoldDime.png" class="w-36 h-24  object-cover rounded-lg" alt="">
+                    </div>
+                    <div class="w-1/3 flex flex-col justify-center  ">
+                        <h1 class="font-bold">Brave New World</h1>
+                        <h1 class="font-light text-sm">Harley T.H.</h1>
+                        <h1 class="text-primary font-bold">$30.0</h1>
+                    </div>
+                    <div class="w-1/3 text-lg text-primary text-center self-center font-bold     ">x2</div>
+                </div>
+                @* Item *@
+
+                @* Item *@
+                <div class="h-24 flex gap-x-2 ">
+                    <div class="w-1/3  rounded-lg">
+                        <img src="~/img/BoldDime.png" class="w-36 h-24  object-cover rounded-lg" alt="">
+                    </div>
+                    <div class="w-1/3 flex flex-col justify-center  ">
+                        <h1 class="font-bold">Brave New World</h1>
+                        <h1 class="font-light text-sm">Harley T.H.</h1>
+                        <h1 class="text-primary font-bold">$30.0</h1>
+                    </div>
+                    <div class="w-1/3 text-lg text-primary text-center self-center font-bold     ">x2</div>
+                </div>
+                @* Item *@
+
+                @* Item *@
+                <div class="h-24 flex gap-x-2 ">
+                    <div class="w-1/3  rounded-lg">
+                        <img src="~/img/BoldDime.png" class="w-36 h-24  object-cover rounded-lg" alt="">
+                    </div>
+                    <div class="w-1/3 flex flex-col justify-center  ">
+                        <h1 class="font-bold">Brave New World</h1>
+                        <h1 class="font-light text-sm">Harley T.H.</h1>
+                        <h1 class="text-primary font-bold">$30.0</h1>
+                    </div>
+                    <div class="w-1/3 text-lg text-primary text-center self-center font-bold     ">x2</div>
+                </div>
+                @* Item *@
+                @* Item *@
+                <div class="h-24 flex gap-x-2 ">
+                    <div class="w-1/3  rounded-lg">
+                        <img src="~/img/BoldDime.png" class="w-36 h-24  object-cover rounded-lg" alt="">
+                    </div>
+                    <div class="w-1/3 flex flex-col justify-center  ">
+                        <h1 class="font-bold">Brave New World</h1>
+                        <h1 class="font-light text-sm">Harley T.H.</h1>
+                        <h1 class="text-primary font-bold">$30.0</h1>
+                    </div>
+                    <div class="w-1/3 text-lg text-primary text-center self-center font-bold     ">x2</div>
+                </div>
+                @* Item *@
+            </div>
+            @* Cart items *@
+
+            @* Subtotal *@
+            <div class=" border border-x-0 border-b-0 border-t-2 flex flex-col justify-around">
+                <div class="flex justify-between">
+                    <h1 class="text-gray-400">Shiping</h1>
+                    <h1 class="font-bold text-primary">$5.0</h1>
+
+                </div>
+                <div class="flex justify-between">
+                    <h1 class="text-gray-400">Subtotal</h1>
+                    <h1 class="font-bold text-primary"> $30.0</h1>
+
+                </div>
+            </div>
+            @* Subtotal *@
+
+            @* Total *@
+            <div class=" border border-x-0 border-b-0 border-t-2">
+                <div class="flex justify-between">
+                    <h1 class="text-titleText font-bold text-lg">Total</h1>
+                    <h1 class="font-bold text-lg text-primary "> $300.0</h1>
+
+                </div>
+                <button onclick="location.href='@Url.Action("Pay", "Checkout", new {})'" class="bgButton w-full py-2">Place Order</button>
+            </div>
+            @* Total *@
+        </div>
+        @* Cart *@
+
+        @* Payment methods *@
+        <div class="bg-white rounded-lg shadow-lg row-span-2 p-7   overflow-hidden flex flex-col gap-2">
+            <h1 class="text-xl font-bold">Payment Methods</h1>
+            <div class="text-xl font-bold w-full h-full grid grid-cols-2 gap-4 ">
+                <div class="rounded-lg border-2 "></div>
+                <div class="rounded-lg border-2 "></div>
+                <div class="rounded-lg border-2 "></div>
+            </div>
+        </div>
+        @* Payment methods *@
+    </div>
+
+</section>
+
+
+@section Scripts {
+    <script asp-append-version="true" src="~/js/stripe.js"></script>
+}

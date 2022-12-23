@@ -39,6 +39,11 @@ public class LanguageServices : ILanguageRepository
         return BsonSerializer.Deserialize<Language>(lang);
     }
 
+    public Task<Language> GetWithFilterAsync(FilterDefinition<Language> filterDefinition, ProjectionDefinition<Language>? projectionDefinition = null)
+    {
+        return _languageCollection.Find(filterDefinition).FirstOrDefaultAsync();
+    }
+
 
     public async Task AddAsync(Language model)
     {

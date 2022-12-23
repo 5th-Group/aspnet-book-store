@@ -1,7 +1,6 @@
 using BookStoreMVC.DataAccess;
 using BookStoreMVC.Exceptions;
 using BookStoreMVC.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -46,31 +45,25 @@ public class BookRepositoryService : IBookRepository
         var item = await _bookCollection.Find(b => b.Id == bookId).Project(_projectionDefinition).FirstOrDefaultAsync();
         return BsonSerializer.Deserialize<Book>(item);
     }
-
-    public IActionResult Add(Book book)
+    
+    public Task<Book> GetByFilterAsync(FilterDefinition<Book> filterDefinition,
+        ProjectionDefinition<Book>? projectionDefinition = null)
     {
-        throw new NotImplementedException();
+        return _bookCollection.Find(filterDefinition).FirstOrDefaultAsync();
     }
+    
 
     public async Task AddAsync(Book book)
     {
         await _bookCollection.InsertOneAsync(book);
     }
-
-    public IActionResult Update(Book book)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public Task UpdateAsync(Book book)
     {
         throw new NotImplementedException();
     }
-
-    public IActionResult Delete(string bookId)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public async Task DeleteAsync(string id)
     {

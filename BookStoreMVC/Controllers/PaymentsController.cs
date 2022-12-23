@@ -80,8 +80,7 @@ namespace BookStoreMVC.Controllers
             {
                 return NotFound();
             }
-
-
+            
             try
             {
                 var paymentIntentService = new PaymentIntentService();
