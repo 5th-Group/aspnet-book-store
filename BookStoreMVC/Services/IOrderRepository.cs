@@ -1,5 +1,5 @@
-using BookStoreMVC.Models;
 using BookStoreMVC.Models.Payment;
+using MongoDB.Driver;
 
 namespace BookStoreMVC.Services;
 
@@ -12,11 +12,13 @@ public interface IOrderRepository
     Task<Order> GetByOrderId(string orderId);
     IEnumerable<Order> GetByUserId(string userId);
     
+    Task<Order> GetByFilterAsync(FilterDefinition<Order> filterDefinition, ProjectionDefinition<Order>? projectionDefinition = null);
+    
     public Task AddAsync(Order order);
     
     Order Add();
     
-    Order Update(string orderId);
+    Task UpdateAsync(Order order);
     
     Order Delete(string orderId);
 }

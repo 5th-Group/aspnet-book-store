@@ -3,11 +3,7 @@
 
     ViewData["Title"] = "Check Out";
     Layout = "_Layout";
-    decimal Subtotal = 0;
-    foreach (var item in Model)
-    {
-        Subtotal += item.Price;
-    }
+    decimal subtotal = Model.Sum(item => item.Price);
 }
 
 <section id="checkout">
@@ -76,7 +72,7 @@
                 </div>
                 <div class="flex justify-between">
                     <h1 class="text-gray-400">Subtotal</h1>
-                    <h1 class="font-bold text-primary">@Subtotal.ToString("#,##")đ</h1>
+                    <h1 class="font-bold text-primary">@subtotal.ToString("#,##")đ</h1>
 
                 </div>
             </div>
@@ -86,7 +82,7 @@
             <div class=" border border-x-0 border-b-0 border-t-2">
                 <div class="flex justify-between">
                     <h1 class="text-titleText font-bold text-lg">Total</h1>
-                    <h1 class="font-bold text-lg text-primary "> @((Subtotal + 15000).ToString("#,##"))đ</h1>
+                    <h1 class="font-bold text-lg text-primary "> @((subtotal + 15000).ToString("#,##"))đ</h1>
 
                 </div>
                 <button id="checkoutBtn" class="bgButton w-full py-2">Pay</button>

@@ -130,9 +130,14 @@ namespace BookStoreMVC.Controllers
                     return NotFound();
 
                 }
-
                 cart.Add(new ProductListItem { ProductDetail = product.Id, Quantity = 1, Price = product.CurrentPrice.Hardcover });
                 HttpContext.Session.SetObjectAsJson(GetCartKey(), cart);
+
+                // var cart = new List<ShoppingCartItem>();
+                // var product = _productRepository.GetById(id);
+                //
+                // cart.Add();
+
             }
             else
             {
