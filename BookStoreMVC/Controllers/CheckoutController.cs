@@ -218,9 +218,9 @@ namespace BookStoreMVC.Controllers
 
         [HttpGet]
         [Authorize("RequireUserRole")]
-        public async Task<IActionResult> Success([FromQuery] string paymentIntent)
+        public async Task<IActionResult> Success([FromQuery] string payment_intent)
         {
-            if (string.IsNullOrEmpty(paymentIntent))
+            if (string.IsNullOrEmpty(payment_intent))
             {
                 return NotFound();
             }
@@ -229,7 +229,7 @@ namespace BookStoreMVC.Controllers
             try
             {
                 var paymentIntentService = new PaymentIntentService();
-                PaymentIntent result = await paymentIntentService.GetAsync(paymentIntent);
+                PaymentIntent result = await paymentIntentService.GetAsync(payment_intent);
 
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

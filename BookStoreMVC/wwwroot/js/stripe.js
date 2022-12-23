@@ -97,7 +97,6 @@ var payment_intent = {};
 var base_url = window.location.origin;
 
 initialize();
-checkStatus();
 
 document
   .querySelector("#payment-form")

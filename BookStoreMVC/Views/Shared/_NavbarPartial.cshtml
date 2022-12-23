@@ -3,7 +3,7 @@
 @inject SignInManager<User> SignInManager
 @{
 
-    string letter = null;
+    string letter = "";
     if (SignInManager.IsSignedIn(User))
     {
         letter = UserManager.GetUserAsync(User).Result.LastName.Substring(0, 1);
@@ -17,8 +17,9 @@
     <!-- Flex container -->
     <div class="flex flex-row items-center h-[44px] justify-between gap-6">
         <!-- Logo -->
-        <div class="basis-1/4 ">
-            <h1>Logo</h1>
+        <div class="basis-1/4 cursor-pointer">
+            <a asp-controller="Home" asp-action="Index"><img src="~/img/logo/Color-logo.svg" alt="logo.svg"
+                    class="w-32"></a>
         </div>
         <!-- End Logo -->
         <!-- Menu Items and Search bar-->
@@ -26,16 +27,19 @@
             class="basis-2/4  w-full flex justify-between items-center @(ViewBag.Title == "Books" ? "pr-[294px]" : "")">
 
             <!-- Menu Items -->
-            <a asp-controller="Home" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
+            <a asp-controller="Home" asp-action="Index"
+                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h2>Home</h2>
             </a>
-            <a asp-controller="Book" asp-action="Index" class="hover:text-primary hover:font-bold transition-all">
+            <a asp-controller="Book" asp-action="Index"
+                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 Book
             </a>
-            <a asp-action="CheckOrder" asp-controller="Home" class="hover:text-primary hover:font-bold transition-all">
+            <a asp-action="CheckOrder" asp-controller="Home"
+                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h3>Check Order</h3>
             </a>
-            <a href="#" class="hover:text-primary hover:font-bold transition-all">
+            <a href="#" class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h4>About us</h4>
             </a>
             <!-- End Menu Items -->
