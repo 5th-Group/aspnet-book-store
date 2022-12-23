@@ -16,8 +16,9 @@ public class Order
     public string? PaymentStatus { get; set; }
 
     public IEnumerable<OrderStatus> ShippingStatus { get; set; } = null!;
-
     public int CurrentShippingStatus { get; set; }
+
+    public string ShippingAddress { get; set; } = null!;
 
     [BsonRepresentation(BsonType.String)]
     public string Customer { get; set; } = null!;

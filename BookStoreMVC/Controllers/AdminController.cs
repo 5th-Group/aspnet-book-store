@@ -1,13 +1,16 @@
 using BookStoreMVC.Mapper;
 using BookStoreMVC.Models;
+using BookStoreMVC.Models.Payment;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Admin;
 using BookStoreMVC.ViewModels.Book;
+using BookStoreMVC.ViewModels.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoDbGenericRepository.Utils;
 
 namespace BookStoreMVC.Controllers
@@ -433,16 +436,17 @@ namespace BookStoreMVC.Controllers
             {
 
                 var user = _userManager.FindByIdAsync(order.Customer).Result;
-                var userVM = new UserDetailViewModel();
-
-                userVM.Address = user.Address.ToString();
-                userVM.Country = user.Country;
-                userVM.Email = user.Email;
-                userVM.Firstname = user.FirstName;
-                userVM.Lastname = user.LastName;
-                userVM.Gender = user.Gender;
-                userVM.PhoneNumber = user.PhoneNumber;
-                userVM.Username = user.UserName;
+                var userVM = new UserDetailViewModel
+                {
+                    Address = user.Address.ToString(),
+                    Country = user.Country,
+                    Email = user.Email,
+                    Firstname = user.FirstName,
+                    Lastname = user.LastName,
+                    Gender = user.Gender,
+                    PhoneNumber = user.PhoneNumber,
+                    Username = user.UserName
+                };
 
 
                 return new OrderIndexViewModel
@@ -450,6 +454,12 @@ namespace BookStoreMVC.Controllers
                     Id = order.Id,
                     CreatedAt = order.CreatedAt,
                     PaymentStatus = order.PaymentStatus,
+                    ShippingStatus = order.CurrentShippingStatus,
+                    ShippingStatusGroup = order.ShippingStatus.Select(s => new ShippingStatus
+                    {
+                        Name = s.Name,
+                        Timestamp = s.TimeStamp
+                    }),
                     TotalPrice = order.TotalPrice,
                     Customer = userVM
                 };
@@ -465,6 +475,34 @@ namespace BookStoreMVC.Controllers
 
 
         }
+
+        [HttpGet("order/{orderId}")]
+        public async Task<IActionResult> OrderDetail(string orderId)
+        {
+            var order = await _orderRepository.GetByFilterAsync(Builders<Order>.Filter.Where(d => d.Id == orderId));
+
+            return View(order);
+        }
+
+        [HttpPost("order/{orderId}/update-status")]
+        public async Task<IActionResult> UpdateOrderStatus(string orderId, string name, string timeStamp)
+        {
+            var order = await _orderRepository.GetByFilterAsync(Builders<Order>.Filter.Where(d => d.Id == orderId));
+            
+            var orderStatus = order.ShippingStatus.Append(new OrderStatus
+            {
+                Name = name,
+                TimeStamp = DateTime.Parse(timeStamp)
+            });
+
+            order.ShippingStatus = orderStatus;
+            order.CurrentShippingStatus = order.ShippingStatus.Count() - 1;
+
+            await _orderRepository.UpdateAsync(order);
+
+            return RedirectToAction("OrderDetail", new {orderId = order.Id});
+        }
+        
         #endregion
 
         #region User Management

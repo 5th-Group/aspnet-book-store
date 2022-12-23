@@ -8,6 +8,7 @@ namespace BookStoreMVC.Services.Implementation;
 public class OrderService : IOrderRepository
 {
     private readonly IMongoCollection<Order> _orderCollection;
+
     public OrderService(IOptions<BookStoreDataAccess> dataAccess)
     {
 
@@ -27,13 +28,18 @@ public class OrderService : IOrderRepository
 
     public async Task<Order> GetByOrderId(string orderId)
     {
-        var resutl = await _orderCollection.Find(x => x.Id == orderId).FirstOrDefaultAsync();
-        return resutl;
+        var result = await _orderCollection.Find(x => x.Id == orderId).FirstOrDefaultAsync();
+        return result;
     }
     public IEnumerable<Order> GetByUserId(string userId)
     {
         var resutl = _orderCollection.Find(x => x.Customer == userId).ToEnumerable();
         return resutl;
+    }
+
+    public Task<Order> GetByFilterAsync(FilterDefinition<Order> filterDefinition, ProjectionDefinition<Order>? projectionDefinition = null)
+    { 
+        return _orderCollection.Find(filterDefinition).FirstOrDefaultAsync();
     }
 
     public async Task AddAsync(Order order)
@@ -46,9 +52,9 @@ public class OrderService : IOrderRepository
         throw new NotImplementedException();
     }
 
-    public Order Update(string orderId)
+    public async Task UpdateAsync(Order order)
     {
-        throw new NotImplementedException();
+        await _orderCollection.ReplaceOneAsync(Builders<Order>.Filter.Where(doc => doc.Id == order.Id), order);
     }
 
     public Order Delete(string orderId)
