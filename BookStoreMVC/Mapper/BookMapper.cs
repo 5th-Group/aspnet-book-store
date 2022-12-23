@@ -1,10 +1,11 @@
 // using BookStoreMVC.Models;
 // using BookStoreMVC.Services;
 // using BookStoreMVC.ViewModels;
+// using BookStoreMVC.ViewModels.Book;
 // using Microsoft.AspNetCore.Identity;
-//
+
 // namespace BookStoreMVC.Mapper;
-//
+
 // public static class BookMapper
 // {
 //     public static IndexBookViewModel MapBookViewModel(Book book, Author author, IEnumerable<BookGenre> bookGenres, Publisher publisher, IHelpers helpers)
@@ -26,27 +27,27 @@
 //             Isbn = book.Isbn,
 //             Description = book.Description
 //         };
-//
+
 //         return viewModel;
 //     }
-//
+
 //     public static IEnumerable<IndexBookViewModel> MapManyBookViewModels(IEnumerable<Book> books, IAuthorRepository authorRepository, IBookGenreRepository genreRepository, IPublisherRepository publisherRepository, IHelpers helpers)
 //     {
 //         return (from book in books let author = authorRepository.GetById(book.Author).Result let bookGenres = book.Genre.Select(genre => genreRepository.GetById(genre)) let publisher = publisherRepository.GetById(book.Publisher) select MapBookViewModel(book, author, bookGenres, publisher, helpers)).ToList();
 //     }
-//
-//
+
+
 //     // public IEnumerable<IndexBookViewModel> MapManyBookViewModel(IEnumerable<Book> books)
 //     // {
 //     //     return books.Select(book => new);
 //     // }
-//
-//
+
+
 //     public static IEnumerable<BookGenreViewModel> MapBookGenreViewModels(IEnumerable<BookGenre> bookGenres)
 //     {
 //         return bookGenres.Select(genre => new BookGenreViewModel { Id = genre.Id, Name = genre.Name });
 //     }
-//     
+
 //     public static PublisherViewModel MapPublisherViewModel(Publisher publisher)
 //     {
 //         return new PublisherViewModel
@@ -57,7 +58,7 @@
 //             Origin = publisher.Origin
 //         };
 //     }
-//
+
 //     public static IEnumerable<PublisherViewModel> MapManyPublisherViewModels(IEnumerable<Publisher> publishers)
 //     {
 //         return publishers.Select(publisher => new PublisherViewModel
@@ -68,7 +69,7 @@
 //             Origin = publisher.Origin
 //         });
 //     }
-//     
+
 //     public static ReviewViewModel MapReviewViewModel(Review review, UserManager<User> userManager)
 //     {
 //         return new ReviewViewModel
@@ -79,7 +80,7 @@
 //             RatedScore = review.RatedScore
 //         };
 //     }
-//     
+
 //     public static IEnumerable<ReviewViewModel> MapManyReviewViewModels(IEnumerable<Review> reviews, UserManager<User> userManager)
 //     {
 //         return reviews.Select(review => new ReviewViewModel
@@ -90,7 +91,7 @@
 //             RatedScore = review.RatedScore
 //         });
 //     }
-//     
+
 //     public static UserViewModel MapUserViewModel(User user)
 //     {
 //         return new UserViewModel

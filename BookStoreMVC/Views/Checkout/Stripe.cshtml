@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Stripe";
+    Layout = "_Layout";
+}
+
+<section id="payment">
+
+    <!-- Flex Container -->-
+    <div class="container  text-center  min-h-screen  max-w-7xl  mx-auto  mt-20 gap-10  ">
+
+
+        <div class="bg-white rounded-lg shadow-lg mx-auto max-w-5xl  self-center p-7">
+            <form id="payment-form">
+                <div id="payment-element">
+                    <!--Stripe.js injects the Payment Element-->
+                </div>
+                <button id="submit" class="bgButton w-full py-2">
+                    <div class="spinner hidden" id="spinner"></div>
+                    <span id="button-text">Pay now</span>
+                </button>
+                <div id="payment-message" class="hidden"></div>
+            </form>
+        </div>
+
+
+
+    </div>
+
+</section>
+
+
+@section Scripts {
+<script asp-append-version="true" src="~/js/stripe.js"></script>
+}

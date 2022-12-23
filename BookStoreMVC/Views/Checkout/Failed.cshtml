@@ -1,9 +1,9 @@
 @{
-    ViewData["Title"] = "Check Out Success!";
+    ViewData["Title"] = "Check Out Failed!";
     Layout = "_Layout";
 }
 
-<section id="checkoutSuccess">
+<section id="checkoutFailed">
 
     <!-- Flex Container -->-
     <div class="container flex items-start min-h-screen  max-w-5xl  mx-auto  m-20 justify-center ">
@@ -11,25 +11,26 @@
 
         <div class=" p-7  text-left basis-1/2 flex flex-col mt-20 justify-center row-span-4">
             <div class="flex gap-2 items-center">
-                <h1 class="font-bold text-3xl text-titleText">Payment Successful!</h1>
-                <span class="text-primary"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                <h1 class="font-bold text-3xl text-titleText">Payment Failed!</h1>
+                <span class="text-red-600"> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="w-12 h-12">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg></span>
+                            d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </span>
 
             </div>
-            <h3 class="text-normalText mt-3">Thank you for purchasing product at <span>Swift</span>! Your order has been
-                confirmed.</h3>
+            <h3 class="text-normalText mt-3">Your payment was not successfully processed. Please try again or contact
+                our customer support.</h3>
 
             <div class="flex  gap-3 mt-4"> <a asp-controller="Home" asp-action="Index" class="bgButton py-2 px-5">
                     Go Back
                 </a>
-                <a asp-controller="Book" asp-action="Index" class="nonBgButton py-2 px-5">Buy More</a>
+                <a class="nonBgButton py-2 px-5">Contact</a>
             </div>
         </div>
         <div class="text-left basis-1/2 ">
-            <img src="~/img/Ilustrations/checkoutSuccess.svg" class="" alt="checkoutSuccess.svg">
+            <img src="~/img/Ilustrations/checkoutFailed.svg" class="" alt="checkoutSuccess.svg">
         </div>
 
 

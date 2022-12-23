@@ -60,7 +60,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
     // [HttpGet("/orderdetail/{orderId}")]
     public IActionResult OrderDetail(string orderId)
     {
@@ -90,7 +90,7 @@ public class HomeController : Controller
         
         return View(orderVM);
     }
-    
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error(int? statusCode = null)
