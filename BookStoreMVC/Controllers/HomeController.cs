@@ -60,7 +60,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
     // [HttpGet("/orderdetail/{orderId}")]
     public IActionResult OrderDetail(string orderId)
     {
@@ -87,15 +87,11 @@ public class HomeController : Controller
             TotalPrice = order.TotalPrice,
             ShippingStatus = order.CurrentShippingStatus
         };
-        
+
         return View(orderVM);
     }
 
-    [HttpGet("checkout/")]
-    public IActionResult Payment()
-    {
-        return View();
-    }
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error(int? statusCode = null)

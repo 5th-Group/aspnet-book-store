@@ -1,19 +1,118 @@
+@model IList<BookStoreMVC.Models.Cart.ShoppingCartItem>
 @{
-    ViewData["Title"] = "Check Out";
-}
-<h1>@ViewData["Title"]</h1>
 
-<section>
-    <div class="mt-10">
-        <form id="payment-form">
-            <div id="payment-element">
-                <!--Stripe.js injects the Payment Element-->
+    ViewData["Title"] = "Check Out";
+    Layout = "_Layout";
+    decimal Subtotal = 0;
+    foreach (var item in Model)
+    {
+        Subtotal += item.Price;
+    }
+}
+
+<section id="checkout">
+
+    <!-- Flex Container -->
+    <div class="container grid grid-cols-2 grid-rows-6 h-[60rem]  max-w-7xl  mx-auto  mt-20 gap-10  ">
+
+        @* Payment methods *@
+        <div class="bg-white rounded-lg shadow-lg row-span-3 p-7 overflow-hidden flex flex-col gap-2">
+            <h1 class="text-xl font-bold">Payment Methods</h1>
+            <ul class=" gap-6 grid grid-cols-2 grid-rows-2  w-full ">
+                <li
+                    class=" px-5 py-2 flex items-center border-2 rounded-lg  border-gray-200 cursor-pointer  peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100 ">
+                    <input checked type="radio" id="hosting-small" name="hosting" value="hosting-small" class=" peer "
+                        required>
+                    <label for="hosting-small" class="p-5 flex justify-center w-full items-center  text-gray-500  ">
+                        <img src="~/img/logo/Mastercard_.svg" class="h-20" alt="momo.svg">
+                    </label>
+                </li>
+                <li
+                    class="flex px-5 py-2 items-center   row-span-1 bg-white rounded-lg border-2 border-gray-200 cursor-pointer  peer-checked:border-primary peer-checked:text-primary hover:text-gray-600 hover:bg-gray-100">
+                    <input type="radio" id="hosting-big" name="hosting" value="hosting-big" class="peer" required>
+                    <label for="hosting-big" class=" p-5 flex justify-center w-full items-center  text-gray-500  ">
+                        <img src="~/img/logo/LogoMoMo.svg" class="h-20" alt="momo.svg">
+                    </label>
+                </li>
+
+            </ul>
+
+        </div>
+        @* Payment methods *@
+
+        @* Cart *@
+        <div class=" rounded-lg shadow-lg  row-span-4 p-7  gap-y-2 grid grid-cols-1 grid-rows-6 bg-white">
+
+            @* Cart items *@
+            <div
+                class="flex flex-col gap-y-4 rounded-lg   row-span-4  overflow-y-scroll max-h-96  scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent ">
+
+                @foreach (var item in Model)
+                {
+                    <div class="h-24 flex gap-x-2 ">
+                        <div class="w-1/3  rounded-lg">
+                            <img src=@item.Product.Book.SignedUrl class="w-36 h-24  object-cover rounded-lg"
+                            alt=@item.Product.Book.ImageName>
+                        </div>
+                        <div class="w-1/3 flex flex-col justify-center  ">
+                            <h1 class="font-bold">@item.Product.Book.Title</h1>
+                            <h1 class="font-light text-sm">@item.Product.Book.authorDisplay</h1>
+                            <h1 class="text-primary font-bold">@item.Price.ToString("#,##")đ</h1>
+                        </div>
+                        <div class="w-1/3 text-lg text-primary text-center self-center font-bold">x @item.Amount</div>
+                    </div>
+                }
+
+
             </div>
-            <button id="submit">
-                <div class="spinner hidden" id="spinner"></div>
-                <span id="button-text">Pay now</span>
-            </button>
-            <div id="payment-message" class="hidden"></div>
-        </form>
+            @* Cart items *@
+
+            @* Subtotal *@
+            <div class=" border border-x-0 border-b-0 border-t-2 flex flex-col justify-around">
+                <div class="flex justify-between">
+                    <h1 class="text-gray-400">Shiping</h1>
+                    <h1 class="font-bold text-primary">15,000đ</h1>
+
+                </div>
+                <div class="flex justify-between">
+                    <h1 class="text-gray-400">Subtotal</h1>
+                    <h1 class="font-bold text-primary">@Subtotal.ToString("#,##")đ</h1>
+
+                </div>
+            </div>
+            @* Subtotal *@
+
+            @* Total *@
+            <div class=" border border-x-0 border-b-0 border-t-2">
+                <div class="flex justify-between">
+                    <h1 class="text-titleText font-bold text-lg">Total</h1>
+                    <h1 class="font-bold text-lg text-primary "> @((Subtotal + 15000).ToString("#,##"))đ</h1>
+
+                </div>
+                <button id="checkoutBtn" class="bgButton w-full py-2">Pay</button>
+            </div>
+            @* Total *@
+        </div>
+        @* Cart *@
     </div>
+
 </section>
+
+
+@* @section Scripts {
+    <script asp-append-version="true" src="~/js/stripe.js"></script>
+    } *@
+
+@section Scripts {
+<script type="text/javascript">
+
+    $("#checkoutBtn").click(function () {
+        var val = $("input[type='radio']:checked").val();
+        alert(val);
+        window.location.replace(
+            `${base_url}/payments/failed?paymentIntent_id=${paymentIntent_id}`
+        );
+    });
+
+</script>
+}
