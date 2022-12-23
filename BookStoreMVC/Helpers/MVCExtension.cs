@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStoreMVC.Helpers;
@@ -33,15 +34,25 @@ public static class MvcExtensions
     public static string ToUrlFriendly(this string word)
     {
         var span = new List<char>();
+        
+        // word.Replace(new Regex("[^a-z0-9_]+"), )
 
-        for (var i = 0; i < word.Length; i++){
-            if (i != 0 && word[i] == ' ')
+        for (var i = 0; i < word.Length; i++)
+        {
+            switch (i)
             {
-                if (word[i + 1] < word.Length && word[i + 1] != SpecialCharacters("Hyphen")) span.Add(SpecialCharacters("Hyphen"));
-            }
-            else
-            {
-                span.Add(word[i]);
+                case 0 when word[i] == SpecialCharacters("Space"):
+                    continue;
+                case > 0 when word[i] == SpecialCharacters("Space"):
+                {
+                    if (word[i - 1] == SpecialCharacters("Hyphen")) continue;
+                    if (i + 1 <= word.Length && word[i + 1] != SpecialCharacters("Hyphen"))
+                        span.Add(SpecialCharacters("Hyphen"));
+                    break;
+                }
+                default:
+                    span.Add(word[i]);
+                    break;
             }
         }
         
