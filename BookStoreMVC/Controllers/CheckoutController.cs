@@ -3,6 +3,7 @@ using System.Text;
 using BookStoreMVC.Helpers;
 using BookStoreMVC.Models;
 using BookStoreMVC.Models.Payment;
+using BookStoreMVC.Models.Cart;
 using BookStoreMVC.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,30 +13,84 @@ using Newtonsoft.Json.Linq;
 using Stripe;
 
 
-namespace BookStoreMVC.Controllers;
-
-[Route("checkout")]
-public class CheckoutController : Controller
+namespace BookStoreMVC.Controllers
 {
-    private readonly IPaymentStrategy _paymentStrategy;
-    private readonly IConfiguration _configuration;
-    private readonly SignInManager<User> _signInManager;
-    private readonly IOrderRepository _orderRepository;
-
-    public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository){
-        _paymentStrategy = paymentStrategy;
-        _configuration = configuration;
-        _signInManager = signInManager;
-        _orderRepository = orderRepository;
-        StripeConfiguration.ApiKey = configuration.GetValue<string>(
-            "Stripe:SecretKey");
-    }
-
-    private string GetCartKey()
+    [Route("checkout")]
+    public class CheckoutController : Controller
     {
-        return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "GHOST_USR";
-    }
-    
+        private readonly IPaymentStrategy _paymentStrategy;
+        private readonly IConfiguration _configuration;
+        private readonly SignInManager<User> _signInManager;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IBookRepository _bookRepository;
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IHelpers _helpersRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IBookGenreRepository _bookGenreRepository;
+        private readonly IPublisherRepository _publisherRepository;
+        private readonly ILanguageRepository _languageRepository;
+
+        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository)
+        {
+            _paymentStrategy = paymentStrategy;
+            _configuration = configuration;
+            _signInManager = signInManager;
+            _orderRepository = orderRepository;
+            _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+            _helpersRepository = helpersRepository;
+            _productRepository = productRepository;
+            _bookGenreRepository = bookGenreRepository;
+            _publisherRepository = publisherRepository;
+            _languageRepository = languageRepository;
+            StripeConfiguration.ApiKey = configuration.GetValue<string>(
+                "Stripe:SecretKey");
+        }
+
+        public string GetCartKey()
+        {
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "GHOST_USR";
+        }
+
+        [HttpGet("/summary")]
+        public IActionResult Index()
+        {
+            var key = GetCartKey();
+
+            if (key != "GHOST_USR" && HttpContext.Session.Keys.Contains("GHOST_USR"))
+            {
+                HttpContext.Session.SetObjectAsJson(key,
+                    HttpContext.Session.GetObjectFromJson<List<ProductListItem>>("GHOST_USR"));
+                HttpContext.Session.Remove("GHOST_USR");
+            }
+            var cart = HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(key);
+
+            IList<ShoppingCartItem> cartItemList = new List<ShoppingCartItem>();
+            
+            if (cart != null && cart.Any())
+            {
+                foreach (var item in cart)
+                {
+                    var taskList = new List<Task>();
+
+                    var product = _productRepository.GetById(item.ProductDetail);
+
+                    var book = _bookRepository.GetById(product.BookId, projectionDef).Result;
+
+                    var author =
+                        _authorRepository.GetWithFilterAsync(
+                            Builders<Author>.Filter.Where(a => a.Id == book.Author));
+
+                    taskList.Add(author);
+                    
+                    var lang = _languageRepository.GetWithFilterAsync(
+                        Builders<Language>.Filter.Where(l => l.Id == book.Language));
+                    taskList.Add(lang);
+
+                    var bookGenres = book.Genre.Select(genre => _bookGenreRepository.GetById(genre).Result);
+        }
+
+
 
     #region Momo
     [Authorize("RequireUserRole")]
@@ -44,7 +99,6 @@ public class CheckoutController : Controller
     {
         string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
-
 
         MomoPaymentRequest momo = new MomoPaymentRequest
         {
@@ -57,8 +111,6 @@ public class CheckoutController : Controller
         // momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
         // momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.ipnUrl;
         momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(cart.ToString()));
-
-
 
         var result = _paymentStrategy.MakePayment(momo);
         var jRes = string.IsNullOrEmpty(result) ? null : JObject.Parse(result);
@@ -123,7 +175,6 @@ public class CheckoutController : Controller
 
         IEnumerable<ProductListItem> cart = HttpContext.Session.GetObjectFromJson<List<ProductListItem>>(key);
 
-
         var paymentIntentService = new PaymentIntentService();
         var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
         {
@@ -150,7 +201,9 @@ public class CheckoutController : Controller
         try
         {
             var paymentIntentService = new PaymentIntentService();
+
             PaymentIntent result = await paymentIntentService.GetAsync(paymentIntent);
+            
 
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -219,6 +272,7 @@ public class CheckoutController : Controller
         
             var order = new Order
             {
+
                 Customer = userId,
                 ProductList = cart,
                 PaymentStatus = "Failed"
@@ -254,6 +308,7 @@ public class CheckoutController : Controller
         var items = JsonConvert.DeserializeObject<IList<ProductListItem>>(model);
 
         var order = new Order
+
         {
             ProductList = items!,
             PaymentStatus = "Paid",
