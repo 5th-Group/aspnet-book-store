@@ -10,8 +10,8 @@
 
 @{
 
-    string CARTKEY = "";
-    if (SignInManager.IsSignedIn(User))
+    string CARTKEY = "GHOST_USR";
+    if (User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
     {
         CARTKEY = User.FindFirstValue(ClaimTypes.NameIdentifier);
     }

@@ -22,7 +22,7 @@ namespace BookStoreMVC.Controllers
             _configuration = configuration;
         }
 
-        
+
         [Authorize("RequireUserRole")]
         [HttpGet("checkout/pay")]
         public IActionResult Pay()
@@ -38,11 +38,11 @@ namespace BookStoreMVC.Controllers
                 orderId = DateTime.Now.Ticks.ToString(),
             };
             _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
-            momo.orderInfo += momo.orderId; 
+            momo.orderInfo += momo.orderId;
             momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
             momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.ipnUrl;
             momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(cart.ToString()));
-            
+
 
 
             var result = _paymentStrategy.MakePayment(momo);
@@ -53,18 +53,18 @@ namespace BookStoreMVC.Controllers
                 // barcode.ChangeBarCodeColor(Color.Cyan);
                 // ViewData["qrCode"] = barcode.ToDataUrl();
 
-                return Redirect(jRes.GetValue("qrCodeUrl")!.ToString());
+                return Redirect(jRes.GetValue("payUrl")!.ToString());
             }
-                
-                // return Redirect(jRes.GetValue("payUrl")!.ToString());
+
+            // return Redirect(jRes.GetValue("payUrl")!.ToString());
 
 
-                return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Index() => View();
-        
-        
-        
+
+
+
     }
 }
