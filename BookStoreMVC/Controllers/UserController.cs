@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BookStoreMVC.ViewModels.User;
 
 
 namespace BookStoreMVC.Controllers;
 
+[Authorize("RequireAuthenticated")]
 public class UserController : Controller
 {
     private readonly UserManager<User> _userManager;
@@ -27,7 +29,7 @@ public class UserController : Controller
     }
 
     #region Basic
-    [Authorize("RequireUserRole")]
+    // [Authorize("RequireUserRole")]
     [HttpGet("user/settings")]
     public async Task<IActionResult> Index()
     {
@@ -35,17 +37,29 @@ public class UserController : Controller
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.FindByIdAsync(userId);
 
+        // UserDetailViewModel userVm = new UserDetailViewModel
+        // {
+        //     Address = user.Address.ToString(),
+        //     Country = user.Country,
+        //     Email = user.Email,
+        //     Firstname = user.FirstName,
+        //     Lastname = user.LastName,
+        //     Gender = user.Gender,
+        //     PhoneNumber = user.PhoneNumber,
+        //     Username = user.UserName
+        // };
         var userVm = new UserDetailViewModel
         {
-            Address = user.Address.ToString(),
-            Country = user.Country,
-            Email = user.Email,
+            Username = user.UserName,
             Firstname = user.FirstName,
             Lastname = user.LastName,
             Gender = user.Gender,
-            PhoneNumber = user.PhoneNumber,
-            Username = user.UserName
+            Country = user.Country ?? string.Empty,
+            Address = user.Address.First().Location,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber
         };
+
         return View(userVm);
     }
 
@@ -87,7 +101,6 @@ public class UserController : Controller
 
     #region Order History
     
-    [Authorize("RequireUserRole")]
     [HttpGet("user/order-history")]
     public IActionResult OrderHistory()
     {

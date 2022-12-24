@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace BookStoreMVC.ViewModels;
+namespace BookStoreMVC.ViewModels.User;
 
 public class UserDetailViewModel
 {

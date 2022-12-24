@@ -1,4 +1,4 @@
-@model BookStoreMVC.ViewModels.UserDetailViewModel
+@model BookStoreMVC.ViewModels.User.UserDetailViewModel
 @{
     ViewData["Title"] = "Profile";
     Layout = "_Layout";
@@ -64,21 +64,18 @@
                         class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
                         type="text">
                 </div>
-
-
-
-                <div>
-                    <label asp-for=@Model.Country></label>
-                    <input asp-for=@Model.Country disabled
-                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
-                        type="text">
-                </div>
-                <div>
-                    <label asp-for=@Model.Gender></label>
-                    <input asp-for=@Model.Gender disabled
-                        class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg "
-                        type="text">
-                </div>
+                @* <div> *@
+                @*     <label asp-for=@Model.Country></label> *@
+                @*     <input asp-for=@Model.Country disabled *@
+                @*         class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg " *@
+                @*         type="text"> *@
+                @* </div> *@
+                @* <div> *@
+                @*     <label asp-for=@Model.Gender></label> *@
+                @*     <input asp-for="@{Model.Gender}" disabled *@
+                @*         class="w-full  text-base px-4 py-3 border-2  border-gray-300 bg-gray-200 rounded-lg " *@
+                @*         type="text"> *@
+                @* </div> *@
                 <div>
                     <label asp-for=@Model.PhoneNumber></label>
                     <input asp-for=@Model.PhoneNumber disabled

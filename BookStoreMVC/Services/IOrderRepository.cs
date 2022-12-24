@@ -9,7 +9,7 @@ public interface IOrderRepository
     //
     IEnumerable<Order> GetAll();
 
-    Task<Order> GetByOrderId(string orderId);
+    Task<Order?> GetByOrderId(string orderId);
     IEnumerable<Order> GetByUserId(string userId);
     
     Task<Order> GetByFilterAsync(FilterDefinition<Order> filterDefinition, ProjectionDefinition<Order>? projectionDefinition = null);

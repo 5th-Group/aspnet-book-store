@@ -26,7 +26,7 @@ public class OrderService : IOrderRepository
         return _orderCollection.Find(_ => true).ToEnumerable();
     }
 
-    public async Task<Order> GetByOrderId(string orderId)
+    public async Task<Order?> GetByOrderId(string orderId)
     {
         var result = await _orderCollection.Find(x => x.Id == orderId).FirstOrDefaultAsync();
         return result;
