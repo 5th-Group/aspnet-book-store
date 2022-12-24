@@ -49,7 +49,7 @@ namespace BookStoreMVC.Controllers
             _productRepository = productRepository;
             _helpersRepository = helpersRepository;
         }
-        
+
         [HttpGet("")]
         public IActionResult Index()
         {
@@ -77,7 +77,7 @@ namespace BookStoreMVC.Controllers
             }
 
             Headers = PropertiesFromType(bookList);
-            
+
             var result = PaginatedList<IndexBookViewModel>.Create(bookList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "BookIndex");
             if (!result.Any())
             {
@@ -86,7 +86,7 @@ namespace BookStoreMVC.Controllers
 
             return View(result);
         }
-        
+
         [HttpGet("add-book")]
         public IActionResult AddBook()
         {
@@ -171,7 +171,7 @@ namespace BookStoreMVC.Controllers
             await _bookRepository.DeleteAsync(bookId);
             return RedirectToAction("BookIndex");
         }
-        
+
         private static string GenerateFileName(string imgFileName)
         {
             var fileName = Path.GetFileNameWithoutExtension(imgFileName);
@@ -257,7 +257,7 @@ namespace BookStoreMVC.Controllers
         #endregion
 
         #region BookGenre
-        
+
         [HttpGet("book-genres")]
         public IActionResult BookGenreIndex(int? pageNumber = 1)
         {
@@ -329,7 +329,7 @@ namespace BookStoreMVC.Controllers
                 Headers = PropertiesFromType(publishers);
 
             }
-            
+
             var result = PaginatedList<PublisherViewModel>.Create(publishers.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "PublisherIndex");
             if (!result.Any() || result is null)
             {
@@ -426,15 +426,14 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("LanguageIndex");
         }
         #endregion
-        
-        
+
+
         #region Order
         [HttpGet("orders")]
         public IActionResult OrderIndex(int? pageNumber = 1)
         {
             var orderList = _orderRepository.GetAll().Select(order =>
             {
-
                 var user = _userManager.FindByIdAsync(order.Customer).Result;
                 var userVM = new UserDetailViewModel
                 {
@@ -469,7 +468,7 @@ namespace BookStoreMVC.Controllers
             var result = PaginatedList<OrderIndexViewModel>.Create(orderList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "OrderIndex");
             if (!result.Any())
             {
-                ViewBag.Temp = "Not found";
+                return NotFound();
             }
             return View(result);
 
@@ -488,7 +487,7 @@ namespace BookStoreMVC.Controllers
         public async Task<IActionResult> UpdateOrderStatus(string orderId, string name, string timeStamp)
         {
             var order = await _orderRepository.GetByFilterAsync(Builders<Order>.Filter.Where(d => d.Id == orderId));
-            
+
             var orderStatus = order.ShippingStatus.Append(new OrderStatus
             {
                 Name = name,
@@ -500,9 +499,9 @@ namespace BookStoreMVC.Controllers
 
             await _orderRepository.UpdateAsync(order);
 
-            return RedirectToAction("OrderDetail", new {orderId = order.Id});
+            return RedirectToAction("OrderDetail", new { orderId = order.Id });
         }
-        
+
         #endregion
 
         #region User Management
@@ -519,7 +518,7 @@ namespace BookStoreMVC.Controllers
             }
             return View(result);
         }
-        
+
         // [HttpGet("security/edit-user")]
         // public async Task<IActionResult> EditUser(string username)
         // {

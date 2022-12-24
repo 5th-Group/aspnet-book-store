@@ -87,7 +87,7 @@ public class HomeController : Controller
             TotalPrice = order.TotalPrice,
             ShippingStatus = order.CurrentShippingStatus
         };
-        
+
         return View(orderVM);
     }
 
