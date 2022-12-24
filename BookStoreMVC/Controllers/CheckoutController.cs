@@ -10,10 +10,12 @@ using BookStoreMVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Stripe;
+
 
 namespace BookStoreMVC.Controllers
 {
@@ -23,6 +25,7 @@ namespace BookStoreMVC.Controllers
         private readonly IPaymentStrategy _paymentStrategy;
         private readonly IConfiguration _configuration;
         private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly IOrderRepository _orderRepository;
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
@@ -32,7 +35,7 @@ namespace BookStoreMVC.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly ILanguageRepository _languageRepository;
 
-        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository)
+        public CheckoutController(IPaymentStrategy paymentStrategy, IConfiguration configuration, SignInManager<User> signInManager, IOrderRepository orderRepository, IBookRepository bookRepository, IAuthorRepository authorRepository, IHelpers helpersRepository, IProductRepository productRepository, IBookGenreRepository bookGenreRepository, IPublisherRepository publisherRepository, ILanguageRepository languageRepository, UserManager<User> userManager)
         {
             _paymentStrategy = paymentStrategy;
             _configuration = configuration;
@@ -45,6 +48,7 @@ namespace BookStoreMVC.Controllers
             _bookGenreRepository = bookGenreRepository;
             _publisherRepository = publisherRepository;
             _languageRepository = languageRepository;
+            _userManager = userManager;
             StripeConfiguration.ApiKey = configuration.GetValue<string>(
                 "Stripe:SecretKey");
         }
@@ -141,7 +145,7 @@ namespace BookStoreMVC.Controllers
         }
 
         #region Momo
-        [Authorize("RequireUserRole")]
+        [Authorize("RequireAuthenticated")]
         [HttpGet("pay")]
         public IActionResult Pay()
         {
@@ -152,14 +156,14 @@ namespace BookStoreMVC.Controllers
             MomoPaymentRequest momo = new MomoPaymentRequest
             {
                 requestId = DateTime.Now.Ticks.ToString(),
-                amount = cart.Select(item => Convert.ToInt64((item.Price * item.Quantity))).Sum(),
-                orderId = DateTime.Now.Ticks.ToString(),
+                amount = cart.Select(item => Convert.ToInt64(item.Price * item.Quantity)).Sum() + 15_000,
+                orderId = ObjectId.GenerateNewId().ToString()
             };
             _configuration.GetSection("PaymentSettings:Momo").Bind(momo);
             momo.orderInfo += userId;
             // momo.redirectUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.redirectUrl;
             // momo.ipnUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + momo.ipnUrl;
-            momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(cart.ToString()));
+            momo.extraData = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(cart)));
 
 
 
@@ -208,17 +212,16 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [Authorize("RequireUserRole")]
-        [HttpGet("checkout/stripe")]
+        [Authorize("RequireAuthenticated")]
+        [HttpGet("stripe")]
 
         public IActionResult Stripe()
         {
             return View();
         }
 
-
-        [Authorize("RequireUserRole")]
-        [HttpPost("create-payment-intent")]
+        
+        [HttpPost("create-payment-intent")] // https://swiftlib.site/checkout/create-payment-intent
         public ActionResult Create()
         {
             var key = GetCartKey();
@@ -246,9 +249,9 @@ namespace BookStoreMVC.Controllers
             return Json(new { clientSecret = paymentIntent.ClientSecret, paymentIntent_id = paymentIntent.Id });
         }
 
-        [HttpGet]
-        [Authorize("RequireUserRole")]
-        public async Task<IActionResult> Success([FromQuery] string payment_intent)
+        [HttpGet("stripe/success")]
+        [Authorize("RequireAuthenticated")]
+        public async Task<IActionResult> StripSuccess([FromQuery] string payment_intent)
         {
             if (string.IsNullOrEmpty(payment_intent))
             {
@@ -298,18 +301,20 @@ namespace BookStoreMVC.Controllers
                     ViewBag.Result = "Payment failed!";
                 }
 
-                return View();
+                return View("Success");
             }
             catch (Exception ex)
             {
                 ViewBag.Result = ex.Message;
 
-                return View();
+                return View("Success");
             }
         }
 
 
-        public async Task<IActionResult> Failed([FromQuery] string paymentIntentId)
+        [HttpGet("stripe/failure")]
+        [Authorize("RequireAuthenticated")]
+        public async Task<IActionResult> StripeFailed([FromQuery] string paymentIntentId)
         {
             if (string.IsNullOrEmpty(paymentIntentId))
             {
@@ -335,22 +340,53 @@ namespace BookStoreMVC.Controllers
 
                 await _orderRepository.AddAsync(order);
 
-                return View();
+                return View("Failure");
             }
             catch (Exception ex)
             {
                 ViewBag.Result = ex.Message;
 
-                return View();
+                return View("Failure");
             }
         }
         #endregion
 
 
         [HttpGet("momo-redirect")]
-        public IActionResult MomoResult([FromQuery] MomoNotification momoNotification)
+        public async Task<IActionResult> MomoResult([FromQuery] MomoNotification momoNotification)
         {
-            return RedirectToAction(momoNotification.resultCode == 0 ? "Success" : "Failure");
+            if (momoNotification.resultCode != 0) return RedirectToAction("MomoFailure");
+
+            var user = _userManager.FindByIdAsync(momoNotification.orderInfo.Split("#")[1]).Result;
+
+            var order = new Order
+            {
+                Id = momoNotification.orderId,
+                ProductList =
+                    JsonConvert.DeserializeObject<IList<ProductListItem>>(
+                        Encoding.UTF8.GetString(Convert.FromBase64String(momoNotification.extraData)))!,
+                CreatedAt = default,
+                PaymentStatus = "Paid",
+                ShippingStatus = new[]
+                {
+                    new OrderStatus
+                    {
+                        Name = "Order has been confirmed",
+                        TimeStamp = DateTime.Now
+                    }
+                },
+                CurrentShippingStatus = 0,
+                ShippingAddress = string.Empty,
+                Customer = user.Id.ToString(),
+                TotalPrice = momoNotification.amount
+            };
+
+             await _orderRepository.AddAsync(order);
+
+             return RedirectToAction("MomoSuccess");
+
+
+            // return RedirectToAction(momoNotification.resultCode == 0 ? "MomoSuccess" : "MomoFailure");
         }
 
         [HttpPost("momo-ipn")]
@@ -358,11 +394,17 @@ namespace BookStoreMVC.Controllers
         {
             if (momoNotification is null || momoNotification.resultCode != 0) return NoContent();
 
+            
+            if (_orderRepository.GetByOrderId(momoNotification.orderId).Result is not null) return NoContent();
+            
             var model = Encoding.UTF8.GetString(Convert.FromBase64String(momoNotification.extraData));
             var items = JsonConvert.DeserializeObject<IList<ProductListItem>>(model);
+            
+            var user = _userManager.FindByIdAsync(momoNotification.orderInfo.Split("#")[1]).Result;
 
             var order = new Order
             {
+                Id = momoNotification.orderId,
                 ProductList = items!,
                 PaymentStatus = "Paid",
                 ShippingStatus = new[]
@@ -374,6 +416,7 @@ namespace BookStoreMVC.Controllers
                     }
                 },
                 CurrentShippingStatus = 0,
+                ShippingAddress = user.Address.First().Location,
                 Customer = momoNotification.orderInfo.Split("#")[1],
                 TotalPrice = momoNotification.amount
             };
@@ -383,16 +426,16 @@ namespace BookStoreMVC.Controllers
             return NoContent();
         }
 
-        [HttpGet("success")]
-        public IActionResult Success()
+        [HttpGet("momo/success")]
+        public IActionResult MomoSuccess()
         {
-            return View();
+            return View("Success");
         }
 
-        [HttpGet("failure")]
-        public IActionResult Failure()
+        [HttpGet("momo/failure")]
+        public IActionResult MomoFailure()
         {
-            return View();
+            return View("Failure");
         }
     }
 }

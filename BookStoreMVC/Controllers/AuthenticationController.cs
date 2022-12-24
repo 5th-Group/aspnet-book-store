@@ -112,8 +112,8 @@ namespace BookStoreMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize("RequireUserRole")]
-        [HttpPost]
+        [Authorize("RequireAuthenticated")]
+        [HttpPost("authentication/logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

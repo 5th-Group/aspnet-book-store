@@ -6,6 +6,7 @@ using BookStoreMVC.ViewModels;
 using BookStoreMVC.ViewModels.Admin;
 using BookStoreMVC.ViewModels.Book;
 using BookStoreMVC.ViewModels.Order;
+using BookStoreMVC.ViewModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -436,6 +437,7 @@ namespace BookStoreMVC.Controllers
             {
 
                 var user = _userManager.FindByIdAsync(order.Customer).Result;
+                
                 var userVM = new UserDetailViewModel
                 {
                     Address = user.Address.ToString(),
@@ -485,7 +487,7 @@ namespace BookStoreMVC.Controllers
         }
 
         [HttpPost("order/{orderId}/update-status")]
-        public async Task<IActionResult> UpdateOrderStatus(string orderId, string name, string timeStamp)
+        public async Task<IActionResult> UpdateOrderStatus(string orderId, string name, string timeStamp, bool preUpdate)
         {
             var order = await _orderRepository.GetByFilterAsync(Builders<Order>.Filter.Where(d => d.Id == orderId));
             
@@ -496,7 +498,7 @@ namespace BookStoreMVC.Controllers
             });
 
             order.ShippingStatus = orderStatus;
-            order.CurrentShippingStatus = order.ShippingStatus.Count() - 1;
+            order.CurrentShippingStatus = preUpdate ? order.CurrentShippingStatus : order.ShippingStatus.Count() - 1;
 
             await _orderRepository.UpdateAsync(order);
 
