@@ -145,10 +145,12 @@ namespace BookStoreMVC.Controllers
         }
 
         #region Momo
-        [Authorize("RequireAuthenticated")]
+        // [Authorize("RequireAuthenticated")]
         [HttpGet("pay")]
         public IActionResult Pay()
         {
+            if (!_signInManager.IsSignedIn(User)) return Unauthorized();
+
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var cart = SessionHelper.GetObjectFromJson<List<ProductListItem>>(HttpContext.Session, userId);
 
@@ -212,15 +214,17 @@ namespace BookStoreMVC.Controllers
         }
 
 
-        [Authorize("RequireAuthenticated")]
+        // [Authorize("RequireAuthenticated")]
         [HttpGet("stripe")]
 
         public IActionResult Stripe()
         {
+            if (!_signInManager.IsSignedIn(User)) return Unauthorized();
+
             return View();
         }
 
-        
+
         [HttpPost("create-payment-intent")] // https://swiftlib.site/checkout/create-payment-intent
         public ActionResult Create()
         {
@@ -381,9 +385,9 @@ namespace BookStoreMVC.Controllers
                 TotalPrice = momoNotification.amount
             };
 
-             await _orderRepository.AddAsync(order);
+            await _orderRepository.AddAsync(order);
 
-             return RedirectToAction("MomoSuccess");
+            return RedirectToAction("MomoSuccess");
 
 
             // return RedirectToAction(momoNotification.resultCode == 0 ? "MomoSuccess" : "MomoFailure");
@@ -394,12 +398,12 @@ namespace BookStoreMVC.Controllers
         {
             if (momoNotification is null || momoNotification.resultCode != 0) return NoContent();
 
-            
+
             if (_orderRepository.GetByOrderId(momoNotification.orderId).Result is not null) return NoContent();
-            
+
             var model = Encoding.UTF8.GetString(Convert.FromBase64String(momoNotification.extraData));
             var items = JsonConvert.DeserializeObject<IList<ProductListItem>>(model);
-            
+
             var user = _userManager.FindByIdAsync(momoNotification.orderInfo.Split("#")[1]).Result;
 
             var order = new Order

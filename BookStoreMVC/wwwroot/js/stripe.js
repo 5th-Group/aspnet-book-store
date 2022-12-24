@@ -134,13 +134,13 @@ async function handleSubmit(e) {
   const { error } = await stripe.confirmPayment({
     elements,
     confirmParams: {
-      return_url: `${base_url}/checkout/success`,
+      return_url: `${base_url}/checkout/stripe/success`,
     },
   });
 
   if (error) {
     window.location.replace(
-      `${base_url}/checkout/failed?paymentIntent_id=${paymentIntent_id}`
+      `${base_url}/checkout/stripe/failure?paymentIntent_id=${paymentIntent_id}`
     );
   }
 

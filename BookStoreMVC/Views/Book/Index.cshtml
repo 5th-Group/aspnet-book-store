@@ -74,6 +74,7 @@
                 <a asp-action="Detail" asp-controller="Book" asp-route-productId="@product.Id"
                 asp-route-productName="@product.Book.Title.ToUrlFriendly()"
                 class=" w-[460px] h-[280px]  relative flex hover:cursor-pointer ">
+                    <link rel="prefetch" href="@product.Book.SignedUrl" as="image" />
                     <img class="object-cover w-[218px] h-[283px] rounded-lg z-20 " src=@product.Book.SignedUrl alt="">
                     <div class=" absolute inset-y-0 right-0  w-[300px]  flex justify-center items-center">
                         <div
@@ -111,7 +112,7 @@
                 </a>
                 @* End Book Browse *@
             }
-            @Html.Partial("_ControlBtnPartial",Model)
+            @await Html.PartialAsync("_ControlBtnPartial",Model)
         </div>
 
     </div>

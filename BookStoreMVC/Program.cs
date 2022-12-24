@@ -58,7 +58,7 @@ builder.Services.AddSeoTags(seoInfo =>
     seoInfo.SetCommonInfo(
         pageTitle: "Home",
         description:
-        "This is a website for book’s lover. We have over trillion different books for you to find and read. You can find every book Home - Swiftlib, place you can buy anybook! works to connect readers with independent booksellers all over the world.We believe local bookstores are essential community hubs that foster culture.",
+        "This is a website for book’s lover. We have over trillion different books for you to find and read. You can find every book Home - Swiftlib, place you can buy anybook! works to connect readers with independent booksellers all over the world.",
         url: "https://swiftlib.site/",
         keywordTags: new[] { "Book", "Books", "Bookstore", "Swiftlib", "Ebook", "HardCover", "Paperback", });
 
