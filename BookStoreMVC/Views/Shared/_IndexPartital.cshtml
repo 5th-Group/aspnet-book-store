@@ -585,16 +585,21 @@
                     <td class="py-4 px-6 whitespace-nowrap">
                         @item.CreatedAt
                     </td>
-                    <td class="py-4 px-6 whitespace-nowrap">
+                    <td class="py-4 px-6 whitespace-nowrap font-bold text-primary">
                         @item.TotalPrice.ToString("#,##")đ
                     </td>
-                    <td class="py-4 px-6 whitespace-nowrap">
-                        @item.Status
+                    <td class="py-4 px-6 whitespace-nowrap font-bold text-green-600">
+                        @item.PaymentStatus
                     </td>
 
                     <td class="py-4 px-6 text-center space-x-2 whitespace-nowrap">
 
-                        <a class="font-medium text-emerald-600 hover:underline">Edit </a>
+
+                        <form class="inline-block" method="post" asp-action="DeleteUser" asp-route-publisherId=@item.Id>
+                            <button class="font-medium text-emerald-600 hover:underline" type="submit">
+                                Edit
+                            </button>
+                        </form>
                         <form class="inline-block" method="post" asp-action="DeleteUser" asp-route-publisherId=@item.Id>
                             <button class="font-medium text-red-600 hover:underline cursor-pointer" type="submit">
                                 Delete

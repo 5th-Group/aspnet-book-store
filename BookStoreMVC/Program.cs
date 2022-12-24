@@ -73,6 +73,9 @@ builder.Services.AddSeoTags(seoInfo =>
 
     seoInfo.AddDnsPrefetch("https://www.google-analytics.com");
 
+    seoInfo.AddPreload(new Preload("https://swiftlib.stite/css/output.css"));
+
+
 
     var organization = new OrganizationInfo
     {
