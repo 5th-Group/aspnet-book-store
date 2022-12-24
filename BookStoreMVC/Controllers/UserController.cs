@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using BookStoreMVC.ViewModels.User;
-
+using BookStoreMVC.ViewModels.Order;
 
 namespace BookStoreMVC.Controllers;
 
@@ -70,7 +70,7 @@ public class UserController : Controller
         var model = new ChangePasswordViewModel();
         return View(model);
     }
-    
+
     [HttpPost("user/change-password")]
     public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
@@ -100,15 +100,50 @@ public class UserController : Controller
 
 
     #region Order History
-    
+
     [HttpGet("user/order-history")]
     public IActionResult OrderHistory()
     {
         var orderList = _orderRepository.GetByUserId(GetCartKey());
-    
+
         return View(orderList);
     }
-    
+
+    [HttpGet("user/order/{orderId}")]
+    public IActionResult OrderDetail(string orderId)
+    {
+        var order = _orderRepository.GetByOrderId(orderId).Result;
+        var user = _userManager.FindByIdAsync(order.Customer).Result;
+        var userVM = new UserDetailViewModel
+        {
+            Address = user.Address.First().Location,
+            Country = user.Country ?? string.Empty,
+            Email = user.Email,
+            Firstname = user.FirstName,
+            Lastname = user.LastName,
+            Gender = user.Gender,
+            PhoneNumber = user.PhoneNumber,
+            Username = user.UserName
+        };
+
+        var orderVM = new OrderIndexViewModel
+        {
+            CreatedAt = order.CreatedAt,
+            Customer = userVM,
+            Id = order.Id,
+            PaymentStatus = order.PaymentStatus,
+            TotalPrice = order.TotalPrice,
+            ShippingStatusGroup = order.ShippingStatus.Select(status => new ShippingStatus
+            {
+                Name = status.Name,
+                Timestamp = status.TimeStamp
+            }),
+            ShippingStatus = order.CurrentShippingStatus
+        };
+
+        return View(orderVM);
+    }
+
     #endregion
 
 }

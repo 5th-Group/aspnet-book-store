@@ -74,9 +74,8 @@
                     <tbody>
                         @foreach (var order in Model)
                         {
+
                             <tr class="bg-white border-b   hover:bg-gray-50 ">
-
-
                                 <th scope="row" class="py-4 px-6 font-medium text-gray-900 ">
                                     @order.Id
                                 </th>
@@ -117,12 +116,15 @@
                                 <td class="py-4 px-6 align-middle max-w-[10rem] font-bold truncate  text-primary ">
                                     @order.TotalPrice.ToString("#,##") đ
                                 </td>
-                                <td class="py-4 px-6">
+                                <td class="py-4 px-6 space-x-2">
+                                    <a asp-action="OrderDetail" asp-controller="User" asp-route-orderId=@order.Id
+                                    class="font-medium text-normalText hover:text-white transition-colors duration-200  hover:bg-primary  p-2 rounded-lg border-2 border-primary    ">Detail</a>
                                     <a href="#"
                                     class="font-medium text-normalText hover:text-white transition-colors duration-200  hover:bg-primary  p-2 rounded-lg border-2 border-primary">Cancel
-                                        Order</a>
+                                    </a>
                                 </td>
                             </tr>
+
                         }
 
 

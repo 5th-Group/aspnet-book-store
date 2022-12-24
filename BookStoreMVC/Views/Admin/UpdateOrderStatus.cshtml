@@ -1,0 +1,37 @@
+@{
+    ViewBag.Title = "Update Shipping Status";
+    Layout = "_LayoutAdmin";
+}
+
+
+<section id="formAddAuthor">
+    <div class="max-w-fit mx-20 my-10">
+        <h1 class="mb-7 text-3xl font-bold text-titleText">@ViewBag.Title</h1>
+        <form asp-controller="Admin" asp-action="UpdateOrderStatus" class="text-titleText "
+            asp-route-orderId="@ViewBag.Id" method="post">
+            <div class="mb-7 ">
+                <label class="mb-9" for="name">Name</label>
+                <input id="name" name="name" appearance-none
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+
+            </div>
+            <div class="mb-7 ">
+                <label class="mb-9" for="timeStamp">Date</label>
+                <input type="date" id="timeStamp" name="timeStamp" appearance-none
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+            </div>
+
+            <div class="mb-7 ">
+                <label class="mb-9" for="preUpdate">Pre Update </label>
+                <input type="checkbox" id="preUpdate" name="preUpdate" appearance-none
+                    class="block rounded-md bg-gray-50 border-2 border-gray-300 text-gray-900 text-sm w-72 p-2.5 focus:outline-none focus:border-primary transition-colors duration-300" />
+            </div>
+
+
+
+            <button type="submit" class="nonBgButton w-full py-2">Update</button>
+        </form>
+    </div>
+
+
+</section>

@@ -435,7 +435,7 @@ namespace BookStoreMVC.Controllers
             var orderList = _orderRepository.GetAll().Select(order =>
             {
                 var user = _userManager.FindByIdAsync(order.Customer).Result;
-                
+
                 var userVM = new UserDetailViewModel
                 {
                     Address = user.Address.ToString(),
@@ -484,6 +484,13 @@ namespace BookStoreMVC.Controllers
             return View(order);
         }
 
+
+        [HttpGet("order/{orderId}/update-status")]
+        public IActionResult UpdateOrderStatus(string orderId)
+        {
+            ViewBag.Id = orderId;
+            return View();
+        }
         [HttpPost("order/{orderId}/update-status")]
         public async Task<IActionResult> UpdateOrderStatus(string orderId, string name, string timeStamp, bool preUpdate)
         {
@@ -496,7 +503,7 @@ namespace BookStoreMVC.Controllers
             });
 
             order.ShippingStatus = orderStatus;
-            order.CurrentShippingStatus = preUpdate ? order.CurrentShippingStatus : order.ShippingStatus.Count() - 1;
+            order.CurrentShippingStatus = preUpdate ? order.ShippingStatus.Count() - 1 : order.CurrentShippingStatus;
 
             await _orderRepository.UpdateAsync(order);
 

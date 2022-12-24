@@ -25,22 +25,37 @@
             <div class="  basis-1/2 p-14">
                 <div class="min-h-full bg-white font-medium p-10 rounded-lg shadow-lg">
                     <h2 class="text-titleText">Enter Order ID</h2>
-                    <form asp-controller="Home" asp-action="OrderDetail" method="get" class=" mt-2">
-                        <input type="text" name="orderId"
-                            class="text-normalText rounded-lg py-3 px-2 bg-slate-100 border-2 focus:outline-none focus:border-primary duration-300 transition-colors border-gray-300 w-full ">
-                        <button class="bgButton w-full py-2 mt-5">Check Now</button>
-                    </form>
-                    <div class="mt-6">
-                        <h1 class="text-titleText">Can't find your Order details?</h1>
-                        <h3 class="text-sm font-normal text-normalText">We sent your Order ID via Email & SMS upon order
-                            confirmation.
-                        </h3>
-                        <button class="bgButton p-2 px-3 mt-3">&lt;- Back</button>
-                        <button></button>
-                    </div>
+                    <div class=" mt-2"></div>
+                    <input id="OrderId" type="text" name="orderId"
+                        class="text-normalText rounded-lg py-3 px-2 bg-slate-100 border-2 focus:outline-none focus:border-primary duration-300 transition-colors border-gray-300 w-full ">
+                    <button id="submitBtn" class="bgButton w-full py-2 mt-5">Check Now</button>
+                </div>
+                <div class="mt-6">
+                    <h1 class="text-titleText">Can't find your Order details?</h1>
+                    <h3 class="text-sm font-normal text-normalText">We sent your Order ID via Email & SMS upon order
+                        confirmation.
+                    </h3>
+                    <button class="bgButton p-2 px-3 mt-3">&lt;- Back</button>
+                    <button></button>
                 </div>
             </div>
         </div>
     </div>
+    </div>
     <!-- End Right item -->
 </section>
+
+@section Scripts {
+<script type="text/javascript">
+
+    $("#submitBtn").click(function () {
+        var base_url = window.location.origin;
+        var val = $("#OrderId").val();
+        @* alert(val); *@
+            window.location.replace(
+                `${base_url}/user/order/${val}`
+            );
+    });
+
+</script>
+}
