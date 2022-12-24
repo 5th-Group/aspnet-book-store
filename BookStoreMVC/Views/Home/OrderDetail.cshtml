@@ -8,8 +8,8 @@
     <!-- Flex Container -->
     <div class="container max-w-7xl  px-6 flex justify-center   mx-auto space-y-0 mt-20">
 
-        <div class=" container max-w-3xl   bg-white rounded-lg shadow-lg py-8 px-12">
-            <div class="flex justify-between">
+        <div class=" container   bg-white rounded-lg shadow-lg py-8 px-12">
+            <div class=" flex justify-between">
                 <div>
                     <h2 class="text-2xl font-bold text-titleText">Order Detail</h2>
                     <h3 class="text-titleText">Due Dec 31, 2022</h3>
@@ -44,17 +44,22 @@
                 </div>
             </div>
             <p class="h-[0.1rem] w-full bg-titleText">
-            <div class="flex gap-4 ">
-                <div class="w-full  flex flex-col basis-1/2">
-                    <div class="text-center">
+            <div class="flex w-full  gap-4 ">
+
+                    @* Left *@
+                <div class=" basis-1/3 w-full  flex flex-col items-center">
+                    <div class="text-center flex flex-col justify-center items-center">
                         <img src="~/img/Ilustrations/Order.svg" alt="">
-                        <p class="mb-10 text-lg font-medium text-titleText">Thanks again for chosing <span
+                        <p class="mb-10 text-lg font-medium text-titleText ">Thanks again for chosing <span
                                 class="font-bold text-primary">Switflib</span>! Here's your
                             Order and a few more little
                             infomation. </p>
                     </div>
                 </div>
-                <div class="w-full flex flex-col gap-4 items-center justify-center  basis-1/2">
+                    @* Left *@
+
+                    @* Mid *@
+                <div class=" basis-1/3  flex flex-col  gap-4 items-start justify-center  ">
                     <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
                         <h1 class="text-normalText text-sm flex items-center">ID</h1>
                         <h1 class="font-medium text-titleText ">@Model.Id</h1>
@@ -69,15 +74,43 @@
                     </div>
                     <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
                         <h1 class="text-normalText text-sm flex items-center">Toltal</h1>
-                        <h1 class="font-bold  text-titleText text-primary">@Model.TotalPrice.ToString("#,##")đ</h1>
+                        <h1 class="font-bold  text-primary">@Model.TotalPrice.ToString("#,##")đ</h1>
                     </div>
-                    <div class="flex w-full rounded-lg shadow-md justify-between bg-gray-100  p-2 px-4">
-                        <h1 class="text-normalText text-sm flex items-center">Shipping</h1>
-                        <h1 class="font-bold  text-titleText text-primary">State</h1>
-                    </div>
+
 
                     <a asp-action="Index" class="bgButton w-full py-2 font-medium">Go Back</a>
                 </div>
+                    @* Mid *@
+
+                    @* Right *@
+                <div class="basis-1/3 flex flex-col gap-1 justify-start pt-10 items-center ">
+
+
+                        @* Quy trinh *@
+                    <div class="flex gap-1 w-full">
+                        <div class="basis-2/5 text-right pt-1">
+                            <h1 class="font-medium text-titleText">Mar, 3, 2022</h1>
+                        </div>
+                        <div class="basis-1/5 flex flex-col items-center gap-1">
+                            <div class=" rounded-full w-8 h-8 bg-primary flex justify-center items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
+                                    stroke="currentColor" class="w-6 h-6 text-white">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
+                            </div>
+                            <div class="w-1 h-10 bg-primary "></div>
+                        </div>
+                        <div class="basis-2/5 pt-1">
+                            <h1 class="font-bold text-titleText">Pick-up</h1>
+                        </div>
+                    </div>
+                        @* Quy trinh *@
+
+
+
+
+                </div>
+                    @* Right *@
             </div>
 
         </div>
