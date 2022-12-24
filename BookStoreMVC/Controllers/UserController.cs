@@ -55,7 +55,7 @@ public class UserController : Controller
             Lastname = user.LastName,
             Gender = user.Gender,
             Country = user.Country ?? string.Empty,
-            Address = string.Empty,
+            Address = user.Address.First().Location,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber
         };

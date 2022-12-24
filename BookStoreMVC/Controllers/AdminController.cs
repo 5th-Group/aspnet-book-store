@@ -7,7 +7,6 @@ using BookStoreMVC.ViewModels.Admin;
 using BookStoreMVC.ViewModels.Book;
 using BookStoreMVC.ViewModels.Order;
 using BookStoreMVC.ViewModels.User;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;

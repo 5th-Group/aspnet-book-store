@@ -376,7 +376,7 @@ namespace BookStoreMVC.Controllers
                     }
                 },
                 CurrentShippingStatus = 0,
-                ShippingAddress = string.Empty,
+                ShippingAddress = user.Address.First().Location,
                 Customer = user.Id.ToString(),
                 TotalPrice = momoNotification.amount
             };
