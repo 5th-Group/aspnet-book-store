@@ -4,8 +4,6 @@ using System.Xml;
 using BookStoreMVC.Models;
 using BookStoreMVC.Services;
 using BookStoreMVC.ViewModels;
-using BookStoreMVC.ViewModels.Order;
-using BookStoreMVC.ViewModels.User;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +55,8 @@ public class HomeController : Controller
     {
         return View();
     }
+
+
     [HttpGet("/check-order")]
     public IActionResult CheckOrder()
     {
@@ -64,39 +64,39 @@ public class HomeController : Controller
     }
 
     // [HttpGet("/orderdetail/{orderId}")]
-    public IActionResult OrderDetail(string orderId)
-    {
-        var order = _orderRepository.GetByOrderId(orderId).Result;
-        var user = _userManager.FindByIdAsync(order.Customer).Result;
-        var userVM = new UserDetailViewModel
-        {
-            Address = user.Address.ToString(),
-            Country = user.Country,
-            Email = user.Email,
-            Firstname = user.FirstName,
-            Lastname = user.LastName,
-            Gender = user.Gender,
-            PhoneNumber = user.PhoneNumber,
-            Username = user.UserName
-        };
-
-        var orderVM = new OrderIndexViewModel
-        {
-            CreatedAt = order.CreatedAt,
-            Customer = userVM,
-            Id = order.Id,
-            PaymentStatus = order.PaymentStatus,
-            TotalPrice = order.TotalPrice,
-            ShippingStatusGroup = order.ShippingStatus.Select(status => new ShippingStatus
-            {
-                Name = status.Name,
-                Timestamp = status.TimeStamp
-            }),
-            ShippingStatus = order.CurrentShippingStatus
-        };
-
-        return View(orderVM);
-    }
+    // public IActionResult OrderDetail(string orderId)
+    // {
+    //     var order = _orderRepository.GetByOrderId(orderId).Result;
+    //     var user = _userManager.FindByIdAsync(order.Customer).Result;
+    //     var userVM = new UserDetailViewModel
+    //     {
+    //         Address = user.Address.ToString(),
+    //         Country = user.Country,
+    //         Email = user.Email,
+    //         Firstname = user.FirstName,
+    //         Lastname = user.LastName,
+    //         Gender = user.Gender,
+    //         PhoneNumber = user.PhoneNumber,
+    //         Username = user.UserName
+    //     };
+    //
+    //     var orderVM = new OrderIndexViewModel
+    //     {
+    //         CreatedAt = order.CreatedAt,
+    //         Customer = userVM,
+    //         Id = order.Id,
+    //         PaymentStatus = order.PaymentStatus,
+    //         TotalPrice = order.TotalPrice,
+    //         ShippingStatusGroup = order.ShippingStatus.Select(status => new ShippingStatus
+    //         {
+    //             Name = status.Name,
+    //             Timestamp = status.TimeStamp
+    //         }),
+    //         ShippingStatus = order.CurrentShippingStatus
+    //     };
+    //
+    //     return View(orderVM);
+    // }
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -109,5 +109,4 @@ public class HomeController : Controller
     }
 
     #endregion
-
 }

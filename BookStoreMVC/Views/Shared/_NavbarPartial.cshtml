@@ -2,14 +2,13 @@
 @inject UserManager<User> UserManager
 @inject SignInManager<User> SignInManager
 @{
-
-    string letter = "";
+    var letter = "";
     if (SignInManager.IsSignedIn(User))
     {
         letter = UserManager.GetUserAsync(User).Result.LastName.Substring(0, 1);
-    };
+    }
+    ;
 }
-
 
 
 <nav class="relative p-2 px-32   shadow-md w-full">
@@ -18,8 +17,10 @@
     <div class="flex flex-row items-center h-[44px] justify-between gap-6">
         <!-- Logo -->
         <div class="basis-1/4 cursor-pointer">
-            <a asp-controller="Home" asp-action="Index"><img src="~/img/logo/Color-logo.svg" alt="logo.svg"
-                    class="w-32"></a>
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/img/logo/Color-logo.svg" alt="logo.svg"
+                     class="w-32">
+            </a>
         </div>
         <!-- End Logo -->
         <!-- Menu Items and Search bar-->
@@ -28,20 +29,27 @@
 
             <!-- Menu Items -->
             <a asp-controller="Home" asp-action="Index"
-                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
+               class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h2>Home</h2>
             </a>
             <a asp-controller="Book" asp-action="Index"
-                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
+               class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 Book
             </a>
             <a asp-action="CheckOrder" asp-controller="Home"
-                class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
+               class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h3>Check Order</h3>
             </a>
             <a href="#" class="text-titleText font-medium hover:text-primary hover:font-bold transition-all">
                 <h4>About us</h4>
             </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-controller="Admin" asp-action="Index"
+                   class="text-titleText font-medium hover:text-primary hover:font-bold transition-all text-left">
+                    <h2>Admin</h2>
+                </a>
+            }
             <!-- End Menu Items -->
 
             <!-- Search bar-->
@@ -52,62 +60,61 @@
 
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg class="w-5 h-5 text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
+                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
-                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd">
+                                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                  clip-rule="evenodd">
                             </path>
                         </svg>
                     </div>
 
 
                     <input type="text"
-                    class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
-                    placeholder="Search...">
+                           class="block w-full p-2 pl-10 text-sm text-gray-900 border-2 border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-primary  transition-colors duration-300 "
+                           placeholder="Search...">
 
                 </div>
-
-
-
             }
 
         </div>
 
         <div class="basic-1/4 flex gap-5 justify-end items-center">
             <a asp-controller="Cart" asp-action="Index"
-                class="inline-flex relative items-center text-sm font-medium text-center hover:-translate-y-1 duration-300">
+               class="inline-flex relative items-center text-sm font-medium text-center hover:-translate-y-1 duration-300">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6 text-primary ">
+                     stroke="currentColor" class="w-6 h-6 text-primary ">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                 </svg>
                 @await Html.PartialAsync("_CartSummaryPartial")
 
             </a>
             @if (!SignInManager.IsSignedIn(User))
             {
-
                 <div>
                     <button onclick="location.href='@Url.Action("Login", "Authentication")'" type="button"
-                    class="nonBgButton py-2 w-24">
+                            class="nonBgButton py-2 w-24">
                         <h5>Login</h5>
                     </button>
 
 
-
                     <button onclick="location.href='@Url.Action("Register", "Authentication")'" type="button"
-                    class="bgButton  py-2 w-24">
+                            class="bgButton  py-2 w-24">
                         <h6>Sign Up</h6>
                     </button>
                 </div>
-
             }
             else
             {
                 <div class="flex items-center gap-2">
                     <span>
-                        <h3>Hello, <a asp-controller="User" asp-action="Index"
-                            class="hover:text-primary">@User.Identity.Name</a></h3>
+                        <h3>
+                            Hello,
+                            <a asp-controller="User" asp-action="Index"
+                               class="hover:text-primary">
+                                @User.Identity?.Name
+                            </a>
+                        </h3>
 
                     </span>
                     <div class="w-7 h-7 bg-primary rounded-full flex justify-center items-center text-white">

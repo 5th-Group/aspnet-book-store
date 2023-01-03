@@ -13,7 +13,17 @@ builder.Services.Configure<BookStoreDataAccess>(
 builder.Services.Configure<BookStoreCloudStorage>(
     builder.Configuration.GetSection("GoogleCloudStorage"));
 
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy(name: "AllowFacebookChat",
+//         builder =>
+//         {
+//             builder.WithOrigins("")
+//         });
+// });
+
 builder.Services.AddCors();
+
 // builder.Services.AddMvc();
 
 builder.Services.AddControllersWithViews();

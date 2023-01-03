@@ -77,8 +77,15 @@
                         <h1 class="font-bold  text-primary">@Model.TotalPrice.ToString("#,##")đ</h1>
                     </div>
 
+                    @if (User.Identity is {IsAuthenticated: true })
+                    {
+                        <a asp-action="Index" asp-controller="User"  class="bgButton w-full py-2 font-medium">Go Back</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Index" asp-controller="Home"  class="bgButton w-full py-2 font-medium">Go Back</a>
+                    }
 
-                    <a asp-action="Index" class="bgButton w-full py-2 font-medium">Go Back</a>
                 </div>
                     @* Mid *@
 

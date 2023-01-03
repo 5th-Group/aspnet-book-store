@@ -22,9 +22,5 @@
       <_ContentIncludedByDefault Remove="Pages\Book\Index.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Payments" />
-    </ItemGroup>
-
 </Project>
 

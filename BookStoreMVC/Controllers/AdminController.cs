@@ -463,7 +463,7 @@ namespace BookStoreMVC.Controllers
                     TotalPrice = order.TotalPrice,
                     Customer = userVM
                 };
-            });
+            }).OrderByDescending(o => o.CreatedAt);
 
 
             var result = PaginatedList<OrderIndexViewModel>.Create(orderList.ToList(), pageNumber ?? 1, PAGE_SIZE, Headers, "OrderIndex");
@@ -563,6 +563,13 @@ namespace BookStoreMVC.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Gender = model.Gender,
+                Address = new[]{new UserAddress
+                    {
+                        Type = model.AddressType,
+                        Location = model.Address
+                    }
+                },
+                Country = model.Country,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

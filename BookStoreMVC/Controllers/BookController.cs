@@ -155,7 +155,7 @@ namespace BookStoreMVC.Controllers
 
 
             var result =
-                PaginatedList<ProductViewModel>.Create(productList, pageNumber ?? 1, PAGE_SIZE, Headers, "bookList");
+                PaginatedList<ProductViewModel>.Create(productList, pageNumber ?? 1, PAGE_SIZE, Headers, "Index");
             if (!result.Any())
             {
                 ViewBag.Temp = "Not found";

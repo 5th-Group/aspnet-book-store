@@ -5,7 +5,7 @@
 <div class="flex justify-center -space-x-px py-4  text-normalText ">
 
     <!-- Next Button -->
-    <a asp-action=@Model.Type asp-route-pageNumber="@(Model.PageIndex - 1)"
+    <a asp-action="@Model.Type" asp-route-pageNumber="@(Model.PageIndex - 1)"
         class="@(prevDisabled ? "pointer-events-none bg-slate-200" : "") inline-flex items-center px-4 py-2 text-sm font-medium rounded-l-md   border   bg-white border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700">
         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg">
@@ -16,16 +16,16 @@
     <!-- Next Button -->
 
     @* Page num Buttons *@
-    @for (var i = @Model.StartPage; i <= Model.EndPage; i++)
+    @for (var i = Model.StartPage; i <= Model.EndPage; i++)
     {
-        if (@Model.PageIndex == i)
+        if (Model.PageIndex == i)
         {
             <a aria-current="page"
         class="z-10 px-3 py-2 leading-tight text-gray-500 border border-gray-300 bg-gray-200   cursor-default ">@i</a>
         }
         else
         {
-            <a asp-route-pageNumber="@i" asp-action=@Model.Type
+            <a asp-route-pageNumber="@i" asp-action="@Model.Type" asp-controller="Book"
         class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 ">@i</a>
         }
     }

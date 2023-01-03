@@ -4,14 +4,14 @@
 <head>
 
     @* favicon *@
-    @Html.Partial("_FaviconPartial")
+    @await Html.PartialAsync("_FaviconPartial")
     @* favicon *@
-
+    <title>@ViewData["title"] - Swiftlib</title>
 
     @Html.SeoTags()
 
     @* Main css *@
-    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true"/>
     @* Main css *@
 
     <!-- Google Analystics -->
@@ -23,7 +23,7 @@
 
         gtag('config', 'G-YREDV0DEMV');
     </script>
-    <!-- Google Analystics -->
+    <!-- Google Analytics -->
 
 
 </head>
@@ -31,81 +31,77 @@
 <body class="font-inter bg-backGr">
 
 
-    <!-- Navbar -->
-    @Html.Partial("_NavbarPartial")
-    <!-- End Nav -->
+<!-- Navbar -->
+@await Html.PartialAsync("_NavbarPartial")
+<!-- End Nav -->
 
 
+<!--Main Content-->
+<div class="mx-auto  min-h-screen ">
+    @RenderBody()
+</div>
+
+<!--End Main Content-->
 
 
-    <!--Main Content-->
-    <div class="mx-auto  min-h-screen ">
-        @RenderBody()
-    </div>
+<!--Footer-->
+@await Html.PartialAsync("_FooterPartial")
+<!--Footer-->
 
-    <!--End Main Content-->
+@* <!-- Messenger Chat Plugin Code --> *@
+@* <div id="fb-root"></div> *@
+@* *@
+@* <!--  Chat Plugin code --> *@
+@* <div id="fb-customer-chat" class="fb-customerchat"> *@
+@* </div> *@
+<!-- Messenger Chat Plugin Code -->
+<div id="fb-root"></div>
 
-
-    <!--Footer-->
-    @Html.Partial("_FooterPartial")
-    <!--Footer-->
-
-    <!-- Messenger Chat Plugin Code -->
-    <div id="fb-root"></div>
-
-    <!--  Chat Plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
-    <!-- Messenger Chat Plugin Code -->
-    <div id="fb-root"></div>
-
-    <!-- Your Chat Plugin code -->
-    <div id="fb-customer-chat" class="fb-customerchat">
-    </div>
+<!-- Your Chat Plugin code -->
+<div id="fb-customer-chat" class="fb-customerchat">
+</div>
 
 
-    <script>
-        var chatbox = document.getElementById('fb-customer-chat');
-        chatbox.setAttribute("page_id", "107380592227881");
-        chatbox.setAttribute("attribution", "biz_inbox");
-    </script>
+<script>
+    var chatbox = document.getElementById('fb-customer-chat');
+    chatbox.setAttribute("page_id", "107380592227881");
+    chatbox.setAttribute("attribution", "biz_inbox");
+</script>
 
-    <script>
-        window.fbAsyncInit = function () {
-            FB.init({
-                xfbml: true,
-                version: 'v15.0'
-            });
-        };
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v15.0'
+        });
+    };
 
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-    </script>
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
 
-    <!-- Messenger Chat Plugin Code -->
-
-
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/flowbite.js"></script>
+<!-- Messenger Chat Plugin Code -->
 
 
+<script src="https://js.stripe.com/v3/"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/flowbite.js"></script>
 
 
-    @* Sharethis*@
-    <script type="text/javascript"
+@* Sharethis*@
+<script type="text/javascript"
         src="https://platform-api.sharethis.com/js/sharethis.js#property=639ecabe4b058f001938ca18&product=inline-share-buttons&source=platform"
         async="async"></script>
-    @* Sharethis*@
+@* Sharethis*@
 
-    <!--Tawk.to Script-->
-    <script type="text/javascript">
+<!--Tawk.to Script-->
+<script type="text/javascript">
         var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
         (function () {
             var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
@@ -116,12 +112,10 @@
             s0.parentNode.insertBefore(s1, s0);
         })();
     </script>
-    <!--Tawk.to Script-->
+<!--Tawk.to Script-->
 
 
-
-
-    @await RenderSectionAsync("Scripts", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 
 </html>

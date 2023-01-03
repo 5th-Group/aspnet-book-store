@@ -36,18 +36,7 @@ public class UserController : Controller
 
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userManager.FindByIdAsync(userId);
-
-        // UserDetailViewModel userVm = new UserDetailViewModel
-        // {
-        //     Address = user.Address.ToString(),
-        //     Country = user.Country,
-        //     Email = user.Email,
-        //     Firstname = user.FirstName,
-        //     Lastname = user.LastName,
-        //     Gender = user.Gender,
-        //     PhoneNumber = user.PhoneNumber,
-        //     Username = user.UserName
-        // };
+        
         var userVm = new UserDetailViewModel
         {
             Username = user.UserName,
@@ -70,7 +59,7 @@ public class UserController : Controller
         var model = new ChangePasswordViewModel();
         return View(model);
     }
-
+    
     [HttpPost("user/change-password")]
     public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
     {
@@ -109,6 +98,7 @@ public class UserController : Controller
         return View(orderList);
     }
 
+    [AllowAnonymous]
     [HttpGet("user/order/{orderId}")]
     public IActionResult OrderDetail(string orderId)
     {
